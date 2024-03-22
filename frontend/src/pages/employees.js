@@ -139,7 +139,7 @@ const CreateEmployeePage = () => {
                     <DatePicker 
                         value={dateOfBirth} 
                         onChange={handleDateOfBirth} 
-                        label="Basic date picker" />
+                        label="Date of birth" />
                     
             </LocalizationProvider>
 
