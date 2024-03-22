@@ -3,7 +3,16 @@ import { useState, useEffect } from "react";
 import TextField from '@mui/material/TextField'; 
 import Button from '@mui/material/Button';
 import { useNavigate  } from 'react-router-dom';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+
+
 
 
 const CreateEmployeePage = () => {
@@ -17,6 +26,10 @@ const CreateEmployeePage = () => {
     let [gender, setGender] = useState(""); 
     let [dateOfBirth, setDateOfBirth] = useState(""); 
     let [errorMsg, setErrorMsg] = useState("");
+
+    const handleDepartment = (event) => {
+        setDepartment(event.target.value);
+      };
 
     return(
         <div>
@@ -57,6 +70,40 @@ const CreateEmployeePage = () => {
             /> 
             
             </div> 
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={department}
+                    label="Age"
+                    onChange={handleDepartment}
+                >
+                    <MenuItem value={"Accounting"}>Accounting</MenuItem> {/* !!!!!!! ATTENTION !!!!!!! PLACEHOLDER VALUES */}
+                    <MenuItem value={"HR"}>HR</MenuItem>
+                
+                </Select>
+            </FormControl>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={department}
+                    label="Age"
+                    onChange={handleDepartment}
+                >
+                    <MenuItem value={"Male"}>Male</MenuItem>
+                    <MenuItem value={"Female"}>Female</MenuItem>
+                
+                </Select>
+            </FormControl>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    
+                            <DatePicker label="Basic date picker" />
+                    
+            </LocalizationProvider>
+
             <Button 
             color="primary" 
             variant="contained" 
@@ -64,6 +111,13 @@ const CreateEmployeePage = () => {
             > 
             Add Employee 
             </Button> 
+            <Button 
+                color="primary" 
+                variant="contained" 
+                onClick={() => navigate("/employees")} //go back to login page
+                > 
+                Cancel
+            </Button>
         </div>
     );
 };
