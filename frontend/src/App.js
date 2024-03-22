@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import LoginPage from './pages/authentication';
 import HomePage from './pages/home';
+import {CreateEmployeePage, DisplayEmployeePage} from './pages/employees';
+
 
 export const SERVER_URL = "http://127.0.0.1:5000" 
 
@@ -23,6 +25,14 @@ function App() {
           path="/"
           element={userToken ? <HomePage /> : <Navigate to="/authentication" replace />} //if user token is null, route is changed to /authentication
         />
+        <Route
+              path="/employees"
+              element={<DisplayEmployeePage/>}
+          />
+        <Route
+            path="/createEmployee"
+            element={<CreateEmployeePage/>}
+          />
       </Routes>
     </Router>
   );
