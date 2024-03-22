@@ -98,7 +98,7 @@ def authenticate():
             print("token "+token)
             return jsonify({"token": token, "manager": True}), 200
         else:
-            abort(403)
+            return jsonify({'message': 'incorrect password'}),403
     elif employee_row: #if the user is employee
         if bcrypt.check_password_hash(employee_row.hashed_password, password):
             token = create_token(employee_row.email)
