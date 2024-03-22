@@ -71,13 +71,17 @@ def createEmployee():
     if request.json["email"]=='' or request.json["password"]=='' or not is_valid_email(request.json["email"]):
         return jsonify({'message': 'bad email or password'}),400
     if request.json["gender"] not in ['Male', 'Female']:
-        return jsonify({'message': 'bad gender'}),400
+        return jsonify({'message': 'select a gender'}),400
+    if request.json["department"]=='':
+        return jsonify({'message': 'select a department'}),400
+    if request.json["date_of_birth"] is None:
+        return jsonify({'message': 'select a date of birth'}),400
     try:
-        e= Employee(request.json["email"], request.json["password"], request.json["first_name"], request.json["last_name"],request.json["department"], request.json['gender'], request.json['date_of_birth'])
-
+        e= Employee(request.json["email"], request.json["password"], request.json["first_name"], request.json["last_name"],request.json["department"], request.json['gender'], datetime.datetime.strptime(request.json['date_of_birth'], "%Y-%m-%dT%H:%M:%S.%fZ"))
         db.session.add(e) 
         db.session.commit()
-    except:
+    except Exception as e:
+        print(e)
         return jsonify({'message': 'email already exists'}),400
      
     return jsonify(employee_schema.dump(e)) , 201
