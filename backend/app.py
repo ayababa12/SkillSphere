@@ -1,5 +1,4 @@
 from flask import Flask
-import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask import request
@@ -9,7 +8,6 @@ from flask_cors import CORS
 import datetime
 import re
 import jwt
-from flask import abort 
 from sqlalchemy import text
 
 
