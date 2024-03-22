@@ -1,6 +1,9 @@
 backend/venv/
 backend/__pycache__/
-
+backend/model/__pycache__/
+# the database instance:
+instance/ 
+backend/instance/
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
