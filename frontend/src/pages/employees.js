@@ -83,16 +83,6 @@ const DisplayEmployeePage = () => {
         </div>
     );
 };
-const EmployeePage = () => {
-    const navigate = useNavigate ();
 
-    
-    return(
-        <div> 
-            
-      </div>
-    );
-    
-};
 
 export {CreateEmployeePage, DisplayEmployeePage};
