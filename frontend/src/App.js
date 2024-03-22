@@ -21,7 +21,7 @@ function App() {
         />
         <Route
           path="/"
-          element={userToken ? <HomePage /> : <Navigate to="/authentication" replace />}
+          element={userToken ? <HomePage /> : <Navigate to="/authentication" replace />} //if user token is null, route is changed to /authentication
         />
       </Routes>
     </Router>

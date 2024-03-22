@@ -3,6 +3,8 @@ import { getUserToken, saveUserToken, clearUserToken } from "../localStorage";
 import Button from '@mui/material/Button';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import EmployeePage from './employees';
 
 const HomePage = ({ userToken, setUserToken }) => {
   const navigate = useNavigate ();
@@ -18,6 +20,16 @@ const HomePage = ({ userToken, setUserToken }) => {
                   > 
                     Logout 
                   </Button>
+                  <Router>
+      <Routes>
+        <Route
+          path="/employees"
+          element={<EmployeePage/>}
+        />
+        
+      </Routes>
+    </Router>
+                
     </div>
   );
 };
