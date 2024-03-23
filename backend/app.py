@@ -150,3 +150,7 @@ def updateEmployee(email):
     except Exception as e:
         print(e)
         return jsonify({'message': "invalid inputs"}), 400
+    
+@app.route("/employees/<email>", methods = ["DELETE"])
+def deleteEmployee(email):
+    

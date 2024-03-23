@@ -7,6 +7,7 @@ import LoginPage from './pages/authentication';
 import HomePage from './pages/home';
 import {CreateEmployeePage, DisplayEmployeePage} from './pages/employees';
 import UserProfilePage from "./pages/employeeProfile"
+import Error from "./pages/error"
 
 export const SERVER_URL = "http://127.0.0.1:5000" 
 
@@ -36,6 +37,10 @@ function App() {
           />
           {/* Dynamic route for specific user profiles */}
         <Route path="employees/:email" element={<UserProfilePage userToken={userToken}/>} /> 
+        <Route
+            path="/notFound"
+            element={<Error/>}
+          />
       </Routes>
       
     </Router>

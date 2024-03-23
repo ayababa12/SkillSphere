@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { useCallback, useState, useEffect } from 'react';
 import {SERVER_URL} from '../App'
 import Button from '@mui/material/Button';
@@ -11,7 +11,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
+
 const UserProfilePage = ({userToken}) => {
+    const navigate = useNavigate ();
     const { email } = useParams();
     let [department, setDepartment] = useState("");
     let [dateOfBirth, setDateOfBirth] = useState(null);
@@ -42,6 +44,9 @@ const UserProfilePage = ({userToken}) => {
     }) 
         .then((response) => response.json()) 
         .then((body) => {
+            if (body.message){ //error case
+                navigate("/notFound");
+            }
             setDepartment(body.department);
             setDateOfBirth(null);
             setFirstName(body.first_name);
@@ -155,6 +160,13 @@ const UserProfilePage = ({userToken}) => {
                         onClick={() => updateEmployee(first_name,last_name,department,gender, dateOfBirth)} 
                         > 
                         Apply Changes 
+                    </Button> 
+                    <Button 
+                        color="primary" 
+                        variant="contained" 
+                        onClick={() => deleteEmployee()} 
+                        > 
+                        Delete Employee 
                     </Button> 
                     <p  style={{color:"red"}}>{errorMsg}</p>
             
