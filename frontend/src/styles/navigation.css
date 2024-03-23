@@ -1,0 +1,46 @@
+/* navigation.css */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 200px; /* Adjust width as needed */
+    background-color: #f0f0f0; /* Background color for navigation */
+    border-right: 1px solid #ccc; /* Bar to separate navigation from the rest of the page */
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    border-radius: 0 20px 20px 0;
+    position: relative;
+    background-color: #19421a;
+  }
+  
+  li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8px; /* Adjust width of the green button-like box */
+    height: 100%;
+    
+  }
+  
+  li a {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: rgb(252, 252, 252);
+    text-align: center;
+    
+  }
+  

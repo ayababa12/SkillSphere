@@ -10,16 +10,18 @@ const HomePage = ({ isManager }) => {
 
   return (
     <div>
-      <Navigation isManager={isManager}/>
-                  <Button 
-                    color="primary" 
+      
+      
+      <div style={{ marginTop:'15px',marginLeft: '1430px' }}>
+                  <Button  style={{backgroundColor: '#1f4d20'}}
                     variant="contained" 
                     onClick={() => {clearUserToken(); navigate("/authentication");}} //go back to login page
                   > 
                     Logout 
                   </Button>
     
-                
+      </div>
+      <Navigation isManager={isManager}/>
     </div>
   );
 };
