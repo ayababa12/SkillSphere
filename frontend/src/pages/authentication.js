@@ -6,7 +6,7 @@ import {SERVER_URL} from '../App'
 import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager} from "../localStorage";
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
-
+import '../styles/authentication.css'
 
 
 
@@ -91,8 +91,8 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
       
       {register ?
       (
-        <div>  {/* This is displayed ig the user wants to register */}
-                  <div className="form-item"> 
+        <div className='registerForm'>  {/* This is displayed ig the user wants to register */}
+                  <div className="register-form-item"> 
                     <TextField 
                       fullWidth 
                       label="Fname" 
@@ -101,7 +101,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setFirstName(value)} 
                     /> 
                   </div> 
-                  <div className="form-item"> 
+                  <div className="register-form-item"> 
                     <TextField 
                       fullWidth 
                       label="Lname" 
@@ -110,7 +110,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setLastName(value)} 
                     /> 
                   </div> 
-                  <div className="form-item"> 
+                  <div className="register-form-item"> 
                     <TextField 
                       fullWidth 
                       label="Email" 
@@ -119,7 +119,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setEmail(value)} 
                     /> 
                   </div> 
-                  <div className="form-item"> 
+                  <div className="register-form-item"> 
                     <TextField 
                       fullWidth 
                       label="Password" 
@@ -128,7 +128,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setPassword(value)} 
                     /> 
                   </div> 
-                  <Button 
+                  <Button style={{backgroundColor:'#1f4d20', marginLeft:'400px'}}
                     color="primary" 
                     variant="contained" 
                     onClick={() => createManager(email, password, first_name, last_name)} 
@@ -139,7 +139,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                   <p  style={{color:"red"}}>{errorMsg}</p>
                   
                   
-                  <Link onClick={() => {setRegister(false); setErrorMsg("");}}>
+                  <Link onClick={() => {setRegister(false); setErrorMsg("");}} style={{marginLeft:'400px'}}>
                       Already have an account? click here to login!
                   </Link> 
                   
@@ -148,8 +148,8 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
       ) 
       :
       (
-        <div>      {/* This is displayed ig the user wants to login */}
-                  <div className="form-item"> 
+        <div className='loginForm'>      {/* This is displayed ig the user wants to login */}
+                  <div className="login-form-item"> 
                     <TextField 
                       fullWidth 
                       label="Email" 
@@ -158,7 +158,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setEmail(value)} 
                     /> 
                   </div> 
-                  <div className="form-item"> 
+                  <div className="login-form-item"> 
                     <TextField 
                       fullWidth 
                       label="Password" 
@@ -167,7 +167,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setPassword(value)} 
                     /> 
                   </div> 
-                  <Button 
+                  <Button style={{backgroundColor: '#1f4d20',marginLeft: '400px' }}
                     color="primary" 
                     variant="contained" 
                     onClick={() => login(email, password)} 
@@ -176,7 +176,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                   </Button> 
                   <p  style={{color:"red"}}>{errorMsg}</p>
 
-                  <Link onClick={() => {setRegister(true); setErrorMsg("");}}>
+                  <Link onClick={() => {setRegister(true); setErrorMsg("");}} style = {{marginLeft:'400px'}}>
                       Are you a manager? Create an account today and start managing your employees!
                   </Link>
         </div>)

@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import '../styles/employees.css'
 
 
 const UserProfilePage = ({userToken}) => {
@@ -100,11 +101,11 @@ const UserProfilePage = ({userToken}) => {
 
   return (
     <div>
-      <h1>User Profile: {email}</h1>
+      <h1>{first_name} {last_name}</h1>
       {/* Render user profile information */}
     { edit? (
                 <div>
-                    <Button 
+                    <Button  style={{backgroundColor: '#1f4d20' , marginTop:'15px',marginLeft: '1430px'}}
                         color="primary" 
                         variant="contained" 
                         onClick={() => setEdit(false)} 
@@ -129,6 +130,7 @@ const UserProfilePage = ({userToken}) => {
                         onChange={({ target: { value } }) => setLastName(value)} 
                         /> 
                     </div> 
+                    <div className="form-item"> 
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Department</InputLabel>
                         <Select
@@ -143,6 +145,8 @@ const UserProfilePage = ({userToken}) => {
                         
                         </Select>
                     </FormControl>
+                    </div>
+                    <div className="form-item"> 
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                         <Select
@@ -157,23 +161,25 @@ const UserProfilePage = ({userToken}) => {
                         
                         </Select>
                     </FormControl>
+                    </div>
+                    <div className="form-item"> 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            
+                    
                             <DatePicker 
                                 value={dateOfBirth} 
                                 onChange={handleDateOfBirth} 
                                 label="Date of birth" />
                             
                     </LocalizationProvider>
-
-                    <Button 
+                    </div>
+                    <Button  style={{backgroundColor: '#1f4d20', marginLeft:'40px'}}
                         color="primary" 
                         variant="contained" 
                         onClick={() => updateEmployee(first_name,last_name,department,gender, dateOfBirth)} 
                         > 
                         Apply Changes 
                     </Button> 
-                    <Button 
+                    <Button style={{backgroundColor: '#1f4d20',marginLeft:'40px'}}
                         color="primary" 
                         variant="contained" 
                         onClick={() => deleteEmployee()} 
@@ -187,7 +193,7 @@ const UserProfilePage = ({userToken}) => {
 
         (
             <div>
-                <Button 
+                <Button style={{backgroundColor: '#1f4d20' , marginTop:'15px',marginLeft: '1430px'}}
                     color="primary" 
                     variant="contained" 
                     onClick={() => setEdit(true)} 
