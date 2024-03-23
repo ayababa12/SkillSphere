@@ -153,4 +153,10 @@ def updateEmployee(email):
     
 @app.route("/employees/<email>", methods = ["DELETE"])
 def deleteEmployee(email):
-    
+    try:
+        db.session.execute(text("delete from employee where email = '"+ email +"'"))
+        db.session.commit()
+        return jsonify({'message': f'Employee with email {email} deleted successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'message': "user not found"}), 404

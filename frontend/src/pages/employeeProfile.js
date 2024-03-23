@@ -1,4 +1,4 @@
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useCallback, useState, useEffect } from 'react';
 import {SERVER_URL} from '../App'
 import Button from '@mui/material/Button';
@@ -47,11 +47,13 @@ const UserProfilePage = ({userToken}) => {
             if (body.message){ //error case
                 navigate("/notFound");
             }
-            setDepartment(body.department);
-            setDateOfBirth(null);
-            setFirstName(body.first_name);
-            setLastName(body.last_name);
-            setGender(body.gender);
+            else{
+                setDepartment(body.department);
+                setDateOfBirth(null);
+                setFirstName(body.first_name);
+                setLastName(body.last_name);
+                setGender(body.gender);
+            }
         }); 
     });
 
@@ -85,6 +87,16 @@ const UserProfilePage = ({userToken}) => {
         }); 
       }
 
+      function deleteEmployee(){
+        return fetch(`${SERVER_URL}/employees/${email}`, { 
+            method: "DELETE"
+          }).then((response) => response.json()
+          ).then((body) => {
+              setErrorMsg("");
+              setEdit(false);
+              navigate("/employees")
+          }); 
+      }
 
   return (
     <div>
