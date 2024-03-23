@@ -5,12 +5,12 @@ import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-const HomePage = ({ userToken, setUserToken }) => {
+const HomePage = ({ isManager }) => {
   const navigate = useNavigate ();
 
   return (
     <div>
-      <Navigation />
+      <Navigation isManager={isManager}/>
                   <Button 
                     color="primary" 
                     variant="contained" 

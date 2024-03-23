@@ -229,7 +229,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
 
     return(
         <div>
-            <Navigation />
+            <Navigation isManager={isManager}/>
             <Button 
                 color="primary" 
                 variant="contained" 
@@ -237,6 +237,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
                 > 
                 Add New Employee
             </Button>
+            
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
