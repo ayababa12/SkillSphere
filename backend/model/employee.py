@@ -22,4 +22,4 @@ class EmployeeSchema(ma.Schema):
         model = Employee 
 
 employee_schema = EmployeeSchema() 
-#employees_schema = EmployeeSchema(many=True)
+many_employees_schema = EmployeeSchema(many=True)

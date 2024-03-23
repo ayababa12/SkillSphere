@@ -20,9 +20,11 @@ ma = Marshmallow(app)
 
 
 from backend.model.manager import Manager , manager_schema
-from backend.model.employee import Employee , employee_schema
+from backend.model.employee import Employee , employee_schema, many_employees_schema
 
 SECRET_KEY = "b'|\xe7\xbfU3`\xc4\xec\xa7\xa9zf:}\xb5\xc7\xb9\x139^3@Dv'"
+
+department_list=['Accounting', 'HR'] # !!!!!!! ATTENTION !!!!!!! PLACEHOLDER VALUES
 
 def create_token(user_id): 
     payload = { 
@@ -110,3 +112,11 @@ def authenticate():
             return jsonify({'message': 'incorrect password'}),403
     else: #user is neither
         return jsonify({'message': 'invalid email'}),403
+    
+@app.route('/employees',methods=['GET'])
+def getEmployees():
+    all_employees=[]
+    for dept in department_list:
+        all_employees.extend(db.session.execute(text(f"select * from employee where department = "+'"'+dept+'"')).fetchall())
+    print(all_employees)
+    return jsonify(many_employees_schema.dump(all_employees)) , 200
