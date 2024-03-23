@@ -7,3 +7,11 @@ export function saveUserToken(userToken) {
   export function clearUserToken() { 
     return localStorage.removeItem("TOKEN"); 
   } 
+
+  export function saveIsManager(isManager) { 
+    return localStorage.setItem("isManager", isManager); 
+  } 
+
+  export function getIsManager() { 
+    return localStorage.getItem("isManager"); 
+  } 
