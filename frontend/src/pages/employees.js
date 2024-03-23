@@ -160,21 +160,21 @@ const CreateEmployeePage = () => {
                     
             </LocalizationProvider>
             </div>
-            <Button className='button'
+            <Button style={{backgroundColor: '#1f4d20',marginLeft: '50px' }}
             color="primary" 
             variant="contained" 
             onClick={() => {createEmployee(email, password, first_name, last_name, department, gender, dateOfBirth);}} 
             > 
             Add Employee 
             </Button> 
-            <Button className='button'
+            <Button style={{backgroundColor: '#1f4d20',marginLeft: '10px' }}
                 color="primary" 
                 variant="contained" 
                 onClick={() => navigate("/employees")} //go back to login page
                 > 
                 Cancel
             </Button>
-            <p  style={{color:"red"}}>{errorMsg}</p>
+            <p  style={{color:"red", marginLeft:'50px'}}>{errorMsg}</p>
             
         </div>
         </body>

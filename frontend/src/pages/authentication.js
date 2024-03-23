@@ -136,7 +136,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                     Register 
                   </Button> 
                   
-                  <p  style={{color:"red"}}>{errorMsg}</p>
+                  <p  style={{color:"red", marginLeft:'400px'}}>{errorMsg}</p>
                   
                   
                   <Link onClick={() => {setRegister(false); setErrorMsg("");}} style={{marginLeft:'400px'}}>
@@ -174,7 +174,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                   > 
                     Login 
                   </Button> 
-                  <p  style={{color:"red"}}>{errorMsg}</p>
+                  <p  style={{color:"red", marginLeft:'400px'}}>{errorMsg}</p>
 
                   <Link onClick={() => {setRegister(true); setErrorMsg("");}} style = {{marginLeft:'400px'}}>
                       Are you a manager? Create an account today and start managing your employees!

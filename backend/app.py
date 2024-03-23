@@ -58,6 +58,8 @@ def is_valid_email(email):
 def createManager():
     if request.json["email"]=='' or request.json["password"]=='' or not is_valid_email(request.json["email"]):
         return jsonify({'message': 'bad email or password'}),400
+    if request.json["first_name"]=='' or request.json["last_name"]=='':
+        return jsonify({'message': 'enter your name!'}),400
     try:
         m= Manager(request.json["email"], request.json["password"], request.json["first_name"], request.json["last_name"]) 
         db.session.add(m) 
@@ -72,6 +74,8 @@ def createManager():
 def createEmployee():
     if request.json["email"]=='' or request.json["password"]=='' or not is_valid_email(request.json["email"]):
         return jsonify({'message': 'bad email or password'}),400
+    if request.json["first_name"]=='' or request.json["last_name"]=='':
+        return jsonify({'message': 'enter a name!'}),400
     if request.json["gender"] not in ['Male', 'Female']:
         return jsonify({'message': 'select a gender'}),400
     if request.json["department"]=='':
