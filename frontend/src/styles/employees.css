@@ -1,0 +1,28 @@
+.form-item{
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 15px;
+    padding-top: 10px;
+    
+}
+.form{
+    padding-top: 30px;
+    margin-top: 40px;
+    margin-left: 150px;
+    margin-right: 150px;
+    background-color: rgb(254, 252, 252);
+    border-radius: 10px;
+}
+.button{
+    background-color:#19421a;
+    margin-left: 50px;
+    margin-bottom: 30px;
+}
+.button:hover{
+    background-color:#3e683e;
+}
+
+.addNewEmployee{
+    margin-top:'15px';margin-left: '1430px' ;
+    
+}

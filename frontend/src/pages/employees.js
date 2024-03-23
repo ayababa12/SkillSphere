@@ -21,6 +21,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import '../styles/employees.css'
 
 
 
@@ -78,7 +79,8 @@ const CreateEmployeePage = () => {
       }
 
     return(
-        <div>
+        <body>
+        <div className='form'>
             <div className="form-item"> 
             <TextField 
                 fullWidth 
@@ -116,6 +118,7 @@ const CreateEmployeePage = () => {
             /> 
             
             </div> 
+            <div className="form-item"> 
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Department</InputLabel>
                 <Select
@@ -130,6 +133,8 @@ const CreateEmployeePage = () => {
                 
                 </Select>
             </FormControl>
+            </div>
+            <div className="form-item"> 
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                 <Select
@@ -144,6 +149,8 @@ const CreateEmployeePage = () => {
                 
                 </Select>
             </FormControl>
+            </div>
+            <div className="form-item"> 
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                     
                     <DatePicker 
@@ -152,15 +159,15 @@ const CreateEmployeePage = () => {
                         label="Date of birth" />
                     
             </LocalizationProvider>
-
-            <Button 
+            </div>
+            <Button className='button'
             color="primary" 
             variant="contained" 
             onClick={() => {createEmployee(email, password, first_name, last_name, department, gender, dateOfBirth);}} 
             > 
             Add Employee 
             </Button> 
-            <Button 
+            <Button className='button'
                 color="primary" 
                 variant="contained" 
                 onClick={() => navigate("/employees")} //go back to login page
@@ -168,7 +175,9 @@ const CreateEmployeePage = () => {
                 Cancel
             </Button>
             <p  style={{color:"red"}}>{errorMsg}</p>
+            
         </div>
+        </body>
     );
 };
 
@@ -230,7 +239,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
     return(
         <div>
             <Navigation isManager={isManager}/>
-            <Button 
+            <Button style={{backgroundColor: '#1f4d20',marginTop:'15px',marginLeft: '1334px' }} className='addNewEmployee'
                 color="primary" 
                 variant="contained" 
                 onClick={() => navigate("/createEmployee")} //go back to login page
@@ -239,7 +248,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
             </Button>
             
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 440 }} style={{marginLeft:'202px'}}>
                     <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
