@@ -128,3 +128,25 @@ def getEmployee(email):
         return jsonify(employee_schema.dump(employee)), 200
     else:
         return jsonify({'message': 'employee doesnt exist'}), 404
+
+@app.route('/employees/<email>', methods=["PUT"])
+def updateEmployee(email):
+    
+    try:
+        first_name = request.json['first_name']
+        last_name = request.json['last_name']
+        department = request.json['department']
+        gender = request.json['gender']
+        print(first_name)
+        if request.json.get('date_of_birth') is not None:
+            date_of_birth = datetime.datetime.strptime(request.json['date_of_birth'], "%Y-%m-%dT%H:%M:%S.%fZ")
+            db.session.execute(text(f"UPDATE employee set first_name = '{first_name}', last_name = '{last_name}', department = '{department}', gender = '{gender}', date_of_birth = '{date_of_birth}' where email = '{email}'" ))
+            db.session.commit()
+        else:
+            print(first_name)
+            db.session.execute(text(f"UPDATE employee set first_name = '{first_name}', last_name = '{last_name}', department = '{department}', gender = '{gender}' where email = '{email}'" ))
+            db.session.commit()
+        return jsonify({'message': 'success'}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({'message': "invalid inputs"}), 400

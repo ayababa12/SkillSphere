@@ -35,7 +35,7 @@ function App() {
             element={<CreateEmployeePage/>}
           />
           {/* Dynamic route for specific user profiles */}
-        <Route path="employees/:email" element={<UserProfilePage />} /> 
+        <Route path="employees/:email" element={<UserProfilePage userToken={userToken}/>} /> 
       </Routes>
       
     </Router>
