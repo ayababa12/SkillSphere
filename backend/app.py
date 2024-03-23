@@ -120,3 +120,11 @@ def getEmployees():
         all_employees.extend(db.session.execute(text(f"select * from employee where department = "+'"'+dept+'"')).fetchall())
     print(all_employees)
     return jsonify(many_employees_schema.dump(all_employees)) , 200
+
+@app.route('/employees/<email>', methods=["GET"])
+def getEmployee(email):
+    employee = db.session.execute(text("select * from employee where email = '"+email+"'")).fetchone()
+    if employee:
+        return jsonify(employee_schema.dump(employee)), 200
+    else:
+        return jsonify({'message': 'employee doesnt exist'}), 404

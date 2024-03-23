@@ -2,9 +2,7 @@ import { useParams } from 'react-router-dom';
 
 const UserProfilePage = () => {
   const { email } = useParams();
-console.log(email)
-  // Fetch user data based on the username and render the profile
-  // ...
+
 
   return (
     <div>
