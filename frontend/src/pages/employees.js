@@ -259,7 +259,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
                             return ( // Clickable row, takes you to employee's profile
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={() => {navigate(`employee/${row.email}`)}}>
+                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={() => {navigate(`./${row.email}`)}}>
                                 {columns.map((column) => {
                                 const value = row[column.id];
                                 return (

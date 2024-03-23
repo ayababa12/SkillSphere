@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './pages/authentication';
 import HomePage from './pages/home';
 import {CreateEmployeePage, DisplayEmployeePage} from './pages/employees';
-
+import UserProfilePage from "./pages/employeeProfile"
 
 export const SERVER_URL = "http://127.0.0.1:5000" 
 
@@ -34,7 +34,10 @@ function App() {
             path="/createEmployee"
             element={<CreateEmployeePage/>}
           />
+          {/* Dynamic route for specific user profiles */}
+        <Route path="employees/:email" element={<UserProfilePage />} /> 
       </Routes>
+      
     </Router>
   );
 }
