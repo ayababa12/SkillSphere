@@ -12,12 +12,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {SERVER_URL} from '../App'
 import Navigation from '../components/navigation';
-
+import { useCallback } from 'react';
 
 
 
 const CreateEmployeePage = () => {
     const navigate = useNavigate ();
+
 
     let [email, setEmail] = useState(""); 
     let [password, setPassword] = useState("");
@@ -28,6 +29,7 @@ const CreateEmployeePage = () => {
     let [dateOfBirth, setDateOfBirth] = useState(null); 
     let [errorMsg, setErrorMsg] = useState("");
 
+    
     const handleDepartment = (event) => {
         setDepartment(event.target.value);
       };
@@ -162,9 +164,30 @@ const CreateEmployeePage = () => {
     );
 };
 
-const DisplayEmployeePage = () => {
+const DisplayEmployeePage = ({isManager, userToken}) => {
     const navigate = useNavigate ();
+
+    let [employeeList, setEmployeeList] = useState([]);
     
+    const fetchEmployeeList = useCallback(() => { 
+        fetch(`${SERVER_URL}/employees`, { 
+          headers: { 
+            Authorization: `bearer ${userToken}`, 
+          }, 
+        }) 
+          .then((response) => response.json()) 
+          .then((employeesList) => {setEmployeeList(employeesList); }); 
+      }, [isManager]);
+
+
+      
+    useEffect(() => { 
+        if (isManager) { 
+            fetchEmployeeList();
+    } 
+    }, [isManager, userToken]); 
+     
+
     return(
         <div>
             <Navigation />

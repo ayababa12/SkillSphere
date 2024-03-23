@@ -13,13 +13,14 @@ export const SERVER_URL = "http://127.0.0.1:5000"
 function App() {
 
   let [userToken, setUserToken] = useState(getUserToken());
+  let [isManager, setIsManager] = useState(false); // to know if the user is a manager or not
 
   return (
     <Router>
       <Routes>
         <Route
           path="/authentication"
-          element={<LoginPage userToken={userToken} setUserToken={setUserToken} />}
+          element={<LoginPage userToken={userToken} setUserToken={setUserToken} isManager={isManager} setIsManager={setIsManager} />}
         />
         <Route
           path="/"
@@ -27,7 +28,7 @@ function App() {
         />
         <Route
               path="/employees"
-              element={<DisplayEmployeePage/>}
+              element={<DisplayEmployeePage isManager={isManager} userToken={userToken}/>}
           />
         <Route
             path="/createEmployee"

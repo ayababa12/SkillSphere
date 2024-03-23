@@ -11,7 +11,7 @@ import { useNavigate  } from 'react-router-dom';
 
 
 
-const LoginPage = ({ userToken, setUserToken }) => {
+const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
   const navigate = useNavigate ();
 
   let [email, setEmail] = useState(""); 
@@ -43,6 +43,12 @@ const LoginPage = ({ userToken, setUserToken }) => {
           setErrorMsg("");
           setUserToken(body.token); 
           saveUserToken(body.token);
+          if(body.manager){
+            setIsManager(true); 
+          }
+          else{
+            setIsManager(false);
+          }
           navigate("/");
         }
 
