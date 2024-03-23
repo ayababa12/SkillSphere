@@ -7,7 +7,7 @@ import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManage
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import '../styles/authentication.css'
-
+import logo from "../images/Logo.jpg"
 
 
 
@@ -88,7 +88,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
   return (
     <div>
       {/* Conditional rendering based on the value of 'register' state */}
-      
+      <img src={logo} style={{width:'500px',height:"auto",marginTop:'70px',marginLeft:'500px'}} />
       {register ?
       (
         <div className='registerForm'>  {/* This is displayed ig the user wants to register */}
