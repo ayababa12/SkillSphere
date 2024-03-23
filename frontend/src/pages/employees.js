@@ -11,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import {SERVER_URL} from '../App'
-
+import Navigation from '../components/navigation';
 
 
 
@@ -167,6 +167,7 @@ const DisplayEmployeePage = () => {
     
     return(
         <div>
+            <Navigation />
             <Button 
                 color="primary" 
                 variant="contained" 
