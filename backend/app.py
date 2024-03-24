@@ -164,3 +164,98 @@ def deleteEmployee(email):
     except Exception as e:
         print(e)
         return jsonify({'message': "user not found"}), 404
+    
+
+from backend.model.task import Task
+from backend.model.subtask import Subtask
+from backend.model.work_on import WorkOn
+
+
+#Create Task
+@app.route('/tasks', methods=['POST'])
+def create_task():
+    title = request.json.get('title')
+    description = request.json.get('description')
+    deadline = request.json.get('deadline')
+
+    if not title:
+        return jsonify({'message': 'Title is required'}), 400
+
+    try:
+        task = Task(title=title, description=description)
+        if deadline:
+            task.deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
+        db.session.add(task)
+        db.session.commit()
+        return jsonify({'id': task.id, 'title': task.title, 'description': task.description, 'deadline': task.deadline}), 201
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+#Create Subtask
+@app.route('/tasks/<int:task_id>/subtasks', methods=['POST'])
+def create_subtask(task_id):
+    title = request.json.get('title')
+    hours = request.json.get('hours')
+    deadline = request.json.get('deadline')
+
+    if not title:
+        return jsonify({'message': 'Title is required'}), 400
+
+    try:
+        subtask = Subtask(title=title, task_id=task_id, hours=hours)
+        if deadline:
+            subtask.deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
+        db.session.add(subtask)
+        db.session.commit()
+        return jsonify({'id': subtask.id, 'title': subtask.title, 'hours': subtask.hours, 'deadline': subtask.deadline}), 201
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+#Delete Task
+@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    try:
+        task = Task.query.get(task_id)
+        if task is None:
+            return jsonify({'message': 'Task not found'}), 404
+        db.session.delete(task)
+        db.session.commit()
+        return jsonify({}), 204
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+#Delete Subtask
+@app.route('/subtasks/<int:subtask_id>', methods=['DELETE'])
+def delete_subtask(subtask_id):
+    try:
+        subtask = Subtask.query.get(subtask_id)
+        if subtask is None:
+            return jsonify({'message': 'Subtask not found'}), 404
+        db.session.delete(subtask)
+        db.session.commit()
+        return jsonify({}), 204
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+#Assign Subtask to Employee
+@app.route('/subtasks/<int:subtask_id>/assign', methods=['POST'])
+def assign_subtask(subtask_id):
+    employee_email = request.json.get('employee_email')
+
+    try:
+        employee = Employee.query.filter_by(email=employee_email).first()
+        if employee is None:
+            return jsonify({'message': 'Employee not found'}), 404
+        subtask = Subtask.query.get(subtask_id)
+        if subtask is None:
+            return jsonify({'message': 'Subtask not found'}), 404
+        work_on = WorkOn(subtask_id=subtask_id, employee_email=employee_email)
+        db.session.add(work_on)
+        db.session.commit()
+        return jsonify({'message': 'Subtask assigned'}), 201
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
+
+
