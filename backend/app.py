@@ -195,6 +195,7 @@ def create_task():
 @app.route('/tasks/<int:task_id>/subtasks', methods=['POST'])
 def create_subtask(task_id):
     title = request.json.get('title')
+    description = request.json.get('description') 
     hours = request.json.get('hours')
     deadline = request.json.get('deadline')
 
@@ -202,14 +203,15 @@ def create_subtask(task_id):
         return jsonify({'message': 'Title is required'}), 400
 
     try:
-        subtask = Subtask(title=title, task_id=task_id, hours=hours)
+        subtask = Subtask(title=title, task_id=task_id, description=description, hours=hours)
         if deadline:
             subtask.deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
         db.session.add(subtask)
         db.session.commit()
-        return jsonify({'id': subtask.id, 'title': subtask.title, 'hours': subtask.hours, 'deadline': subtask.deadline}), 201
+        return jsonify({'id': subtask.id, 'title': subtask.title, 'description': subtask.description, 'hours': subtask.hours, 'deadline': subtask.deadline}), 201
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+
 
 #Delete Task
 @app.route('/tasks/<int:task_id>', methods=['DELETE'])
