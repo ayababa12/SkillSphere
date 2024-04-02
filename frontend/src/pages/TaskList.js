@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
-function TaskList() {
+function TaskList({ isManager }) {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
 
@@ -27,12 +29,25 @@ function TaskList() {
           <li key={task.id}>
             <h2>{task.title}</h2>
             <p>{task.description}</p>
-            {/* You can add more task details here */}
+            {/* Additional task details */}
+            {isManager && (
+              <div>
+                {/* Render manager-specific UI elements */}
+                <Link to={`/tasks/${task.id}`}>View Details</Link>
+                {/* Add more buttons for manager functionalities */}
+              </div>
+            )}
           </li>
         ))}
       </ul>
+      {isManager && (
+        <Button variant="contained" color="primary">
+          <Link to="/tasks/create" style={{ textDecoration: 'none', color: 'white' }}>Add Task</Link>
+        </Button>
+      )}
     </div>
   );
 }
-console.log(TaskList);
+
 export default TaskList;
+

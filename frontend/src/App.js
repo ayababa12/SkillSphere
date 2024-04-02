@@ -10,7 +10,7 @@ import UserProfilePage from "./pages/employeeProfile"
 import TaskForm from './pages/TaskForm'; 
 import TaskList from './pages/TaskList'; 
 import Error from "./pages/error"
-
+import TaskDetails from './pages/TaskDetails';
 export const SERVER_URL = "http://127.0.0.1:5000" 
 
 function App() {
@@ -40,21 +40,18 @@ function App() {
           {/* Dynamic route for specific user profiles */}
         <Route path="employees/:email" element={<UserProfilePage userToken={userToken}/>} /> 
 
-        <Route path="/tasks" element={<TaskForm />} />
+        <Route
+          path="/tasks"
+          element={<TaskList isManager={isManager} />}
+        />
 
-        {/*
-        <Route 
-        path="/tasks" 
-        element={userToken ? <TaskList /> : <Navigate to="/authentication" replace />} 
+        <Route
+          path="/tasks/create"
+          element={isManager ? <TaskForm /> : <Navigate to="/" replace />}
         />
-        
-        <Route 
-        path="/tasks/create" 
-        element={isManager ? <TaskForm onTaskCreated={() => {}} /> : <Navigate to="/" replace />} 
+        <Route
+          path="/tasks/:task_id" element={<TaskDetails />}
         />
-  */}
-        
-      
         <Route
             path="/notFound"
             element={<Error/>}

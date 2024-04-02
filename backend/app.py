@@ -170,9 +170,66 @@ from backend.model.task import Task
 from backend.model.subtask import Subtask
 from backend.model.work_on import WorkOn
 
+# Import necessary modules
+from flask import jsonify, request
+from backend.model.task import Task
+from backend.model.employee import Employee
+
+# Route for viewing tasks and employee progress
+@app.route('/tasks', methods=['GET'])
+def view_tasks():
+    try:
+        tasks = Task.query.all()
+        task_list = []
+        for task in tasks:
+            task_info = {
+                'id': task.id,
+                'title': task.title,
+                'description': task.description,
+                'deadline': task.deadline.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                'employees': []  # Initialize an empty list to store employees
+            }
+            # Fetch employees assigned to the current task
+            employees =db.session.execute(text("select e.first_name from employee as e join work_on w on e.email = w.employee_email join subtask s ON w.subtask_id = s.id where task_id='"+  str(task.id) +"'"))
+            for employee in employees:
+                task_info['employees'].append({
+                    'id': employee.id,
+                    'name': employee.name,
+                    
+                })
+            task_list.append(task_info)
+        return jsonify(task_list), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
+@app.route('/tasks/<int:task_id>', methods=['GET'])
+def get_task(task_id):
+    try:
+        task = Task.query.get(task_id)
+        if task:
+            task_info = {
+                'id': task.id,
+                'title': task.title,
+                'description': task.description,
+                'deadline': task.deadline.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                'employees': []  # Initialize an empty list to store employees
+            }
+            # Fetch employees assigned to the task
+            employees = db.session.execute(text("select e.first_name from employee as e join work_on w on e.email = w.employee_email join subtask s ON w.subtask_id = s.id where task_id='"+  str(task.id) +"'"))
+            for employee in employees:
+                task_info['employees'].append({
+                    'id': employee.id,
+                    'name': employee.name
+                })
+            return jsonify(task_info), 200
+        else:
+            return jsonify({'message': 'Task not found'}), 404
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
 
 #Create Task
-@app.route('/tasks', methods=['POST'])
+@app.route('/tasks/create', methods=['POST'])
 def create_task():
     title = request.json.get('title')
     description = request.json.get('description')

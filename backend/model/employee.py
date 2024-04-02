@@ -15,6 +15,7 @@ class Employee(db.Model): #employee table
     
     def __init__(self, email, password, first_name, last_name,  department, gender,date_of_birth ): 
         super(Employee, self).__init__(email=email, hashed_password = bcrypt.generate_password_hash(password),first_name=first_name, last_name=last_name, department=department,  date_joined=datetime.datetime.now(), fill_survey = False, gender=gender, date_of_birth= date_of_birth) 
+    
 
 class EmployeeSchema(ma.Schema): 
     class Meta: 

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from "react";
+import { useState } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -6,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -18,6 +20,7 @@ function TaskForm() {
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -42,6 +45,7 @@ function TaskForm() {
         setDeadline(null);
         setSuccessMsg('Task successfully created');
         setOpenSnackbar(true);
+        navigate('/tasks'); // Navigate back to /tasks route after adding the task
       })
       .catch(error => {
         setError(error.message);
