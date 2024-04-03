@@ -9,7 +9,7 @@ import datetime
 import re
 import jwt
 from sqlalchemy import text
-
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///skillsphere.db'
@@ -18,7 +18,7 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 ma = Marshmallow(app)
 
-
+migrate = Migrate(app, db)
 from backend.model.manager import Manager , manager_schema
 from backend.model.employee import Employee , employee_schema, many_employees_schema
 
@@ -190,18 +190,17 @@ def view_tasks():
                 'employees': []  # Initialize an empty list to store employees
             }
             # Fetch employees assigned to the current task
-            employees =db.session.execute(text("select e.first_name from employee as e join work_on w on e.email = w.employee_email join subtask s ON w.subtask_id = s.id where task_id='"+  str(task.id) +"'"))
+            employees =db.session.execute(text("select e.email, e.first_name from employee as e join work_on w on e.email = w.employee_email join subtask s ON w.subtask_id = s.id where task_id='"+  str(task.id) +"'"))
             for employee in employees:
                 task_info['employees'].append({
-                    'id': employee.id,
-                    'name': employee.name,
+                    'email': employee.email,
+                    'name': employee.first_name,
                     
                 })
             task_list.append(task_info)
         return jsonify(task_list), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
-
 
 @app.route('/tasks/<int:task_id>', methods=['GET'])
 def get_task(task_id):
@@ -216,17 +215,21 @@ def get_task(task_id):
                 'employees': []  # Initialize an empty list to store employees
             }
             # Fetch employees assigned to the task
-            employees = db.session.execute(text("select e.first_name from employee as e join work_on w on e.email = w.employee_email join subtask s ON w.subtask_id = s.id where task_id='"+  str(task.id) +"'"))
+            employees = db.session.execute(text("select distinct e.email,e.first_name from employee as e join work_on w on e.email = w.employee_email join subtask s ON w.subtask_id = s.id where task_id='"+  str(task.id) +"'"))
+            unique_employees = set()  # Set to store unique email addresses
             for employee in employees:
-                task_info['employees'].append({
-                    'id': employee.id,
-                    'name': employee.name
-                })
+                if employee.email not in unique_employees:
+                    task_info['employees'].append({
+                        'employee email': employee.email,
+                        'name': employee.first_name
+                    })
+                    unique_employees.add(employee.email)
             return jsonify(task_info), 200
         else:
             return jsonify({'message': 'Task not found'}), 404
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+
 
 #Create Task
 @app.route('/tasks/create', methods=['POST'])
@@ -248,30 +251,86 @@ def create_task():
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
-#Create Subtask
-@app.route('/tasks/<int:task_id>/subtasks', methods=['POST'])
+
+@app.route('/tasks/<int:task_id>/subtasks/create', methods=['POST'])
 def create_subtask(task_id):
-    title = request.json.get('title')
-    description = request.json.get('description') 
-    hours = request.json.get('hours')
-    deadline = request.json.get('deadline')
+    data = request.json
+    title = data.get('title')
+    description = data.get('description')
+    hours = data.get('hours')
+    deadline = data.get('deadline')
+    employee = data.get('employee')
 
     if not title:
         return jsonify({'message': 'Title is required'}), 400
 
     try:
-        subtask = Subtask(title=title, task_id=task_id, description=description, hours=hours)
+        # Create the subtask
+        subtask = Subtask(
+            title=title,
+            task_id=task_id,
+            description=description,
+            hours=hours
+        )
         if deadline:
             subtask.deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
         db.session.add(subtask)
         db.session.commit()
-        return jsonify({'id': subtask.id, 'title': subtask.title, 'description': subtask.description, 'hours': subtask.hours, 'deadline': subtask.deadline}), 201
+        # Create the association between subtask and employee
+       
+        if employee:
+            work_on = WorkOn(
+                subtask_id=subtask.id,
+                employee_email=employee
+                  
+            )
+            db.session.add(work_on)
+            db.session.commit()
+
+        return jsonify({
+            'id': subtask.id,
+            'title': subtask.title,
+            'description': subtask.description,
+            'hours': subtask.hours,
+            'deadline': subtask.deadline,
+            'employee':work_on.employee_email
+        }), 201
     except Exception as e:
+        db.session.rollback()  # Rollback in case of an error
         return jsonify({'message': str(e)}), 500
 
 
+@app.route('/tasks/<int:task_id>/subtasks/view', methods=['GET'])
+def get_subtasks(task_id):
+    try:
+        subtasks = Subtask.query.filter_by(task_id=task_id).all()
+        subtask_list = []
+        for subtask in subtasks:
+            subtask_info = {
+                'id': subtask.id,
+                'title': subtask.title,
+                'description': subtask.description,
+                'hours': subtask.hours,
+                'deadline': subtask.deadline.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                'is_completed': subtask.is_completed,
+                'employee': []  # Initialize an empty list to store employee info
+            }
+            # Fetch employee information for the current subtask
+            employees = WorkOn.query.filter_by(subtask_id=subtask.id).all()
+            for employee in employees:
+                subtask_info['employee'].append({
+                    'email': employee.employee_email,
+                    'start_time': employee.start_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                    'end_time': employee.end_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ") if employee.end_time else None,
+                    'is_completed': employee.is_completed
+                })
+            subtask_list.append(subtask_info)
+        return jsonify(subtask_list), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
 #Delete Task
-@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+@app.route('/tasks/<int:task_id>/delete', methods=['DELETE'])
 def delete_task(task_id):
     try:
         task = Task.query.get(task_id)

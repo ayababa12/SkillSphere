@@ -26,7 +26,7 @@ function TaskForm() {
     event.preventDefault();
     const SERVER_URL = "http://127.0.0.1:5000"; // Replace with your actual server URL
 
-    fetch(`${SERVER_URL}/tasks`, {
+    fetch(`${SERVER_URL}/tasks/create`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

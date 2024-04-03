@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-
+import { useNavigate  } from 'react-router-dom';
+import Navigation from '../components/navigation';
 function TaskList({ isManager }) {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate ();
   useEffect(() => {
     const SERVER_URL = "http://127.0.0.1:5000";
 
     fetch(`${SERVER_URL}/tasks`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+      return response.json();
+    })
       .then(data => setTasks(data))
       .catch(error => setError(error.message));
   }, []);
@@ -29,12 +30,22 @@ function TaskList({ isManager }) {
           <li key={task.id}>
             <h2>{task.title}</h2>
             <p>{task.description}</p>
-            {/* Additional task details */}
+         
             {isManager && (
               <div>
                 {/* Render manager-specific UI elements */}
                 <Link to={`/tasks/${task.id}`}>View Details</Link>
                 {/* Add more buttons for manager functionalities */}
+                <Link to={`/tasks/${task.id}/subtasks/create`}>Add Subtasks</Link>
+                <Link to={`/tasks/${task.id}/subtasks/view`}>View Subtasks</Link>
+              </div>
+            )}
+            {!isManager && (
+              <div>
+                {/* Render manager-specific UI elements */}
+                <Link to={`/tasks/${task.id}`}>View Details</Link>
+                {/* Add more buttons for manager functionalities */}
+                <Link to={`/tasks/${task.id}/subtasks/view`}>View Subtasks</Link>
               </div>
             )}
           </li>

@@ -33,18 +33,21 @@ function TaskDetails() {
 
   return (
     <div>
-      <h1>Task Details</h1>
-      <h2>Title: {task.title}</h2>
-      <p>Description: {task.description}</p>
-      <p>Deadline: {task.deadline}</p>
-
-      <h3>Employees:</h3>
-      <ul>
-        {task.employees.map(employee => (
-          <li key={employee.id}>{employee.name}</li>
-        ))}
-      </ul>
-    </div>
+    <h1>Task Details</h1>
+    <ul>
+      <li><strong>Title:</strong> {task.title}</li>
+      <li><strong>Description:</strong> {task.description}</li>
+      <li><strong>Deadline:</strong> {task.deadline}</li>
+      <li>
+        <strong>Employees:</strong>
+        <ul>
+          {task.employees.map(employee => (
+            <li key={employee.id}>{employee.name}</li>
+          ))}
+        </ul>
+      </li>
+    </ul>
+  </div>
   );
 }
 
