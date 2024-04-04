@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../App.css'
+import Navigation from "../components/navigation"
 const SERVER_URL = "http://127.0.0.1:5000";
-function TaskDetails() {
+function TaskDetails({isManager}) {
   const { task_id } = useParams(); // Extracting taskId from URL params
   const [task, setTask] = useState(null);
   const [error, setError] = useState(null);
@@ -34,8 +35,9 @@ function TaskDetails() {
 
   return (
     <div className='whiteText'>
+      <Navigation isManager={isManager}/>
     <h1 style={{color:'black'}}>Task Details</h1>
-    <ul>
+    <ul style={{marginLeft:"200px"}}>
       <li><strong>Title:</strong> {task.title}</li>
       <li><strong>Description:</strong> {task.description}</li>
       <li><strong>Deadline:</strong> {task.deadline}</li>

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Navigation  from '../components/navigation';
 const SERVER_URL = "http://127.0.0.1:5000";
 
-function SubtaskDetails() {
+function SubtaskDetails({isManager}) {
   const { task_id } = useParams(); // Extracting taskId from URL params
   const [subtasks, setSubtasks] = useState([]);
   const [error, setError] = useState(null);
@@ -34,7 +35,9 @@ function SubtaskDetails() {
   }
 
   return (
-    <div>
+    <div style={{marginLeft:"200px"}}>
+      <Navigation isManager={isManager}/>
+      <div>
       <h1>Subtask Details</h1>
         <div className="whiteText">
          <ul>
@@ -66,6 +69,7 @@ function SubtaskDetails() {
            </li>
          ))}
        </ul>
+       </div>
        </div>
     </div>
   );

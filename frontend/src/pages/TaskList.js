@@ -25,8 +25,9 @@ function TaskList({ isManager }) {
   return (
     <div>
       <h1>Task List</h1>
+      <Navigation isManager={isManager}/>
       {error && <p>An error occurred: {error}</p>}
-      <div >
+      <div style={{marginLeft:"200px"}}>
       <ul >
         {tasks.map(task => (
           <li key={task.id}>
@@ -54,12 +55,13 @@ function TaskList({ isManager }) {
           </li>
         ))}
       </ul>
-      </div>
+      
       {isManager && (
         <Button variant="contained" color="primary">
           <Link to="/tasks/create" style={{ textDecoration: 'none', color: 'white' }}>Add Task</Link>
         </Button>
       )}
+      </div>
     </div>
   );
 }
