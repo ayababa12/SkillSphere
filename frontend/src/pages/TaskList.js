@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
+import '../App.css'
 function TaskList({ isManager }) {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
@@ -25,12 +26,14 @@ function TaskList({ isManager }) {
     <div>
       <h1>Task List</h1>
       {error && <p>An error occurred: {error}</p>}
-      <ul>
+      <div >
+      <ul >
         {tasks.map(task => (
           <li key={task.id}>
-            <h2>{task.title}</h2>
-            <p>{task.description}</p>
-         
+            <div className="whiteText">
+              <h2>{task.title}</h2>
+              <p>{task.description}</p>
+            </div>
             {isManager && (
               <div>
                 {/* Render manager-specific UI elements */}
@@ -51,6 +54,7 @@ function TaskList({ isManager }) {
           </li>
         ))}
       </ul>
+      </div>
       {isManager && (
         <Button variant="contained" color="primary">
           <Link to="/tasks/create" style={{ textDecoration: 'none', color: 'white' }}>Add Task</Link>

@@ -36,7 +36,7 @@ function SubtaskDetails() {
   return (
     <div>
       <h1>Subtask Details</h1>
-      
+        <div className="whiteText">
          <ul>
          {subtasks.map((subtask, index) => (
            <li key={index}>
@@ -59,12 +59,14 @@ function SubtaskDetails() {
                      </li>
                    ))}
                  </ul>
+                 
                </li>
              </ul>
+             
            </li>
          ))}
        </ul>
-      
+       </div>
     </div>
   );
 }

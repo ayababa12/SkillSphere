@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import '../App.css'
 const SERVER_URL = "http://127.0.0.1:5000";
 function TaskDetails() {
   const { task_id } = useParams(); // Extracting taskId from URL params
@@ -32,8 +33,8 @@ function TaskDetails() {
   }
 
   return (
-    <div>
-    <h1>Task Details</h1>
+    <div className='whiteText'>
+    <h1 style={{color:'black'}}>Task Details</h1>
     <ul>
       <li><strong>Title:</strong> {task.title}</li>
       <li><strong>Description:</strong> {task.description}</li>
