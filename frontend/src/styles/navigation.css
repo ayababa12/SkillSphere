@@ -17,11 +17,14 @@ nav {
   }
   
   li {
-    border-radius: 0 20px 20px 0;
+    /* border-radius: 0 20px 20px 0; */
     position: relative;
     background-color: #19421a;
+    transition: opacity .5s ease-out;
   }
-  
+  li:hover {
+    opacity: 1;
+  }
   li::before {
     content: '';
     position: absolute;

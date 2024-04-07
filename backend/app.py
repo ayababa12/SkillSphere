@@ -375,5 +375,15 @@ def assign_subtask(subtask_id):
         return jsonify({'message': str(e)}), 500
 
 
-
-
+@app.route('/tasks/<int:task_id>', methods=["PUT"])
+def editTask():
+    id = request.json['id']
+    title = request.json['title']
+    description = request.json['description']
+    if request.json.get('deadline') is not None:
+        deadline = datetime.datetime.strptime(request.json['deadline'], "%Y-%m-%dT%H:%M:%S.%fZ")
+        db.session.execute(text(f"UPDATE task set title = '{title}', description = '{description}', deadline = '{deadline}' where id = '{id}'" ))
+        db.session.commit()
+    else:
+        db.session.execute(text(f"UPDATE task set title = '{title}', description = '{description}' where id = '{id}'" ))
+        db.session.commit()
