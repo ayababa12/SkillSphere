@@ -105,7 +105,7 @@ const UserProfilePage = ({userToken}) => {
       {/* Render user profile information */}
     { edit? (
                 <div>
-                    <Button  style={{backgroundColor: '#1f4d20' , marginTop:'15px',marginLeft: '1430px'}}
+                    <Button  className='mui-button'
                         color="primary" 
                         variant="contained" 
                         onClick={() => setEdit(false)} 
@@ -193,7 +193,7 @@ const UserProfilePage = ({userToken}) => {
 
         (
             <div>
-                <Button style={{backgroundColor: '#1f4d20' , marginTop:'15px',marginLeft: '1430px'}}
+                <Button className='mui-button'
                     color="primary" 
                     variant="contained" 
                     onClick={() => setEdit(true)} 

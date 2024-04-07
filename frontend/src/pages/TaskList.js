@@ -57,7 +57,7 @@ function TaskList({ isManager }) {
       </ul>
       
       {isManager && (
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" className="mui-button">
           <Link to="/tasks/create" style={{ textDecoration: 'none', color: 'white' }}>Add Task</Link>
         </Button>
       )}

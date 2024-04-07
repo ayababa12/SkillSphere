@@ -79,7 +79,7 @@ const CreateEmployeePage = () => {
       }
 
     return(
-        <body>
+        <body class="formPage">
         <div className='form'>
             <div className="form-item"> 
             <TextField 
@@ -160,14 +160,14 @@ const CreateEmployeePage = () => {
                     
             </LocalizationProvider>
             </div>
-            <Button className = 'mui-button' 
+            <Button style={{backgroundColor: '#1f4d20', marginLeft:'50px', marginBottom:"10px" }}
             color="primary" 
             variant="contained" 
             onClick={() => {createEmployee(email, password, first_name, last_name, department, gender, dateOfBirth);}} 
             > 
             Add Employee 
             </Button> 
-            <Button style={{backgroundColor: '#1f4d20' }}
+            <Button style={{backgroundColor: '#1f4d20', marginLeft:'10px', marginBottom:"10px"  }}
                 color="primary" 
                 variant="contained" 
                 onClick={() => navigate("/employees")} //go back to login page
