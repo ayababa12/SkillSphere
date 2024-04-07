@@ -79,7 +79,8 @@ const CreateEmployeePage = () => {
       }
 
     return(
-        <body class="formPage">
+        <div className="formPage">
+        <body className="formPage">
         <div className='form'>
             <div className="form-item"> 
             <TextField 
@@ -178,6 +179,7 @@ const CreateEmployeePage = () => {
             
         </div>
         </body>
+        </div>
     );
 };
 
