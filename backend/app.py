@@ -389,3 +389,21 @@ def editTask(task_id):
     except Exception as e:
         print(e)
         return jsonify({'message': "invalid inputs"}), 400
+
+@app.route('/subTask/<int:id>', methods=["PUT"])
+def editTask(id):
+    try:
+        title = request.json['title']
+        description = request.json['description']
+        hours = request.json['hours']
+        if request.json.get('deadline') is not None:
+            deadline = datetime.datetime.strptime(request.json['deadline'], "%Y-%m-%dT%H:%M:%S.%fZ")
+            db.session.execute(text(f"UPDATE subtask set title = '{title}', description = '{description}', hours ='{hours}', deadline = '{deadline}' where id = '{id}'" ))
+            db.session.commit()
+        else:
+            db.session.execute(text(f"UPDATE subtask set title = '{title}', description = '{description}', hours ='{hours}' where id = '{id}'" ))
+            db.session.commit()
+        return jsonify({'message': 'success'}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({'message': "invalid inputs"}), 400

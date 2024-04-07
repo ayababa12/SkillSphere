@@ -2,12 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Navigation  from '../components/navigation';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import "../App.css"
 const SERVER_URL = "http://127.0.0.1:5000";
 
 function SubtaskDetails({isManager}) {
   const { task_id } = useParams(); // Extracting taskId from URL params
   const [subtasks, setSubtasks] = useState([]);
   const [error, setError] = useState(null);
+  let [edit, setEdit] = useState(false);
+  let [subTaskToEdit, setSubTaskToEdit] = useState("");
+  let [title, setTitle] = useState("")
+  let [description, setDescription] = useState("")
+  let [hours, setHours] = useState("")
+  let [deadline, setDeadline] = useState(null)
 
   useEffect(() => {
     const fetchSubtasks = async () => {
@@ -35,42 +48,100 @@ function SubtaskDetails({isManager}) {
   }
 
   return (
+    
     <div style={{marginLeft:"200px"}}>
       <Navigation isManager={isManager}/>
-      <div>
-      <h1>Subtask Details</h1>
-        <div className="whiteText">
-         <ul>
-         {subtasks.map((subtask, index) => (
-           <li key={index}>
-             <h2>Subtask {index + 1}</h2>
-             <ul>
-               <li><strong>Title:</strong> {subtask.title}</li>
-               <li><strong>Description:</strong> {subtask.description}</li>
-               <li><strong>Hours:</strong> {subtask.hours}</li>
-               <li><strong>Deadline:</strong> {subtask.deadline}</li>
-               <li><strong>Is Completed:</strong> {subtask.is_completed ? 'Yes' : 'No'}</li>
-               <li>
-                 <strong>Employees:</strong> 
-                 <ul>
-                   {subtask.employee.map((employee, empIndex) => (
-                     <li key={empIndex}>
-                       <strong>Email:</strong> {employee.email}<br />
-                       <strong>Start Time:</strong> {employee.start_time}<br />
-                       <strong>End Time:</strong> {employee.end_time ? employee.end_time : 'Not specified'}<br />
-                       <strong>Is Completed:</strong> {employee.is_completed ? 'Yes' : 'No'}
-                     </li>
-                   ))}
-                 </ul>
-                 
-               </li>
-             </ul>
-             
-           </li>
-         ))}
-       </ul>
-       </div>
-       </div>
+      {!edit ? (
+        <div>
+        <h1>Subtask Details</h1>
+          <div className="whiteText">
+          <ul>
+          {subtasks.map((subtask, index) => (
+            <li key={index}>
+              <h2>Subtask {index + 1}</h2>
+              <ul>
+                <li><strong>Title:</strong> {subtask.title}</li>
+                <li><strong>Description:</strong> {subtask.description}</li>
+                <li><strong>Hours:</strong> {subtask.hours}</li>
+                <li><strong>Deadline:</strong> {subtask.deadline}</li>
+                <li><strong>Is Completed:</strong> {subtask.is_completed ? 'Yes' : 'No'}</li>
+                <li>
+                  <strong>Employees:</strong> 
+                  <ul>
+                    {subtask.employee.map((employee, empIndex) => (
+                      <li key={empIndex}>
+                        <strong>Email:</strong> {employee.email}<br />
+                        <strong>Start Time:</strong> {employee.start_time}<br />
+                        <strong>End Time:</strong> {employee.end_time ? employee.end_time : 'Not specified'}<br />
+                        <strong>Is Completed:</strong> {employee.is_completed ? 'Yes' : 'No'}
+                      </li>
+                    ))}
+                  </ul>
+                  
+                </li>
+                <li><Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask.id)}}>Edit</Link></li>
+              </ul>
+              
+            </li>
+          ))}
+        </ul>
+        </div>
+        </div>):
+       (<div>
+        <Button  className='mui-button'
+                        color="primary" 
+                        variant="contained" 
+                        onClick={() => setEdit(false)} 
+                        > 
+                        Cancel 
+                  </Button> 
+                  <div className = 'taskForm'>
+                  <div className="form-item"> 
+                        <TextField className="taskFormItem"
+                        fullWidth 
+                        label="title" 
+                        type="text" 
+                        value={title} 
+                        onChange={({ target: { value } }) => setTitle(value)} 
+                        /> 
+                        
+                    </div> 
+                    <div className="form-item"> 
+                        <TextField className="taskFormItem"
+                        fullWidth 
+                        label="description" 
+                        type="text" 
+                        value={description} 
+                        onChange={({ target: { value } }) => setDescription(value)} 
+                        /> 
+                        
+                    </div>
+                    <div className="form-item"> 
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DateTimePicker className="taskFormItem"
+                      label="Deadline"
+                      value={deadline}
+                      onChange={(value) => setDeadline(value)}
+                      renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
+                    />
+                    </LocalizationProvider>
+                    </div>
+                    <Button  style={{backgroundColor: '#1f4d20', marginLeft:'40px'}}
+                        color="primary" 
+                        variant="contained" 
+                        onClick={() => {updateSubTask(title,description,deadline);}} 
+                        > 
+                        Apply Changes 
+                    </Button> 
+                    <Button style={{backgroundColor: '#1f4d20',marginLeft:'40px'}}
+                        color="primary" 
+                        variant="contained" 
+                        onClick={() => deleteSubTask()} 
+                        > 
+                        Delete Task 
+                    </Button>
+                  </div>
+       </div>)}
     </div>
   );
 }
