@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Navigation  from '../components/navigation';
 import TextField from '@mui/material/TextField';
@@ -12,6 +12,7 @@ import "../App.css"
 const SERVER_URL = "http://127.0.0.1:5000";
 
 function SubtaskDetails({isManager}) {
+  const navigate = useNavigate();
   const { task_id } = useParams(); // Extracting taskId from URL params
   const [subtasks, setSubtasks] = useState([]);
   const [error, setError] = useState(null);
@@ -21,7 +22,13 @@ function SubtaskDetails({isManager}) {
   let [description, setDescription] = useState("")
   let [hours, setHours] = useState("")
   let [deadline, setDeadline] = useState(null)
-
+  useEffect(() => {
+    if (edit) {
+      setTitle(subTaskToEdit.title);
+      setDescription(subTaskToEdit.description);
+      setHours(subTaskToEdit.hours);
+    }
+  }, [edit, subTaskToEdit]);
   useEffect(() => {
     const fetchSubtasks = async () => {
       try {
@@ -37,7 +44,7 @@ function SubtaskDetails({isManager}) {
     };
 
     fetchSubtasks();
-  }, [task_id]);
+  }, [task_id, edit]);
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -47,6 +54,43 @@ function SubtaskDetails({isManager}) {
     return <div>No subtasks available for this task</div>;
   }
 
+  function updateSubTask(title,description,deadline) { 
+    return fetch(`${SERVER_URL}/subTask/${subTaskToEdit.id}`, { 
+      method: "PUT", 
+      headers: { 
+        "Content-Type": "application/json", 
+      }, 
+      body: JSON.stringify({ 
+        title: title,
+        description: description,
+        hours: hours,
+        deadline: deadline,
+      }), 
+    }).then((response) => response.json()
+    ).then((body) => {
+      if (body.message != 'success'){ //server sent an error message
+        setError(body.message);
+        
+      }
+      else{ 
+        setError("");
+        setEdit(false);
+        
+      }
+    }); 
+  }
+
+  function deleteSubTask(){
+    return fetch(`${SERVER_URL}/subtask/${subTaskToEdit.id}`, { 
+        method: "DELETE"
+      }).then((response) => response.json()
+      ).then((body) => {
+          setError("");
+          setEdit(false);
+          navigate("/tasks")
+      }); 
+  }
+  
   return (
     
     <div style={{marginLeft:"200px"}}>
@@ -79,7 +123,7 @@ function SubtaskDetails({isManager}) {
                   </ul>
                   
                 </li>
-                <li><Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask.id)}}>Edit</Link></li>
+                <li><Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask)}}>Edit</Link></li>
               </ul>
               
             </li>
@@ -114,6 +158,15 @@ function SubtaskDetails({isManager}) {
                         value={description} 
                         onChange={({ target: { value } }) => setDescription(value)} 
                         /> 
+                    </div>
+                    <div className="form-item"> 
+                      <TextField className="taskFormItem"
+                      fullWidth 
+                      label="hours" 
+                      type="number" 
+                      value={hours} 
+                      onChange={({ target: { value } }) => setHours(value)} 
+                      /> 
                         
                     </div>
                     <div className="form-item"> 
@@ -138,7 +191,7 @@ function SubtaskDetails({isManager}) {
                         variant="contained" 
                         onClick={() => deleteSubTask()} 
                         > 
-                        Delete Task 
+                        Delete Sub-Task 
                     </Button>
                   </div>
        </div>)}

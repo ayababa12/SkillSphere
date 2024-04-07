@@ -374,7 +374,7 @@ def assign_subtask(subtask_id):
 
 
 @app.route('/tasks/<int:task_id>', methods=["PUT"])
-def editTask(task_id):
+def updateTask(task_id):
     try:
         title = request.json['title']
         description = request.json['description']
@@ -391,7 +391,7 @@ def editTask(task_id):
         return jsonify({'message': "invalid inputs"}), 400
 
 @app.route('/subTask/<int:id>', methods=["PUT"])
-def editTask(id):
+def updateSubTask(id):
     try:
         title = request.json['title']
         description = request.json['description']
@@ -407,3 +407,13 @@ def editTask(id):
     except Exception as e:
         print(e)
         return jsonify({'message': "invalid inputs"}), 400
+    
+@app.route('/subtask/<int:id>', methods=["DELETE"])
+def delete_Subtask(id):
+    try:
+        db.session.execute(text("delete from subtask where id = '"+ str(id) +"'"))
+        db.session.commit()
+        return jsonify({'message': f'Sub-Task with id {id} deleted successfully'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'message': str(e)}), 500
