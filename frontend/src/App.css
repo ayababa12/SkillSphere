@@ -11,6 +11,9 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+  .taskForm{
+    width: 50%;
+  }
 }
 
 .App-header {
@@ -49,3 +52,21 @@
 .mui-button:hover{
   background-color:#3e683e;
 }
+.taskForm{
+  margin-top: 50px;
+  background-color: #ffffff;
+  border-color:#1f4d20;
+  border-radius: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+}
+/* .taskFormItem .MuiInputBase-input {
+  color: white;
+  border-color: white; 
+}
+
+.taskFormItem .MuiInputLabel-root {
+  color: white; 
+  border-color: white;
+} */

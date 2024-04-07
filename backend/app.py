@@ -330,16 +330,14 @@ def get_subtasks(task_id):
         return jsonify({'message': str(e)}), 500
 
 #Delete Task
-@app.route('/tasks/<int:task_id>/delete', methods=['DELETE'])
+@app.route('/tasks/<int:task_id>/delete', methods=["DELETE"])
 def delete_task(task_id):
     try:
-        task = Task.query.get(task_id)
-        if task is None:
-            return jsonify({'message': 'Task not found'}), 404
-        db.session.delete(task)
+        db.session.execute(text("delete from task where id = '"+ str(task_id) +"'"))
         db.session.commit()
-        return jsonify({}), 204
+        return jsonify({'message': f'Task with id {task_id} deleted successfully'}), 200
     except Exception as e:
+        print(e)
         return jsonify({'message': str(e)}), 500
 
 #Delete Subtask
@@ -376,14 +374,18 @@ def assign_subtask(subtask_id):
 
 
 @app.route('/tasks/<int:task_id>', methods=["PUT"])
-def editTask():
-    id = request.json['id']
-    title = request.json['title']
-    description = request.json['description']
-    if request.json.get('deadline') is not None:
-        deadline = datetime.datetime.strptime(request.json['deadline'], "%Y-%m-%dT%H:%M:%S.%fZ")
-        db.session.execute(text(f"UPDATE task set title = '{title}', description = '{description}', deadline = '{deadline}' where id = '{id}'" ))
-        db.session.commit()
-    else:
-        db.session.execute(text(f"UPDATE task set title = '{title}', description = '{description}' where id = '{id}'" ))
-        db.session.commit()
+def editTask(task_id):
+    try:
+        title = request.json['title']
+        description = request.json['description']
+        if request.json.get('deadline') is not None:
+            deadline = datetime.datetime.strptime(request.json['deadline'], "%Y-%m-%dT%H:%M:%S.%fZ")
+            db.session.execute(text(f"UPDATE task set title = '{title}', description = '{description}', deadline = '{deadline}' where id = '{task_id}'" ))
+            db.session.commit()
+        else:
+            db.session.execute(text(f"UPDATE task set title = '{title}', description = '{description}' where id = '{task_id}'" ))
+            db.session.commit()
+        return jsonify({'message': 'success'}), 201
+    except Exception as e:
+        print(e)
+        return jsonify({'message': "invalid inputs"}), 400
