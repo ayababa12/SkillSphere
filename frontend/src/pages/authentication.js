@@ -86,9 +86,9 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
 
 
   return (
-    <div>
+    <div className='LoginContainer'>
       {/* Conditional rendering based on the value of 'register' state */}
-      <img src={logo} style={{width:'500px',height:"auto",marginTop:'70px',marginLeft:'500px'}} />
+      <img src={logo} className="logo" />
       {register ?
       (
         <div className='registerForm'>  {/* This is displayed ig the user wants to register */}
@@ -128,20 +128,21 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setPassword(value)} 
                     /> 
                   </div> 
-                  <Button style={{backgroundColor:'#1f4d20', marginLeft:'400px'}}
+                  
+                  <Button style={{backgroundColor:'#1f4d20'}}
                     color="primary" 
                     variant="contained" 
                     onClick={() => createManager(email, password, first_name, last_name)} 
                   > 
                     Register 
                   </Button> 
-                  
-                  <p  style={{color:"red", marginLeft:'400px'}}>{errorMsg}</p>
-                  
-                  
-                  <Link onClick={() => {setRegister(false); setErrorMsg("");}} style={{marginLeft:'400px'}}>
+                  <br></br><br></br>
+
+                  <Link onClick={() => {setRegister(false); setErrorMsg("");}} style={{marginLeft:'10px'}}>
                       Already have an account? click here to login!
                   </Link> 
+                  <p  style={{color:"red", marginLeft:'400px'}}>{errorMsg}</p>
+                  
                   
                 
         </div>
@@ -167,7 +168,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                       onChange={({ target: { value } }) => setPassword(value)} 
                     /> 
                   </div> 
-                  <Button style={{backgroundColor: '#1f4d20',marginLeft: '400px' }}
+                  <Button style={{backgroundColor: '#1f4d20' }}
                     color="primary" 
                     variant="contained" 
                     onClick={() => login(email, password)} 
@@ -176,7 +177,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
                   </Button> 
                   <p  style={{color:"red", marginLeft:'400px'}}>{errorMsg}</p>
 
-                  <Link onClick={() => {setRegister(true); setErrorMsg("");}} style = {{marginLeft:'400px'}}>
+                  <Link onClick={() => {setRegister(true); setErrorMsg("");}} >
                       Are you a manager? Create an account today and start managing your employees!
                   </Link>
         </div>)

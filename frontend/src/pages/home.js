@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
+import "../App.css"
 const HomePage = ({ isManager }) => {
   const navigate = useNavigate ();
 
@@ -13,7 +13,7 @@ const HomePage = ({ isManager }) => {
       
       
       <div style={{ marginTop:'15px',marginLeft: '1430px' }}>
-                  <Button  style={{backgroundColor: '#1f4d20'}}
+                  <Button  className='mui-button'
                     variant="contained" 
                     onClick={() => {clearUserToken(); navigate("/authentication");}} //go back to login page
                   > 

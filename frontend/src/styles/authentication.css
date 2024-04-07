@@ -6,14 +6,22 @@
     
 }
 .login-form-item{
-    margin-left:400px;
-    margin-right:400px;
     margin-bottom: 30px;
     
 }
 .register-form-item{
-    margin-left:400px;
-    margin-right:400px;
     margin-bottom: 30px;
     
 }
+.LoginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+  }
+  
+  .logo {
+    width: 100%; /* Make the image responsive */
+    max-width: 500px; /* Limit the maximum width */
+    height: auto; /* Allow the height to adjust proportionally */
+    margin-top: 70px; /* Adjust top margin as needed */
+  }
