@@ -13,16 +13,19 @@
     background-color: rgb(254, 252, 252);
     border-radius: 10px;
 }
-.button{
-    background-color:#19421a;
-    margin-left: 50px;
-    margin-bottom: 30px;
+.mui-button{
+    background-color:#1f4d20 !important;
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    z-index: 1001
 }
-.button:hover{
+.mui-button:hover{
     background-color:#3e683e;
 }
-
-.addNewEmployee{
-    margin-top:'15px';margin-left: '1430px' ;
-    
+.employeeTableRow:hover{
+    cursor: pointer;
+}
+.employeeTableFirstRow{
+    background-color: #1f4d20 !important;
 }

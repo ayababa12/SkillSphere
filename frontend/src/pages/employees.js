@@ -160,14 +160,14 @@ const CreateEmployeePage = () => {
                     
             </LocalizationProvider>
             </div>
-            <Button style={{backgroundColor: '#1f4d20',marginLeft: '50px' }}
+            <Button className = 'mui-button' 
             color="primary" 
             variant="contained" 
             onClick={() => {createEmployee(email, password, first_name, last_name, department, gender, dateOfBirth);}} 
             > 
             Add Employee 
             </Button> 
-            <Button style={{backgroundColor: '#1f4d20',marginLeft: '10px' }}
+            <Button style={{backgroundColor: '#1f4d20' }}
                 color="primary" 
                 variant="contained" 
                 onClick={() => navigate("/employees")} //go back to login page
@@ -239,24 +239,24 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
     return(
         <div>
             <Navigation isManager={isManager}/>
-            <Button style={{backgroundColor: '#1f4d20',marginTop:'15px',marginLeft: '1334px' }} className='addNewEmployee'
+            <Button  className='mui-button'
                 color="primary" 
                 variant="contained" 
                 onClick={() => navigate("/createEmployee")} //go back to login page
                 > 
                 Add New Employee
             </Button>
-            
+            <br/><br/><br/>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }} style={{marginLeft:'202px'}}>
                     <Table stickyHeader aria-label="sticky table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                         {columns.map((column) => (
-                            <TableCell
+                            <TableCell 
                             key={column.id}
                             align={column.align}
-                            style={{ minWidth: column.minWidth }}
+                            style={{ minWidth: column.minWidth, backgroundColor: "#1f4d20", color:'white', fontWeight:'bold' }}
                             >
                             {column.label}
                             </TableCell>
@@ -268,7 +268,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((row) => {
                             return ( // Clickable row, takes you to employee's profile
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={() => {navigate(`./${row.email}`)}}>
+                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code} onClick={() => {navigate(`./${row.email}`)}} className="employeeTableRow">
                                 {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
