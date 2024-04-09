@@ -329,16 +329,26 @@ def get_subtasks(task_id):
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
-#Delete Task
+
+#New delete task
 @app.route('/tasks/<int:task_id>/delete', methods=["DELETE"])
 def delete_task(task_id):
     try:
-        db.session.execute(text("delete from task where id = '"+ str(task_id) +"'"))
-        db.session.commit()
-        return jsonify({'message': f'Task with id {task_id} deleted successfully'}), 200
+        # Delete subtasks first
+        Subtask.query.filter_by(task_id=task_id).delete()
+        # Now delete the task
+        task = Task.query.get(task_id)
+        if task:
+            db.session.delete(task)
+            db.session.commit()
+            return jsonify({'message': f'Task with id {task_id} and all related subtasks have been deleted successfully'}), 200
+        else:
+            return jsonify({'message': 'Task not found'}), 404
     except Exception as e:
+        db.session.rollback()
         print(e)
         return jsonify({'message': str(e)}), 500
+
 
 #Delete Subtask
 @app.route('/subtasks/<int:subtask_id>', methods=['DELETE'])
