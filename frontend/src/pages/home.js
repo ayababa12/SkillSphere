@@ -11,7 +11,7 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
   const getUpcomingDeadlines = () => {
     fetch(`${SERVER_URL}/upcomingDeadlines`, {method: "GET"})
     .then((response) => response.json())
-    .then((array) =>{ setDeadlineList(array["result"]); console.log(array["result"])})
+    .then((array) =>{ setDeadlineList(array["result"]);})
     
     }
   useEffect(getUpcomingDeadlines, [])

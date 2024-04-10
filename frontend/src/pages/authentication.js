@@ -43,6 +43,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
           setErrorMsg("");
           setUserToken(body.token); 
           saveUserToken(body.token);
+          setUserName(body.fName);
           saveUserName(body.fName);
           if(body.manager){
             setIsManager(true); 
@@ -52,10 +53,10 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
             setIsManager(false);
             saveIsManager(false);
           }
-          navigate("/");
+          
         }
 
-      }); 
+      }).then(() => navigate("/")); 
   }
   
   function createManager(email, password, first_name, last_name) { 
