@@ -40,6 +40,24 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
     
       </div>
       <Navigation isManager={isManager}/>
+      <div className="announcementsContainer">
+              <div className="announcement-header">
+              <Typography variant='h5' className="announcementText">Announcements</Typography>
+              {isManager && <Button className="addAnnouncementButton" variant="contained">Add Announcement</Button>}
+              </div>
+              <div className="announcementWrapper">
+                <Typography className="author" variant="h7">Ashley White</Typography> 
+                <Typography variant="h8">We have signed a new deal with UMG! I am excited about the new marvelous adventure! Cheers for more opportunities!</Typography>
+              </div>
+              <div className="announcementWrapper">
+                <Typography className="author" variant="h7">Morgan Freeman</Typography> 
+                <Typography variant="h8">We wish you and your loved ones a blessed holiday. Eid Moubarak!</Typography>
+              </div>
+              <div className="announcementWrapper">
+                <Typography className="author" variant="h7">Morgan Freeman</Typography> 
+                <Typography variant="h8">We are thrilled to announce the launch of our latest innovation. After months of hard work and dedication from our talented team, we are excited to bring this revolutionary product to market.</Typography>
+              </div>
+      </div>
     </div>
   );
 };
