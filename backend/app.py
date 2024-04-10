@@ -104,14 +104,14 @@ def authenticate():
         if bcrypt.check_password_hash(manager_row.hashed_password, password):
             token = create_token(manager_row.email)
             print("token "+token)
-            return jsonify({"token": token, "manager": True}), 200
+            return jsonify({"token": token, "manager": True, "fName": manager_row[2]}), 200
         else:
             return jsonify({'message': 'incorrect password'}),403
     elif employee_row: #if the user is employee
         if bcrypt.check_password_hash(employee_row.hashed_password, password):
             token = create_token(employee_row.email)
             print("token "+token)
-            return jsonify({"token": token, "manager": False}), 200
+            return jsonify({"token": token, "manager": False, "fName": employee_row[2]}), 200
         else: 
             return jsonify({'message': 'incorrect password'}),403
     else: #user is neither

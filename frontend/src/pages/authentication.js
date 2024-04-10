@@ -11,7 +11,7 @@ import logo from "../images/Logo.jpg"
 
 
 
-const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
+const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserName }) => {
   const navigate = useNavigate ();
 
   let [email, setEmail] = useState(""); 
@@ -43,6 +43,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
           setErrorMsg("");
           setUserToken(body.token); 
           saveUserToken(body.token);
+          setUserName(body.fName);
           if(body.manager){
             setIsManager(true); 
             saveIsManager(true);

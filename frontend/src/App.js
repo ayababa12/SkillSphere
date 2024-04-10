@@ -19,17 +19,17 @@ function App() {
 
   let [userToken, setUserToken] = useState(getUserToken());
   let [isManager, setIsManager] = useState(localStorage.getItem('isManager')); // to know if the user is a manager or not
-
+  let [userName, setUserName] = useState("");
   return (
     <Router>
       <Routes>
         <Route
           path="/authentication"
-          element={<LoginPage userToken={userToken} setUserToken={setUserToken} isManager={isManager} setIsManager={setIsManager} />}
+          element={<LoginPage userToken={userToken} setUserToken={setUserToken} isManager={isManager} setIsManager={setIsManager} setUserName={setUserName} />}
         />
         <Route
           path="/"
-          element={userToken ? <HomePage isManager={isManager}/> : <Navigate to="/authentication" replace />} //if user token is null, route is changed to /authentication
+          element={userToken ? <HomePage isManager={isManager} userName={userName}/> : <Navigate to="/authentication" replace />} //if user token is null, route is changed to /authentication
         />
         <Route
               path="/employees"

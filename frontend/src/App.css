@@ -80,7 +80,7 @@ hr {
   margin: 0; /* Remove default margin of hr */
 }
 .welcomeText{
-  margin-left: 400px !important;
+  margin-left: 300px !important;
   margin-top: 50px !important;
   font-family: 'Lucida Handwriting', cursive !important; 
 }

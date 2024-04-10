@@ -5,13 +5,13 @@ import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import "../App.css"
-const HomePage = ({ isManager }) => {
+const HomePage = ({ isManager, userName }) => {
   const navigate = useNavigate ();
 
   return (
     <div>
       <div className="welcomeBanner">
-          <Typography className="welcomeText" variant='h4'>Welcome Back!</Typography>
+          <Typography className="welcomeText" variant='h4'>Welcome Back, {userName}!</Typography>
       </div>
       <hr></hr>
       <div >
