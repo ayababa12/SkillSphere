@@ -427,3 +427,8 @@ def delete_Subtask(id):
     except Exception as e:
         print(e)
         return jsonify({'message': str(e)}), 500
+
+@app.route('/upcomingDeadlines', methods=["GET"])
+def getUpcomingDeadlines():
+    result = db.session.execute(text("select t.title, s.title, s.deadline from task as t join subtask as s on t.id=s.task_id ORDER BY ABS(julianday(s.deadline) - julianday('now')) asc limit 2;")).fetchall()
+    return jsonify({"result": [list(row) for row in result]}), 200
