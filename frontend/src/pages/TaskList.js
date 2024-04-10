@@ -69,7 +69,7 @@ function TaskList({ isManager }) {
       <Navigation isManager={isManager}/>
       {error && <p style={{color:'red'}}>An error occurred: {error}</p>}
       <div style={{marginLeft:"200px"}}>
-      <ul >
+      <ul className = "nav">
         {tasks.map(task => (
           <li key={task.id}>
             <div className="whiteText">

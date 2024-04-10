@@ -91,7 +91,7 @@ function TaskDetails({isManager}) {
                         onClick={() => setEdit(true)} >Edit Task</Button>
                 
                 <h1 style={{color:'black'}}>Task Details</h1>
-                <ul style={{marginLeft:"200px"}}>
+                <ul style={{marginLeft:"200px"}} className="nav">
                   <li><strong>Title:</strong> {task.title}</li>
                   <li><strong>Description:</strong> {task.description}</li>
                   <li><strong>Deadline:</strong> {task.deadline}</li>
