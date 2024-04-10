@@ -75,12 +75,30 @@
   display: flex;  
   margin: 0;
   background-color: #f0f0f0;
+  
+  align-items: center;
 }
 hr {
   margin: 0; /* Remove default margin of hr */
 }
 .welcomeText{
-  margin-left: 300px !important;
-  margin-top: 50px !important;
+  position: fixed;
+  left: 250px !important;
+  top: 50px;
+  font-family: 'Lucida Handwriting', cursive !important; 
+}
+.deadlinesList{
+    position:fixed;
+    right: 20px;
+    padding:0;
+    background-color: white;
+    border-radius: 10px; /* Adjust this value for roundness */
+    border: 1px solid black; /* Optional border */
+    align-items: center;
+}
+.upcomingDeadlines{
+  position:fixed;
+  top: 38px;
+  right: 280px;
   font-family: 'Lucida Handwriting', cursive !important; 
 }

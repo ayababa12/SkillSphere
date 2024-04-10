@@ -19,11 +19,14 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
     <div>
       <div className="welcomeBanner">
           <Typography className="welcomeText" variant='h4'>Welcome Back, {userName}!</Typography>
-          <ul>
-          {deadlineList.map((item, index) => (
-            <li key={index}>{item[0]}: {item[1]} due by {item[2]}</li>
-          ))}
-        </ul>
+          <Typography className="upcomingDeadlines">Upcoming Deadlines:</Typography>
+          <div className = "deadlinesList">
+              <ul>
+              {deadlineList.map((item, index) => (
+                <li key={index}>{item[0]} — {item[1]} due by {item[2]}</li>
+              ))}
+            </ul>
+        </div>
       </div>
       
       <hr></hr>
