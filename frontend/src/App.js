@@ -18,9 +18,8 @@ export const SERVER_URL = "http://127.0.0.1:5000";
 function App() {
 
   let [userToken, setUserToken] = useState(getUserToken());
-  let [isManager, setIsManager] = useState(getIsManager()); // to know if the user is a manager or not
+  let [isManager, setIsManager] = useState(getIsManager()==="true"); // to know if the user is a manager or not
   let [userName, setUserName] = useState(getUserName());
-  console.log("is manager: ", isManager);
   return (
     <Router>
       <Routes>
