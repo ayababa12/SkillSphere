@@ -70,3 +70,17 @@
   color: white; 
   border-color: white;
 } */
+.welcomeBanner{
+  min-height: 30vh; 
+  display: flex;  
+  margin: 0;
+  background-color: #f0f0f0;
+}
+hr {
+  margin: 0; /* Remove default margin of hr */
+}
+.welcomeText{
+  margin-left: 400px !important;
+  margin-top: 50px !important;
+  font-family: 'Lucida Handwriting', cursive !important; 
+}

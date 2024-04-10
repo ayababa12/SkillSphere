@@ -1,6 +1,6 @@
 import React from 'react';
 import { getUserToken, saveUserToken, clearUserToken } from "../localStorage";
-import Button from '@mui/material/Button';
+import {Button, Typography }from '@mui/material';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
@@ -10,9 +10,11 @@ const HomePage = ({ isManager }) => {
 
   return (
     <div>
-      
-      
-      <div style={{ marginTop:'15px',marginLeft: '1430px' }}>
+      <div className="welcomeBanner">
+          <Typography className="welcomeText" variant='h4'>Welcome Back!</Typography>
+      </div>
+      <hr></hr>
+      <div >
                   <Button  className='mui-button'
                     variant="contained" 
                     onClick={() => {clearUserToken(); navigate("/authentication");}} //go back to login page
