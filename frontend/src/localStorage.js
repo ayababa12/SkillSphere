@@ -15,3 +15,9 @@ export function saveUserToken(userToken) {
   export function getIsManager() { 
     return localStorage.getItem("isManager"); 
   } 
+  export function saveUserName(userName){
+    return localStorage.setItem("userName", userName);
+  }
+  export function getUserName() {
+    return localStorage.getItem("userName");
+  }

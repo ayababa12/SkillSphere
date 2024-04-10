@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField'; 
 import {SERVER_URL} from '../App'
-import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager} from "../localStorage";
+import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager, saveUserName} from "../localStorage";
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import '../styles/authentication.css'
@@ -43,7 +43,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
           setErrorMsg("");
           setUserToken(body.token); 
           saveUserToken(body.token);
-          setUserName(body.fName);
+          saveUserName(body.fName);
           if(body.manager){
             setIsManager(true); 
             saveIsManager(true);

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager} from "./localStorage";
+import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager, getUserName} from "./localStorage";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import LoginPage from './pages/authentication';
@@ -19,13 +19,13 @@ function App() {
 
   let [userToken, setUserToken] = useState(getUserToken());
   let [isManager, setIsManager] = useState(localStorage.getItem('isManager')); // to know if the user is a manager or not
-  let [userName, setUserName] = useState("");
+  let [userName, setUserName] = useState(getUserName());
   return (
     <Router>
       <Routes>
         <Route
           path="/authentication"
-          element={<LoginPage userToken={userToken} setUserToken={setUserToken} isManager={isManager} setIsManager={setIsManager} setUserName={setUserName} />}
+          element={<LoginPage userToken={userToken} setUserToken={setUserToken} isManager={isManager} setIsManager={setIsManager} />}
         />
         <Route
           path="/"
