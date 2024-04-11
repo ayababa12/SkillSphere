@@ -19,7 +19,11 @@ const Navigation = ({isManager}) => {
         <li>
           <Link to="/tasks">Tasks</Link>
         </li>
-        {/* Add more navigation links as needed */}
+        {!isManager && (
+          <li>
+            <Link to="/survey">Survey</Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
