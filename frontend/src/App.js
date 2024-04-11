@@ -13,6 +13,7 @@ import Error from "./pages/error"
 import TaskDetails from './pages/TaskDetails';
 import SubtaskForm from './pages/SubtaskForm';
 import SubtaskDetails from './pages/SubtaskDetails';
+import Survey from './pages/Survey';
 export const SERVER_URL = "http://127.0.0.1:5000";
 
 function App() {
@@ -52,14 +53,20 @@ function App() {
           element={isManager ? <TaskForm /> : <Navigate to="/" replace />}
         />
         <Route
-          path="/tasks/:task_id" element={<TaskDetails isManager={isManager} />}
+          path="/tasks/:task_id" element={<TaskDetails />}
         />
         <Route
           path="/tasks/:task_id/subtasks/create" element={<SubtaskForm />}
         />
         <Route
-          path="/tasks/:task_id/subtasks/view" element={<SubtaskDetails isManager={isManager} />}
+          path="/tasks/:task_id/subtasks/view" element={<SubtaskDetails />}
         />
+        {!isManager && (
+        <Route
+        path="/survey"
+        element={<Survey />}
+        />
+        )}
         <Route
             path="/notFound"
             element={<Error/>}
