@@ -24,9 +24,37 @@ function Survey() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Process form submission here
-    // You might want to validate inputs or even set up a POST request to your backend
+    const SERVER_URL = "http://127.0.0.1:5000"; // Replace with your actual server URL
+    const surveyData = {
+      satisfactionLevel,
+      numProjects,
+      avgMonthlyHours,
+      yearsAtCompany,
+      workAccident,
+      promotion,
+      department,
+      salary
+    };
+  
+    fetch(`${SERVER_URL}/submit-survey`, { // Adjust the URL to your survey submission endpoint
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(surveyData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Handle the response data on success
+      console.log('Survey submitted successfully:', data);
+      // Clear the form or navigate the user to a thank you page
+    })
+    .catch(error => {
+      // Handle any errors here
+      console.error('Error submitting survey:', error);
+    });
   };
+  
 
   return (
     <form onSubmit={handleSubmit}>
