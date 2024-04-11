@@ -99,7 +99,7 @@ function SubtaskDetails({isManager}) {
         <div>
         <h1>Subtask Details</h1>
           <div className="whiteText">
-          <ul>
+          <ul className="nav">
           {subtasks.map((subtask, index) => (
             <li key={index}>
               <h2>Subtask {index + 1}</h2>

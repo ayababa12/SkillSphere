@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import logo from "../images/Logo.jpg"
 const Navigation = ({isManager}) => {
   return (
+    <div className = "nav">
     <nav>
       <img src={logo} style={{width:'202px',height:"auto",marginTop:'8px'}} />
       <ul>
@@ -26,6 +27,7 @@ const Navigation = ({isManager}) => {
         )}
       </ul>
     </nav>
+    </div>
   );
 };
 

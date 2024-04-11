@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField'; 
 import {SERVER_URL} from '../App'
-import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager} from "../localStorage";
+import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager, saveUserName} from "../localStorage";
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import '../styles/authentication.css'
@@ -11,7 +11,7 @@ import logo from "../images/Logo.jpg"
 
 
 
-const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
+const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserName }) => {
   const navigate = useNavigate ();
 
   let [email, setEmail] = useState(""); 
@@ -43,6 +43,8 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
           setErrorMsg("");
           setUserToken(body.token); 
           saveUserToken(body.token);
+          setUserName(body.fName);
+          saveUserName(body.fName);
           if(body.manager){
             setIsManager(true); 
             saveIsManager(true);
@@ -51,10 +53,10 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager }) => {
             setIsManager(false);
             saveIsManager(false);
           }
-          navigate("/");
+          
         }
 
-      }); 
+      }).then(() => navigate("/")); 
   }
   
   function createManager(email, password, first_name, last_name) { 
