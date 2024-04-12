@@ -432,3 +432,19 @@ def delete_Subtask(id):
 def getUpcomingDeadlines():
     result = db.session.execute(text("select t.title, s.title, s.deadline from task as t join subtask as s on t.id=s.task_id ORDER BY ABS(julianday(s.deadline) - julianday('now')) asc limit 4;")).fetchall()
     return jsonify({"result": [list(row) for row in result]}), 200
+
+@app.route('/progress/<int:id>', methods=["GET"])
+def getTaskProgress(id):
+    completedSubTaskHours = db.session.execute(text(f"select sum(s.hours) from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where t.id = {id} and w.is_completed = 1")).fetchone()[0]
+    remainingSubTaskHours = db.session.execute(text(f"select sum(s.hours) from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where t.id = {id} and w.is_completed = 0")).fetchone()[0]
+    employee_list = db.session.execute(text(f"select e.email from (employee as e join work_on as w on e.email = w.employee_email) join subtask as t on w.subtask_id = t.id where t.task_id = {id}")).fetchall()
+    print(employee_list)
+    for t in employee_list:
+        email = t[0]
+
+
+    if completedSubTaskHours is None:
+        completedSubTaskHours=0
+    if remainingSubTaskHours is None:
+        remainingSubTaskHours=0
+    return jsonify({"totalCompletedHours": completedSubTaskHours, "totalRemainingHours": remainingSubTaskHours}), 200

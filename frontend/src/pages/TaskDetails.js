@@ -37,13 +37,17 @@ function TaskDetails({isManager, SERVER_URL}) {
     fetchTaskDetails();
   }, [task_id, edit]);
 
-  // useEffect(() => {
-  //   const fetchProgress = async () => {
-  //     try {
-  //       const response = await fetch()
-  //     }
-  //   };
-  // }, [task_id, edit])
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const response = await fetch(`${SERVER_URL}/progress/${task_id}`);
+        
+      }
+      catch (error){
+        console.log("fetch progress error: ", error);
+      }
+    };
+  }, [task_id, edit])
 
   if (error) {
     return <div>Error: {error}</div>;
