@@ -11,15 +11,15 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 
-function TaskList({ isManager }) {
+function TaskList({ isManager,SERVER_URL, email }) {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
+  let [employeeTaskList, setEmployeeTaskList] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const SERVER_URL = "http://127.0.0.1:5000";
 
     fetch(`${SERVER_URL}/tasks`)
     .then(response => {
@@ -33,7 +33,7 @@ function TaskList({ isManager }) {
   }, []);
 
   const handleDelete = () => {
-    const SERVER_URL = "http://127.0.0.1:5000";
+    
     fetch(`${SERVER_URL}/tasks/${selectedTaskId}/delete`, {
       method: 'DELETE',
       // headers: { ... } Add any required headers here
@@ -62,11 +62,17 @@ function TaskList({ isManager }) {
   const handleClose = () => {
     setOpenDialog(false);
   };
-
-  return (
-    <div>
+  const getEmployeeTasks = () => {
+    fetch(`${SERVER_URL}/getEmployeeSubTasks/${email}`, {method: "GET"})
+    .then((response) => response.json())
+    .then((data) => setEmployeeTaskList(data))
+  }
+  useEffect(getEmployeeTasks,[]);
+  return (<div>
+    <Navigation isManager={isManager}/>
+    { isManager ? (<div>
       <h1>Task List</h1>
-      <Navigation isManager={isManager}/>
+      
       {error && <p style={{color:'red'}}>An error occurred: {error}</p>}
       <div style={{marginLeft:"200px"}}>
       <ul className = "nav">
@@ -131,8 +137,21 @@ function TaskList({ isManager }) {
       </Dialog>
       </div>
       
-    </div>
-  );
+    </div>):
+    (<div className="employee-specific-task-section-wrapper">
+      {employeeTaskList.map(task => (
+        <div key={task.subtask_title} className="employee-progress">
+          <h3>{task.task_title}</h3>
+          <p>Subtask: {task.subtask_title}</p>
+          <p>Description: {task.description}</p>
+          <p>Deadline: {task.deadline}</p>
+          <p>Hours: {task.hours}</p>
+          <p>Completed: {task.is_completed ? 'Yes' : 'No'}</p>
+        </div>
+      ))}
+    </div>)
+}
+</div>);
 }
 
 export default TaskList;

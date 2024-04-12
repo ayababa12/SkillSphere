@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField'; 
 import {SERVER_URL} from '../App'
-import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager, saveUserName} from "../localStorage";
+import { getUserToken, saveUserToken, clearUserToken ,getIsManager, saveIsManager, saveUserName, saveEmail} from "../localStorage";
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import '../styles/authentication.css'
@@ -11,7 +11,7 @@ import logo from "../images/Logo.jpg"
 
 
 
-const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserName }) => {
+const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserName, setEmailParam }) => {
   const navigate = useNavigate ();
 
   let [email, setEmail] = useState(""); 
@@ -45,6 +45,8 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
           saveUserToken(body.token);
           setUserName(body.fName);
           saveUserName(body.fName);
+          setEmailParam(email);
+          saveEmail(email);
           if(body.manager){
             setIsManager(true); 
             saveIsManager(true);
