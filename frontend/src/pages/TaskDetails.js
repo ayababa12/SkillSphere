@@ -183,7 +183,7 @@ function TaskDetails({isManager, SERVER_URL}) {
   </div>
   <div className = "progress-section-wrapper">
       <div className = "progress-section">
-        <Typography variant="h5">Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
+        <Typography variant="h5" style={{fontWeight:"bold"}}>Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
         <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
           <LinearProgress  
             sthickness={100}
@@ -199,27 +199,43 @@ function TaskDetails({isManager, SERVER_URL}) {
      
       <hr></hr>
       <br></br>
-      <Typography variant="h5">Progress By Employee</Typography>
+      <Typography variant="h5" style={{fontWeight:"bold"}}>Progress By Employee</Typography>
       
       {Object.entries(employeeProgressList).map(([email, employee]) => (  
         <div className="employee-progress">
           <Typography variant="h5" style={{fontWeight:"bold"}}>{employee.firstName} {employee.lastName} ({email})</Typography>
-          <Typography variant='h6'>Progress: {employee.completedHours/(employee.completedHours + employee.remainingHours)*100}% Complete</Typography>
+          <div className = "progress-section">
+            <Typography variant='h6'>Progress: {Math.ceil(employee.completedHours/(employee.completedHours + employee.remainingHours)*100)}% Complete</Typography>
+            <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
+            <LinearProgress  
+              sthickness={100}
+              sx={{
+                backgroundColor: '#8c968d',
+                color: "white",
+                height: "10px",
+                width: "400px"
+              }}
+              determinate
+              value={Math.ceil(employee.completedHours/(employee.completedHours + employee.remainingHours)*100)} />
+          </Stack>
+        </div>
           <div className="completed-remaining-tasks">
+          { Object.keys(employee.completedSubTasks).length > 0 && <div>
           <Typography variant="h6">Completed Sub-Tasks:</Typography>
           <ul>
             {employee.completedSubTasks.map(subTask => (
               <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
             ))}
-          </ul>
+          </ul> </div>}
           </div>
           <div className="completed-remaining-tasks">
+          { Object.keys(employee.remainingSubTasks).length > 0 && <div>
           <Typography variant="h6">Remaining Sub-Tasks:</Typography>
           <ul>
             {employee.remainingSubTasks.map(subTask => (
               <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
             ))}
-          </ul>
+          </ul></div>}
           </div>
           </div>
         ))}
