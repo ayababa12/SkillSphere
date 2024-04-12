@@ -104,14 +104,14 @@ def authenticate():
         if bcrypt.check_password_hash(manager_row.hashed_password, password):
             token = create_token(manager_row.email)
             print("token "+token)
-            return jsonify({"token": token, "manager": True, "fName": manager_row[2]}), 200
+            return jsonify({"token": token, "manager": True}), 200
         else:
             return jsonify({'message': 'incorrect password'}),403
     elif employee_row: #if the user is employee
         if bcrypt.check_password_hash(employee_row.hashed_password, password):
             token = create_token(employee_row.email)
             print("token "+token)
-            return jsonify({"token": token, "manager": False, "fName": employee_row[2]}), 200
+            return jsonify({"token": token, "manager": False}), 200
         else: 
             return jsonify({'message': 'incorrect password'}),403
     else: #user is neither
@@ -231,25 +231,41 @@ def get_task(task_id):
         return jsonify({'message': str(e)}), 500
 
 
-#Create Task
+
+#Create task
 @app.route('/tasks/create', methods=['POST'])
 def create_task():
-    title = request.json.get('title')
-    description = request.json.get('description')
-    deadline = request.json.get('deadline')
-
-    if not title:
-        return jsonify({'message': 'Title is required'}), 400
-
     try:
-        task = Task(title=title, description=description)
-        if deadline:
-            task.deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
+        title = request.json.get('title')
+        description = request.json.get('description')
+        deadline = request.json.get('deadline')
+
+        if not title or not description or not deadline:
+            return jsonify({'message': 'Title, description, and deadline are required'}), 400
+
+        # Convert the deadline string to a datetime object
+        try:
+            deadline_datetime = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
+        except ValueError:
+            return jsonify({'message': 'Invalid date format for deadline'}), 400
+        
+        task = Task(title=title, description=description, deadline=deadline_datetime)
+        
         db.session.add(task)
         db.session.commit()
-        return jsonify({'id': task.id, 'title': task.title, 'description': task.description, 'deadline': task.deadline}), 201
+        
+        return jsonify({
+            'id': task.id,
+            'title': task.title,
+            'description': task.description,
+            'deadline': task.deadline.isoformat()
+        }), 201
+
     except Exception as e:
-        return jsonify({'message': str(e)}), 500
+        db.session.rollback()
+        # Log the exception for server-side inspection
+        print(str(e))
+        return jsonify({'message': 'An error occurred while creating the task'}), 500
 
 
 @app.route('/tasks/<int:task_id>/subtasks/create', methods=['POST'])
@@ -300,6 +316,7 @@ def create_subtask(task_id):
         return jsonify({'message': str(e)}), 500
 
 
+
 @app.route('/tasks/<int:task_id>/subtasks/view', methods=['GET'])
 def get_subtasks(task_id):
     try:
@@ -328,7 +345,7 @@ def get_subtasks(task_id):
         return jsonify(subtask_list), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
-
+    
 
 #New delete task
 @app.route('/tasks/<int:task_id>/delete', methods=["DELETE"])
@@ -428,7 +445,28 @@ def delete_Subtask(id):
         print(e)
         return jsonify({'message': str(e)}), 500
 
-@app.route('/upcomingDeadlines', methods=["GET"])
-def getUpcomingDeadlines():
-    result = db.session.execute(text("select t.title, s.title, s.deadline from task as t join subtask as s on t.id=s.task_id ORDER BY ABS(julianday(s.deadline) - julianday('now')) asc limit 4;")).fetchall()
-    return jsonify({"result": [list(row) for row in result]}), 200
+
+#Submit Survey
+@app.route('/submit_survey', methods=['POST'])
+def submit_survey():
+    data = request.json
+
+    new_survey = Survey(
+        satisfaction_level=data['satisfaction_level'],
+        number_of_projects=data['number_of_projects'],
+        average_monthly_hours=data['average_monthly_hours'],
+        years_at_company=data['years_at_company'],
+        work_accident=data['work_accident'],
+        promotion_last_5years=data['promotion_last_5years'],
+        department=data['department'],
+        salary_classification=data['salary_classification'],
+        employee_email=data['employee_email']
+    )
+
+    db.session.add(new_survey)
+    try:
+        db.session.commit()
+        return jsonify(new_survey.to_dict()), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': 'Error submitting survey', 'error': str(e)}), 500
