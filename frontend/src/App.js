@@ -63,7 +63,7 @@ function App() {
         />
         {!isManager && (
         <Route
-        path="/survey"
+        path="/survey-submit"
         element={<Survey />}
         />
         )}
