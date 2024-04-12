@@ -179,3 +179,7 @@ hr {
 .employee-specific-task-section-wrapper{
   margin-left: 200px;
 }
+.task-header{
+  display: flex;
+  flex-direction: row;
+}

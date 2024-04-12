@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
+import {Button, FormControlLabel, Checkbox } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
@@ -17,6 +17,7 @@ function TaskList({ isManager,SERVER_URL, email }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   let [employeeTaskList, setEmployeeTaskList] = useState([]);
+  let [taskChange, setTaskChange] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,12 +63,25 @@ function TaskList({ isManager,SERVER_URL, email }) {
   const handleClose = () => {
     setOpenDialog(false);
   };
+  
+
+  const handleCheckboxChange = (subtask_id, email, is_completed) => {
+    fetch(`${SERVER_URL}/markSubTaskAsComplete`, {method:"PUT" ,headers: { 
+      "Content-Type": "application/json", 
+      }, 
+     body: JSON.stringify({complete: !is_completed, email: email, subtask_id: subtask_id})
+    })
+    .then((response) => response.json())
+    .then(getEmployeeTasks)
+    
+  }
   const getEmployeeTasks = () => {
     fetch(`${SERVER_URL}/getEmployeeSubTasks/${email}`, {method: "GET"})
     .then((response) => response.json())
     .then((data) => setEmployeeTaskList(data))
   }
   useEffect(getEmployeeTasks,[]);
+
   return (<div>
     <Navigation isManager={isManager}/>
     { isManager ? (<div>
@@ -141,12 +155,19 @@ function TaskList({ isManager,SERVER_URL, email }) {
     (<div className="employee-specific-task-section-wrapper">
       {employeeTaskList.map(task => (
         <div key={task.subtask_title} className="employee-progress">
-          <h3>{task.task_title}</h3>
-          <p>Subtask: {task.subtask_title}</p>
-          <p>Description: {task.description}</p>
-          <p>Deadline: {task.deadline}</p>
+          <div className="task-header">
+          <FormControlLabel control={
+                <Checkbox
+                  defaultChecked={task.is_completed}
+                  onChange={(event) => handleCheckboxChange(task.subtask_id, email, task.is_completed)} 
+                />
+              } />
+          <h3>{task.task_title} — {task.subtask_title} — due {task.deadline}</h3>
+          </div>
           <p>Hours: {task.hours}</p>
-          <p>Completed: {task.is_completed ? 'Yes' : 'No'}</p>
+          <p>{task.description}</p>
+          
+          
         </div>
       ))}
     </div>)
