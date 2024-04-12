@@ -6,8 +6,8 @@ import {Button, TextField} from "@mui/material"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-const SERVER_URL = "http://127.0.0.1:5000";
-function TaskDetails({isManager}) {
+
+function TaskDetails({isManager, SERVER_URL}) {
   const navigate = useNavigate ();
   const { task_id } = useParams(); // Extracting taskId from URL params
   const [task, setTask] = useState(null);
@@ -16,12 +16,13 @@ function TaskDetails({isManager}) {
   let [title, setTitle] = useState('')
   let [description, setDescription] = useState('')
   let [deadline, setDeadline] = useState(null);
-
+  let [totalProgress, setTotalProgress] = useState(0);
+  let [employeeProgressList, setEmployeeProgressList] = useState([])
 
   useEffect(() => {
     const fetchTaskDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/tasks/${task_id}`);
+        const response = await fetch(`${SERVER_URL}/tasks/${task_id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch task details');
         }
@@ -36,6 +37,23 @@ function TaskDetails({isManager}) {
 
     fetchTaskDetails();
   }, [task_id, edit]);
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const response = await fetch(`${SERVER_URL}/progress/${task_id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch task details');
+        }
+        const data = await response.json();
+        setTotalProgress(data['totalCompletedHours']/(data['totalCompletedHours']+data['totalRemainingHours'])*100)
+        setEmployeeProgressList(data["byEmployee"])
+      }
+      catch (error){
+        console.error("fetch progress error: ", error);
+      }
+    }; fetchProgress();
+  }, [task_id, edit])
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -80,8 +98,8 @@ function TaskDetails({isManager}) {
           navigate("/tasks")
       }); 
   }
-
   return (
+    <div>
     <div className='whiteText'>
       <Navigation isManager={isManager}/>
       {!edit ? (<div>
@@ -160,6 +178,33 @@ function TaskDetails({isManager}) {
                     </Button>
                   </div>
               </div>)}
+  </div>
+  <div className = "progress-section">
+      <p>Overall progress: {Math.ceil(totalProgress)}% Complete</p>
+      <p>Progress By Employee</p>
+      <hr></hr>
+      {Object.entries(employeeProgressList).map(([email, employee]) => (  
+        <div>
+          <h2>{employee.firstName} {employee.lastName}</h2>
+          <p>Completed Hours: {employee.completedHours}</p>
+          <h3>Completed Sub-Tasks:</h3>
+          <ul>
+            {employee.completedSubTasks.map(subTask => (
+              <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
+            ))}
+          </ul>
+          <p>Remaining Hours: {employee.remainingHours}</p>
+          <h3>Remaining Sub-Tasks:</h3>
+          <ul>
+            {employee.remainingSubTasks.map(subTask => (
+              <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
+            ))}
+          </ul>
+          </div>
+        ))}
+      
+      
+  </div>
   </div>
   );
 }

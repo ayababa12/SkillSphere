@@ -152,3 +152,6 @@ hr {
 .addAnnouncementButton:hover {
   opacity: 1;
 }
+.progress-section{
+  margin-left: 200px;
+}
