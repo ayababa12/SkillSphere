@@ -185,10 +185,18 @@ function TaskDetails({isManager, SERVER_URL}) {
       <div className = "progress-section">
         <Typography variant="h5">Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
         <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
-          <LinearProgress determinate value={Math.ceil(totalProgress)} />
+          <LinearProgress  
+            sthickness={100}
+            sx={{
+              backgroundColor: '#a9b8aa',
+              color: "#1f4d20",
+              height: "10px"
+            }}
+            determinate
+            value={Math.ceil(totalProgress)} />
         </Stack>
       </div>
-      <br></br>
+     
       <hr></hr>
       <br></br>
       <Typography variant="h5">Progress By Employee</Typography>
