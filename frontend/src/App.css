@@ -152,8 +152,13 @@ hr {
 .addAnnouncementButton:hover {
   opacity: 1;
 }
-.progress-section{
+.progress-section-wrapper{
   margin-left: 220px;
+}
+.progress-section{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
 }
 .employee-progress{
   background-color: #1f4d20;
@@ -162,7 +167,12 @@ hr {
   margin: 10px;
   padding: 5px;
 }
+.completed-remaining-tasks{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .completed-remaining-tasks ul{
   margin-left: 30px;
-  margin-top: 4px;
+  margin-top: 18px;
 }

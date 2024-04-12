@@ -6,6 +6,8 @@ import {Button, TextField, Typography} from "@mui/material"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Stack from '@mui/joy/Stack';
+import LinearProgress from '@mui/joy/LinearProgress';
 
 function TaskDetails({isManager, SERVER_URL}) {
   const navigate = useNavigate ();
@@ -179,8 +181,13 @@ function TaskDetails({isManager, SERVER_URL}) {
                   </div>
               </div>)}
   </div>
-  <div className = "progress-section">
-      <Typography variant="h5">Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
+  <div className = "progress-section-wrapper">
+      <div className = "progress-section">
+        <Typography variant="h5">Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
+        <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
+          <LinearProgress determinate value={Math.ceil(totalProgress)} />
+        </Stack>
+      </div>
       <br></br>
       <hr></hr>
       <br></br>
