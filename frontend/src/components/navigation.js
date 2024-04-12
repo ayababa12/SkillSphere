@@ -22,9 +22,15 @@ const Navigation = ({isManager}) => {
         </li>
         {!isManager && (
           <li>
-            <Link to="/survey">Survey</Link>
+            <Link to="/survey-submit">Survey</Link>
           </li>
         )}
+        {isManager?
+            (<li>
+                <Link to="/predict-turnover">Analytics</Link>
+              </li>):
+            (<div></div>)
+        }
       </ul>
     </nav>
     </div>
