@@ -180,6 +180,12 @@ hr {
   margin-left: 200px;
 }
 .task-header{
+  padding-top: 10px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+.task-details{
+  margin-left: 50px;
+  padding: 10px;
 }

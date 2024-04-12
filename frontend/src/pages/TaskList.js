@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, FormControlLabel, Checkbox } from '@mui/material';
+import {Button, FormControlLabel, Checkbox, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
@@ -160,13 +160,20 @@ function TaskList({ isManager,SERVER_URL, email }) {
                 <Checkbox
                   defaultChecked={task.is_completed}
                   onChange={(event) => handleCheckboxChange(task.subtask_id, email, task.is_completed)} 
+                  sx={{
+                    color: "white",
+                    '&.Mui-checked': {
+                      color: "white",
+                    },
+                  }}
                 />
               } />
-          <h3>{task.task_title} — {task.subtask_title} — due {task.deadline}</h3>
+          <Typography variant="h5" style={{fontWeight:"bold"}}>{task.task_title} — {task.subtask_title} — due {task.deadline}</Typography>
           </div>
-          <p>Hours: {task.hours}</p>
-          <p>{task.description}</p>
-          
+          <div className="task-details">
+          <Typography>Hours: {task.hours}</Typography>
+          <Typography>{task.description}</Typography>
+          </div>
           
         </div>
       ))}
