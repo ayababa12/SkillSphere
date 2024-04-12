@@ -16,7 +16,8 @@ function TaskDetails({isManager, SERVER_URL}) {
   let [title, setTitle] = useState('')
   let [description, setDescription] = useState('')
   let [deadline, setDeadline] = useState(null);
-
+  let [totalProgress, setTotalProgress] = useState(0);
+  let [employeeProgressList, setEmployeeProgressList] = useState([])
 
   useEffect(() => {
     const fetchTaskDetails = async () => {
@@ -41,12 +42,17 @@ function TaskDetails({isManager, SERVER_URL}) {
     const fetchProgress = async () => {
       try {
         const response = await fetch(`${SERVER_URL}/progress/${task_id}`);
-        
+        if (!response.ok) {
+          throw new Error('Failed to fetch task details');
+        }
+        const data = await response.json();
+        setTotalProgress(data['totalCompletedHours']/(data['totalCompletedHours']+data['totalRemainingHours'])*100)
+        setEmployeeProgressList(data["byEmployee"])
       }
       catch (error){
-        console.log("fetch progress error: ", error);
+        console.error("fetch progress error: ", error);
       }
-    };
+    }; fetchProgress();
   }, [task_id, edit])
 
   if (error) {
@@ -92,8 +98,8 @@ function TaskDetails({isManager, SERVER_URL}) {
           navigate("/tasks")
       }); 
   }
-
   return (
+    <div>
     <div className='whiteText'>
       <Navigation isManager={isManager}/>
       {!edit ? (<div>
@@ -172,6 +178,33 @@ function TaskDetails({isManager, SERVER_URL}) {
                     </Button>
                   </div>
               </div>)}
+  </div>
+  <div className = "progress-section">
+      <p>Overall progress: {Math.ceil(totalProgress)}% Complete</p>
+      <p>Progress By Employee</p>
+      <hr></hr>
+      {Object.entries(employeeProgressList).map(([email, employee]) => (  
+        <div>
+          <h2>{employee.firstName} {employee.lastName}</h2>
+          <p>Completed Hours: {employee.completedHours}</p>
+          <h3>Completed Sub-Tasks:</h3>
+          <ul>
+            {employee.completedSubTasks.map(subTask => (
+              <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
+            ))}
+          </ul>
+          <p>Remaining Hours: {employee.remainingHours}</p>
+          <h3>Remaining Sub-Tasks:</h3>
+          <ul>
+            {employee.remainingSubTasks.map(subTask => (
+              <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
+            ))}
+          </ul>
+          </div>
+        ))}
+      
+      
+  </div>
   </div>
   );
 }

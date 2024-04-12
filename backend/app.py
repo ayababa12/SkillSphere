@@ -450,7 +450,7 @@ def getTaskProgress(id):
         remaining_hours_result = db.session.execute(text(f"select sum(s.hours) from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where t.id = {id} and w.employee_email = '{email}' and w.is_completed = 0")).fetchone()
         completed_subtasks_result = db.session.execute(text(f"select s.title, s.hours from (subtask as s join task as t on s.task_id = t.id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}' and t.id = {id} and w.is_completed = 1")).fetchall()
         remaining_subtasks_result = db.session.execute(text(f"select s.title, s.hours from (subtask as s join task as t on s.task_id = t.id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}' and t.id = {id} and w.is_completed = 0")).fetchall()
-        print(completed_hours_result)
+    
         # Process the results into a serializable format
         if completed_hours_result[0] is None:
             employee_completed_hours = 0
@@ -474,5 +474,4 @@ def getTaskProgress(id):
         }
         
     ans["byEmployee"] = employeesAssigned
-    print(ans)
     return jsonify(ans), 200
