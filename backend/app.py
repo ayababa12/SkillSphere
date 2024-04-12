@@ -437,14 +437,42 @@ def getUpcomingDeadlines():
 def getTaskProgress(id):
     completedSubTaskHours = db.session.execute(text(f"select sum(s.hours) from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where t.id = {id} and w.is_completed = 1")).fetchone()[0]
     remainingSubTaskHours = db.session.execute(text(f"select sum(s.hours) from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where t.id = {id} and w.is_completed = 0")).fetchone()[0]
-    employee_list = db.session.execute(text(f"select e.email from (employee as e join work_on as w on e.email = w.employee_email) join subtask as t on w.subtask_id = t.id where t.task_id = {id}")).fetchall()
-    print(employee_list)
-    for t in employee_list:
-        email = t[0]
-
-
+    employee_list = db.session.execute(text(f"select e.email, e.first_name, e.last_name from (employee as e join work_on as w on e.email = w.employee_email) join subtask as t on w.subtask_id = t.id where t.task_id = {id}")).fetchall()
     if completedSubTaskHours is None:
         completedSubTaskHours=0
     if remainingSubTaskHours is None:
         remainingSubTaskHours=0
-    return jsonify({"totalCompletedHours": completedSubTaskHours, "totalRemainingHours": remainingSubTaskHours}), 200
+    ans = {"totalCompletedHours": completedSubTaskHours, "totalRemainingHours": remainingSubTaskHours}
+    employeesAssigned = {}
+    for t in employee_list:
+        email = t[0]
+        completed_hours_result = db.session.execute(text(f"select sum(s.hours) from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where t.id = {id} and w.employee_email = '{email}' and w.is_completed = 1")).fetchone()
+        remaining_hours_result = db.session.execute(text(f"select sum(s.hours) from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where t.id = {id} and w.employee_email = '{email}' and w.is_completed = 0")).fetchone()
+        completed_subtasks_result = db.session.execute(text(f"select s.title, s.hours from (subtask as s join task as t on s.task_id = t.id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}' and t.id = {id} and w.is_completed = 1")).fetchall()
+        remaining_subtasks_result = db.session.execute(text(f"select s.title, s.hours from (subtask as s join task as t on s.task_id = t.id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}' and t.id = {id} and w.is_completed = 0")).fetchall()
+        print(completed_hours_result)
+        # Process the results into a serializable format
+        if completed_hours_result[0] is None:
+            employee_completed_hours = 0
+        else:
+            employee_completed_hours = completed_hours_result[0]
+        if remaining_hours_result[0] is None:
+            employee_remaining_hours = 0
+        else:
+            employee_remaining_hours = remaining_hours_result[0]
+        completed_subtask_list = [{"title": row[0], "hours": row[1]} for row in completed_subtasks_result]
+        remaining_subtask_list = [{"title": row[0], "hours": row[1]} for row in remaining_subtasks_result]
+
+        # Build the employee information
+        employeesAssigned[email] = {
+            "firstName": t[1],
+            "lastName": t[2],
+            "completedHours": employee_completed_hours,
+            "remainingHours": employee_remaining_hours,
+            "completedSubTasks": completed_subtask_list,
+            "remainingSubTasks": remaining_subtask_list
+        }
+        
+    ans["byEmployee"] = employeesAssigned
+    print(ans)
+    return jsonify(ans), 200
