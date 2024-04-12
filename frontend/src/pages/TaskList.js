@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
+import {Button, FormControlLabel, Checkbox, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
@@ -11,15 +11,16 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 
-function TaskList({ isManager }) {
+function TaskList({ isManager,SERVER_URL, email }) {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
+  let [employeeTaskList, setEmployeeTaskList] = useState([]);
+  let [taskChange, setTaskChange] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const SERVER_URL = "http://127.0.0.1:5000";
 
     fetch(`${SERVER_URL}/tasks`)
     .then(response => {
@@ -33,7 +34,7 @@ function TaskList({ isManager }) {
   }, []);
 
   const handleDelete = () => {
-    const SERVER_URL = "http://127.0.0.1:5000";
+    
     fetch(`${SERVER_URL}/tasks/${selectedTaskId}/delete`, {
       method: 'DELETE',
       // headers: { ... } Add any required headers here
@@ -62,11 +63,30 @@ function TaskList({ isManager }) {
   const handleClose = () => {
     setOpenDialog(false);
   };
+  
 
-  return (
-    <div>
+  const handleCheckboxChange = (subtask_id, email, is_completed) => {
+    fetch(`${SERVER_URL}/markSubTaskAsComplete`, {method:"PUT" ,headers: { 
+      "Content-Type": "application/json", 
+      }, 
+     body: JSON.stringify({complete: !is_completed, email: email, subtask_id: subtask_id})
+    })
+    .then((response) => response.json())
+    .then(getEmployeeTasks)
+    
+  }
+  const getEmployeeTasks = () => {
+    fetch(`${SERVER_URL}/getEmployeeSubTasks/${email}`, {method: "GET"})
+    .then((response) => response.json())
+    .then((data) => setEmployeeTaskList(data))
+  }
+  useEffect(getEmployeeTasks,[]);
+
+  return (<div>
+    <Navigation isManager={isManager}/>
+    { isManager ? (<div>
       <h1>Task List</h1>
-      <Navigation isManager={isManager}/>
+      
       {error && <p style={{color:'red'}}>An error occurred: {error}</p>}
       <div style={{marginLeft:"200px"}}>
       <ul className = "nav">
@@ -131,8 +151,35 @@ function TaskList({ isManager }) {
       </Dialog>
       </div>
       
-    </div>
-  );
+    </div>):
+    (<div className="employee-specific-task-section-wrapper">
+      {employeeTaskList.map(task => (
+        <div key={task.subtask_title} className="employee-progress">
+          <div className="task-header">
+          <FormControlLabel control={
+                <Checkbox
+                  defaultChecked={task.is_completed}
+                  onChange={(event) => handleCheckboxChange(task.subtask_id, email, task.is_completed)} 
+                  sx={{
+                    color: "white",
+                    '&.Mui-checked': {
+                      color: "white",
+                    },
+                  }}
+                />
+              } />
+          <Typography variant="h5" style={{fontWeight:"bold"}}>{task.task_title} — {task.subtask_title} — due {task.deadline}</Typography>
+          </div>
+          <div className="task-details">
+          <Typography>Hours: {task.hours}</Typography>
+          <Typography>{task.description}</Typography>
+          </div>
+          
+        </div>
+      ))}
+    </div>)
+}
+</div>);
 }
 
 export default TaskList;

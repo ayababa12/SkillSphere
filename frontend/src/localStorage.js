@@ -21,3 +21,9 @@ export function saveUserToken(userToken) {
   export function getUserName() {
     return localStorage.getItem("userName");
   }
+  export function getEmail(){
+    return localStorage.getItem("userEmail");
+  }
+  export function saveEmail(email){
+    return localStorage.setItem("userEmail", email);
+  }

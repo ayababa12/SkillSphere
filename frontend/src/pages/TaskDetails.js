@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../App.css'
 import Navigation from "../components/navigation"
-import {Button, TextField} from "@mui/material"
+import {Button, TextField, Typography} from "@mui/material"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Stack from '@mui/joy/Stack';
+import LinearProgress from '@mui/joy/LinearProgress';
 
 function TaskDetails({isManager, SERVER_URL}) {
   const navigate = useNavigate ();
@@ -179,27 +181,62 @@ function TaskDetails({isManager, SERVER_URL}) {
                   </div>
               </div>)}
   </div>
-  <div className = "progress-section">
-      <p>Overall progress: {Math.ceil(totalProgress)}% Complete</p>
-      <p>Progress By Employee</p>
+  <div className = "progress-section-wrapper">
+      <div className = "progress-section">
+        <Typography variant="h5" style={{fontWeight:"bold"}}>Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
+        <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
+          <LinearProgress  
+            sthickness={100}
+            sx={{
+              backgroundColor: '#a9b8aa',
+              color: "#1f4d20",
+              height: "10px"
+            }}
+            determinate
+            value={Math.ceil(totalProgress)} />
+        </Stack>
+      </div>
+     
       <hr></hr>
+      <br></br>
+      <Typography variant="h5" style={{fontWeight:"bold"}}>Progress By Employee</Typography>
+      
       {Object.entries(employeeProgressList).map(([email, employee]) => (  
-        <div>
-          <h2>{employee.firstName} {employee.lastName}</h2>
-          <p>Completed Hours: {employee.completedHours}</p>
-          <h3>Completed Sub-Tasks:</h3>
+        <div className="employee-progress">
+          <Typography variant="h5" style={{fontWeight:"bold"}}>{employee.firstName} {employee.lastName} ({email})</Typography>
+          <div className = "progress-section">
+            <Typography variant='h6'>Progress: {Math.ceil(employee.completedHours/(employee.completedHours + employee.remainingHours)*100)}% Complete</Typography>
+            <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
+            <LinearProgress  
+              sthickness={100}
+              sx={{
+                backgroundColor: '#8c968d',
+                color: "white",
+                height: "10px",
+                width: "400px"
+              }}
+              determinate
+              value={Math.ceil(employee.completedHours/(employee.completedHours + employee.remainingHours)*100)} />
+          </Stack>
+        </div>
+          <div className="completed-remaining-tasks">
+          { Object.keys(employee.completedSubTasks).length > 0 && <div>
+          <Typography variant="h6">Completed Sub-Tasks:</Typography>
           <ul>
             {employee.completedSubTasks.map(subTask => (
               <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
             ))}
-          </ul>
-          <p>Remaining Hours: {employee.remainingHours}</p>
-          <h3>Remaining Sub-Tasks:</h3>
+          </ul> </div>}
+          </div>
+          <div className="completed-remaining-tasks">
+          { Object.keys(employee.remainingSubTasks).length > 0 && <div>
+          <Typography variant="h6">Remaining Sub-Tasks:</Typography>
           <ul>
             {employee.remainingSubTasks.map(subTask => (
               <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
             ))}
-          </ul>
+          </ul></div>}
+          </div>
           </div>
         ))}
       

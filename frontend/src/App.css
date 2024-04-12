@@ -152,6 +152,40 @@ hr {
 .addAnnouncementButton:hover {
   opacity: 1;
 }
+.progress-section-wrapper{
+  margin-left: 220px;
+}
 .progress-section{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+.employee-progress{
+  background-color: #1f4d20;
+  color: white;
+  border-radius: 14px;
+  margin: 10px;
+  padding: 5px;
+}
+.completed-remaining-tasks{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.completed-remaining-tasks ul{
+  
+  margin-top: 15px;
+}
+.employee-specific-task-section-wrapper{
   margin-left: 200px;
+}
+.task-header{
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.task-details{
+  margin-left: 50px;
+  padding: 10px;
 }
