@@ -475,3 +475,21 @@ def getTaskProgress(id):
         
     ans["byEmployee"] = employeesAssigned
     return jsonify(ans), 200
+
+@app.route('/getEmployeeSubTasks/<email>', methods=["GET"])
+def getEmployeeSubTasks(email):
+    subtaskList = db.session.execute(text(f"select t.title as task_title, s.title as subtask_title, s.description, s.hours, s.deadline, w.is_completed from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}'")).fetchall()
+    
+    subtask_dicts = []
+    for row in subtaskList:
+        subtask_dict = {
+            "task_title": row[0],
+            "subtask_title": row[1],
+            "description": row[2],
+            "hours": row[3],
+            "deadline": row[4],
+            "is_completed": row[5]
+        }
+        subtask_dicts.append(subtask_dict)
+
+    return jsonify(subtask_dicts), 200
