@@ -8,6 +8,8 @@ import {
   FormControl,
   FormLabel,
   Select,
+  Grid,
+  Typography,
   MenuItem,
   InputLabel
 } from '@mui/material';
@@ -54,86 +56,132 @@ function Survey() {
       console.error('Error submitting survey:', error);
     });
   };
+  const satisfactionBubbles = Array.from({ length: 10 }, (_, i) => i + 1).map((number) => (
+    <FormControlLabel
+      key={number}
+      value={String(number)}
+      control={<Radio />}
+      label={String(number)}
+    />
+  ));
   
-
   return (
-    <form onSubmit={handleSubmit}>
-      <FormControl fullWidth margin="normal">
-        <TextField
-          label="Satisfaction Level (1-10)"
+    <form onSubmit={handleSubmit} style={{ maxWidth: '700px', margin: 'auto' }}>
+      <Typography variant="h6" style={{ textAlign: 'center', marginBottom: '20px' }}>Employee Survey</Typography>
+      
+      <FormControl component="fieldset" margin="normal">
+        <FormLabel component="legend">Satisfaction Level (1-10)</FormLabel>
+        <RadioGroup
+          row
+          name="satisfactionLevel"
           value={satisfactionLevel}
           onChange={(e) => setSatisfactionLevel(e.target.value)}
-          type="number"
-          inputProps={{ min: 1, max: 10 }}
-        />
+          required
+          style={{ justifyContent: 'center' }}
+        >
+          {Array.from({ length: 10 }, (_, i) => (
+            <FormControlLabel
+              key={i + 1}
+              value={String(i + 1)}
+              control={<Radio />}
+              label={String(i + 1)}
+            />
+          ))}
+        </RadioGroup>
       </FormControl>
-
-      <FormControl fullWidth margin="normal">
-        <TextField
-          label="Number of Projects Worked On"
-          value={numProjects}
-          onChange={(e) => setNumProjects(e.target.value)}
-          type="number"
-        />
-      </FormControl>
-
-      <FormControl fullWidth margin="normal">
-        <TextField
-          label="Average Monthly Hours"
-          value={avgMonthlyHours}
-          onChange={(e) => setAvgMonthlyHours(e.target.value)}
-          type="number"
-        />
-      </FormControl>
-
-      <FormControl fullWidth margin="normal">
-        <TextField
-          label="Number of Years at Company"
-          value={yearsAtCompany}
-          onChange={(e) => setYearsAtCompany(e.target.value)}
-          type="number"
-        />
-      </FormControl>
-
+  
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <TextField
+            label="Number of Projects Worked On"
+            value={numProjects}
+            onChange={(e) => setNumProjects(e.target.value)}
+            required
+            type="number"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            label="Average Monthly Hours"
+            value={avgMonthlyHours}
+            onChange={(e) => setAvgMonthlyHours(e.target.value)}
+            required
+            type="number"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            label="Number of Years at Company"
+            value={yearsAtCompany}
+            onChange={(e) => setYearsAtCompany(e.target.value)}
+            required
+            type="number"
+            fullWidth
+          />
+        </Grid>
+      </Grid>
+  
       <FormControl component="fieldset" margin="normal">
         <FormLabel component="legend">Work Accident</FormLabel>
-        <RadioGroup row name="workAccident" value={workAccident} onChange={(e) => setWorkAccident(e.target.value)}>
+        <RadioGroup
+          row
+          name="workAccident"
+          value={workAccident}
+          onChange={(e) => setWorkAccident(e.target.value)}
+          required
+        >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
       </FormControl>
-
+  
       <FormControl component="fieldset" margin="normal">
         <FormLabel component="legend">Promotion in Last 5 Years</FormLabel>
-        <RadioGroup row name="promotion" value={promotion} onChange={(e) => setPromotion(e.target.value)}>
+        <RadioGroup
+          row
+          name="promotion"
+          value={promotion}
+          onChange={(e) => setPromotion(e.target.value)}
+          required
+        >
           <FormControlLabel value="yes" control={<Radio />} label="Yes" />
           <FormControlLabel value="no" control={<Radio />} label="No" />
         </RadioGroup>
       </FormControl>
-
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Department</InputLabel>
-        <Select value={department} onChange={(e) => setDepartment(e.target.value)}>
-          <MenuItem value="HR">HR</MenuItem>
-          <MenuItem value="Accounting">Accounting</MenuItem>
-          {/* Add other departments as needed */}
-        </Select>
-      </FormControl>
-
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Salary Classification</InputLabel>
-        <Select value={salary} onChange={(e) => setSalary(e.target.value)}>
-          <MenuItem value="low">Low</MenuItem>
-          <MenuItem value="medium">Medium</MenuItem>
-          <MenuItem value="high">High</MenuItem>
-        </Select>
-      </FormControl>
-
-      <Button variant="contained" color="primary" type="submit">
+  
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Department</InputLabel>
+            <Select value={department} onChange={(e) => setDepartment(e.target.value)}
+            required>
+              <MenuItem value="HR">HR</MenuItem>
+              <MenuItem value="Accounting">Accounting</MenuItem>
+              {/* Add other departments as needed */}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Salary Classification</InputLabel>
+            <Select value={salary} onChange={(e) => setSalary(e.target.value)}
+            required>
+              <MenuItem value="low">Low</MenuItem>
+              <MenuItem value="medium">Medium</MenuItem>
+              <MenuItem value="high">High</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+      </Grid>
+  
+      <Button variant="contained" color="primary" type="submit" style={{ marginTop: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
         Submit Survey
       </Button>
     </form>
   );
+  
 }
 
 export default Survey;
