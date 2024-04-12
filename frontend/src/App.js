@@ -52,7 +52,7 @@ function App() {
           element={isManager ? <TaskForm /> : <Navigate to="/" replace />}
         />
         <Route
-          path="/tasks/:task_id" element={<TaskDetails isManager={isManager} />}
+          path="/tasks/:task_id" element={<TaskDetails isManager={isManager} SERVER_URL={SERVER_URL}/>}
         />
         <Route
           path="/tasks/:task_id/subtasks/create" element={<SubtaskForm />}

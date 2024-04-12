@@ -6,8 +6,8 @@ import {Button, TextField} from "@mui/material"
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-const SERVER_URL = "http://127.0.0.1:5000";
-function TaskDetails({isManager}) {
+
+function TaskDetails({isManager, SERVER_URL}) {
   const navigate = useNavigate ();
   const { task_id } = useParams(); // Extracting taskId from URL params
   const [task, setTask] = useState(null);
@@ -21,7 +21,7 @@ function TaskDetails({isManager}) {
   useEffect(() => {
     const fetchTaskDetails = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/tasks/${task_id}`);
+        const response = await fetch(`${SERVER_URL}/tasks/${task_id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch task details');
         }
@@ -36,6 +36,14 @@ function TaskDetails({isManager}) {
 
     fetchTaskDetails();
   }, [task_id, edit]);
+
+  // useEffect(() => {
+  //   const fetchProgress = async () => {
+  //     try {
+  //       const response = await fetch()
+  //     }
+  //   };
+  // }, [task_id, edit])
 
   if (error) {
     return <div>Error: {error}</div>;
