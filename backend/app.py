@@ -492,3 +492,65 @@ def getTaskProgress(id):
         
     ans["byEmployee"] = employeesAssigned
     return jsonify(ans), 200
+
+
+from backend.model.survey import SurveyResult
+
+@app.route('/submit-survey', methods=['POST'])
+def submit_survey():
+    try:
+        data = request.json
+        new_survey = SurveyResult(
+            employee_id=data['employee_id'],
+            satisfaction_level=data['satisfaction_level'],
+            num_projects=data['num_projects'],
+            avg_monthly_hours=data['avg_monthly_hours'],
+            years_at_company=data['years_at_company'],
+            work_accident=data['work_accident'],
+            promotion_last_5years=data['promotion_last_5years'],
+            department=data['department'],
+            salary=data['salary']
+        )
+        db.session.add(new_survey)
+        db.session.commit()
+        return jsonify({"message": "Survey submitted successfully", "id": new_survey.id}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+    
+
+
+from joblib import load
+import pandas as pd
+
+model = load('model/employee_turnover_model.joblib')
+
+@app.route('/predict-turnover', methods=['GET'])
+def predict_turnover():
+    try:
+        
+        surveys = SurveyResult.query.all()
+        
+        features = [{
+            'satisfaction_level': survey.satisfaction_level,
+            'number_project': survey.num_projects,
+            'average_montly_hours': survey.avg_monthly_hours,
+            'time_spend_company': survey.years_at_company,
+            'Work_accident': survey.work_accident,
+            'promotion_last_5years': survey.promotion_last_5years,
+            'sales': survey.department,  # Assuming 'sales' was the column name for departments in your training data
+            'salary': survey.salary
+        } for survey in surveys]
+
+        df_features = pd.DataFrame(features)
+        
+        # Predict using the loaded model
+        # Make sure to pass the correct data structure into model.predict()
+        predictions = model.predict(df_features)
+        
+        # Convert predictions to a more readable format or process further
+        turnover_predictions = [bool(pred) for pred in predictions]
+
+        return jsonify({"predictions": turnover_predictions}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
