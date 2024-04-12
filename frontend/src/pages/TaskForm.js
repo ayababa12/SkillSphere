@@ -76,6 +76,7 @@ function TaskForm() {
         label="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        required
         margin="normal"
         multiline
         rows={4}
@@ -85,6 +86,7 @@ function TaskForm() {
           label="Deadline"
           value={deadline}
           onChange={setDeadline}
+          required
           renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
         />
       </LocalizationProvider>
