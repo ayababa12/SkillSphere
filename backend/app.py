@@ -495,7 +495,7 @@ def getTaskProgress(id):
 
 @app.route('/getEmployeeSubTasks/<email>', methods=["GET"])
 def getEmployeeSubTasks(email):
-    subtaskList = db.session.execute(text(f"select t.title as task_title, s.title as subtask_title, s.description, s.hours, s.deadline, w.is_completed, s.id from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}'")).fetchall()
+    subtaskList = db.session.execute(text(f"select t.title as task_title, s.title as subtask_title, s.description, s.hours, s.deadline, w.is_completed, s.id from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}'  order by s.deadline")).fetchall()
     
     subtask_dicts = []
     for row in subtaskList:
