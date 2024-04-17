@@ -43,6 +43,7 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
           setUserToken(body.token); 
           saveUserToken(body.token);
           setUserName(body.fName);
+          console.log(body.fName);
           saveUserName(body.fName);
           setEmailParam(email);
           saveEmail(email);

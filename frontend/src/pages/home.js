@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { getUserToken, saveUserToken, clearUserToken } from "../localStorage";
+import { getUserToken, saveUserToken, clearUserToken, clearUserName } from "../localStorage";
 import {Button, Typography }from '@mui/material';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
@@ -19,6 +19,8 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
     <div>
       <div className="welcomeBanner">
           <Typography className="welcomeText" variant='h4'>Welcome Back, {userName}!</Typography>
+          {deadlineList.length > 0 ? 
+          (<div>
           <Typography className="upcomingDeadlines">Upcoming Deadlines:</Typography>
           <div className = "deadlinesList">
               <ul>
@@ -27,13 +29,16 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
               ))}
             </ul>
         </div>
+        </div>):
+        (<div></div>)
+            }
       </div>
       
       <hr></hr>
       <div >
                   <Button  className='mui-button'
                     variant="contained" 
-                    onClick={() => {clearUserToken(); navigate("/authentication");}} //go back to login page
+                    onClick={() => {clearUserToken(); clearUserName(); navigate("/authentication");}} //go back to login page
                   > 
                     Logout 
                   </Button>
