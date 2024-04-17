@@ -37,7 +37,6 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
       .then((body) => { 
         if (body.message) { //If an error message is returned from the server
           setErrorMsg(body.message);
-          
         }
         else{
           setErrorMsg("");
@@ -55,10 +54,10 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
             setIsManager(false);
             saveIsManager(false);
           }
-          
+          navigate("/");
         }
 
-      }).then(() => navigate("/")); 
+      }); 
   }
   
   function createManager(email, password, first_name, last_name) { 
