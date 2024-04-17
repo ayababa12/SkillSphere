@@ -3,7 +3,7 @@ from sqlalchemy import Enum
 
 class SurveyResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    employee_id = db.Column(db.Integer, db.ForeignKey('employee.email'), nullable=False)
+    employee_id = db.Column(db.Integer, db.ForeignKey('employee.email', ondelete='CASCADE'), nullable=False)
     satisfaction_level = db.Column(db.Float, nullable=False)
     num_projects = db.Column(db.Integer, nullable=False)
     avg_monthly_hours = db.Column(db.Integer, nullable=False)
