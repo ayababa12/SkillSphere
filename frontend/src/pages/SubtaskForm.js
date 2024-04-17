@@ -20,6 +20,7 @@ function SubtaskForm() {
   const [employee, setEmployee] = useState('');
   const [employees, setEmployees] = useState([]); // State to store the list of employees
   const [deadline, setDeadline] = useState(null);
+  const [hours, setHours] = useState('');
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -52,7 +53,7 @@ function SubtaskForm() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title, description, deadline, employee }),
+      body: JSON.stringify({ title, description, deadline, employee, hours }),
     })
       .then(response => {
         if (!response.ok) {
@@ -66,6 +67,7 @@ function SubtaskForm() {
         setDeadline(null);
         setEmployee('');
         setSuccessMsg('Subtask successfully created');
+        setHours('');
         setOpenSnackbar(true);
         navigate('/tasks');
       })
@@ -90,6 +92,15 @@ function SubtaskForm() {
           label="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
+          margin="normal"
+        />
+        <TextField
+          fullWidth
+          label="Hours"
+          value={hours}
+          type="number"
+          onChange={(e) => setHours(e.target.value)}
           required
           margin="normal"
         />
