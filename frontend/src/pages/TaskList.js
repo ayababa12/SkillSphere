@@ -152,7 +152,8 @@ function TaskList({ isManager,SERVER_URL, email }) {
       </div>
       
     </div>):
-    (<div className="employee-specific-task-section-wrapper">
+    (<div>
+    <div className="employee-specific-task-section-wrapper">
       {employeeTaskList.map(task => (
         <div key={task.subtask_title} className="employee-progress">
           <div className="task-header">
@@ -177,6 +178,7 @@ function TaskList({ isManager,SERVER_URL, email }) {
           
         </div>
       ))}
+    </div>
     </div>)
 }
 </div>);
