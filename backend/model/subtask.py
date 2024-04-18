@@ -4,7 +4,7 @@ from sqlalchemy import Enum
 
 class Subtask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    task_id = db.Column(db.Integer, db.ForeignKey('task.id'), nullable=False)
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id', ondelete='CASCADE'), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False) 
     hours = db.Column(db.Integer, nullable=True)

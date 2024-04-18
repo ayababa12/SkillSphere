@@ -21,6 +21,9 @@ export function saveUserToken(userToken) {
   export function getUserName() {
     return localStorage.getItem("userName");
   }
+  export function clearUserName() { 
+    return localStorage.removeItem("userName"); 
+  } 
   export function getEmail(){
     return localStorage.getItem("userEmail");
   }

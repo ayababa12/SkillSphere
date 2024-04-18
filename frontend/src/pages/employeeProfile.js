@@ -11,6 +11,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import '../styles/employees.css'
+import { Typography } from '@mui/material';
+import Navigation from '../components/navigation';
 
 
 const UserProfilePage = ({userToken}) => {
@@ -22,6 +24,8 @@ const UserProfilePage = ({userToken}) => {
     let [last_name, setLastName] = useState("");
     let [gender, setGender] = useState("");
     let [errorMsg, setErrorMsg] = useState("");
+    let [employeeTaskList, setEmployeeTaskList] = useState([]);
+    let [filter, setFilter] = useState("all");
 
     let [edit, setEdit] = useState(false); // Flag to know if the user wants to edit or not
 
@@ -99,9 +103,19 @@ const UserProfilePage = ({userToken}) => {
           }); 
       }
 
+      const getEmployeeSubTasks = useCallback( () => {
+        fetch(`${SERVER_URL}/getEmployeeSubTasks/${email}`, {method: "GET"})
+        .then((response) => response.json())
+        .then((data) => {setEmployeeTaskList(data);});
+      })
+      useEffect(getEmployeeSubTasks, []);
+
   return (
     <div>
-      <h1>{first_name} {last_name}</h1>
+        <Navigation isManager={true}/>
+    <div className="welcomeBanner">
+      <Typography className="welcomeText" variant='h4'>{first_name} {last_name}</Typography>
+    </div>
       {/* Render user profile information */}
     { edit? (
                 <div>
@@ -199,7 +213,37 @@ const UserProfilePage = ({userToken}) => {
                     onClick={() => setEdit(true)} 
                     > 
                     Edit 
-                </Button> 
+                </Button>
+                <FormControl style={{marginLeft:"220px", marginTop:"10px"}}>
+                    <Select 
+                        labelId="select-label"
+                        id="select"
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        >
+                    <MenuItem value="all">All</MenuItem>
+                    <MenuItem value="incomplete">Incomplete</MenuItem>
+                    <MenuItem value="complete">Complete</MenuItem>
+                    </Select>
+                </FormControl>
+                {employeeTaskList.length > 0 ? 
+                (<div className="employee-specific-task-section-wrapper">
+                    {employeeTaskList.map(task => ( <div>{ (filter==="all" || (filter==="incomplete" && !task.is_completed) || (filter==="complete" && task.is_completed)) ? (
+                        <div key={task.subtask_title} className="employee-progress">
+                            <div className="task-header">
+                            <Typography variant="h5" style={{fontWeight:"bold"}}>{task.task_title} — {task.subtask_title} — due {task.deadline}</Typography>
+                            </div>
+                            <div className="task-details">
+                            <Typography>Status: {task.is_completed ? "Completed" : "Incomplete"}</Typography>
+                            <Typography>Hours: {task.hours}</Typography>
+                            <Typography>{task.description}</Typography>
+                            </div>
+          
+                        </div>) : (<div></div>) } </div>
+                ))} 
+                </div>):
+                (<div></div>)
+                }
             </div>
 
         )

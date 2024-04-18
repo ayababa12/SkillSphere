@@ -4,7 +4,7 @@ from sqlalchemy import Enum
 class SurveyResult(db.Model):
     __tablename__ = 'survey_result'
     id = db.Column(db.Integer, primary_key=True)
-    # employee_email = db.Column(db.Text, db.ForeignKey('employee.email'), nullable=False)
+   
     employee_email = db.Column(db.Text, nullable=False)
     satisfaction_level = db.Column(db.Float, nullable=False)
     num_projects = db.Column(db.Integer, nullable=False)

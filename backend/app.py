@@ -104,14 +104,14 @@ def authenticate():
         if bcrypt.check_password_hash(manager_row.hashed_password, password):
             token = create_token(manager_row.email)
             print("token "+token)
-            return jsonify({"token": token, "manager": True}), 200
+            return jsonify({"token": token, "manager": True, "fName": manager_row.first_name}), 200
         else:
             return jsonify({'message': 'incorrect password'}),403
     elif employee_row: #if the user is employee
         if bcrypt.check_password_hash(employee_row.hashed_password, password):
             token = create_token(employee_row.email)
             print("token "+token)
-            return jsonify({"token": token, "manager": False}), 200
+            return jsonify({"token": token, "manager": False, "fName": employee_row.first_name}), 200
         else: 
             return jsonify({'message': 'incorrect password'}),403
     else: #user is neither
@@ -276,7 +276,7 @@ def create_subtask(task_id):
     hours = data.get('hours')
     deadline = data.get('deadline')
     employee = data.get('employee')
-
+    
     if not title:
         return jsonify({'message': 'Title is required'}), 400
 
@@ -495,7 +495,7 @@ def getTaskProgress(id):
 
 @app.route('/getEmployeeSubTasks/<email>', methods=["GET"])
 def getEmployeeSubTasks(email):
-    subtaskList = db.session.execute(text(f"select t.title as task_title, s.title as subtask_title, s.description, s.hours, s.deadline, w.is_completed, s.id from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}'")).fetchall()
+    subtaskList = db.session.execute(text(f"select t.title as task_title, s.title as subtask_title, s.description, s.hours, s.deadline, w.is_completed, s.id from (task as t join subtask as s on t.id = s.task_id) join work_on as w on w.subtask_id = s.id where w.employee_email = '{email}'  order by s.deadline")).fetchall()
     
     subtask_dicts = []
     for row in subtaskList:

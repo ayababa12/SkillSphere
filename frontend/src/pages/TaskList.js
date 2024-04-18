@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button, FormControlLabel, Checkbox, Typography } from '@mui/material';
+import {Button, FormControlLabel, Checkbox, Typography, FormControl, Select, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
@@ -18,6 +18,7 @@ function TaskList({ isManager,SERVER_URL, email }) {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   let [employeeTaskList, setEmployeeTaskList] = useState([]);
   let [taskChange, setTaskChange] = useState(false);
+  let [filter, setFilter] = useState("all");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -152,8 +153,21 @@ function TaskList({ isManager,SERVER_URL, email }) {
       </div>
       
     </div>):
-    (<div className="employee-specific-task-section-wrapper">
-      {employeeTaskList.map(task => (
+    (<div>
+      <FormControl style={{marginLeft:"220px", marginTop:"10px"}}>
+          <Select 
+              labelId="select-label"
+              id="select"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              >
+          <MenuItem value="all">All</MenuItem>
+          <MenuItem value="incomplete">Incomplete</MenuItem>
+          <MenuItem value="complete">Complete</MenuItem>
+          </Select>
+      </FormControl>
+    <div className="employee-specific-task-section-wrapper">
+      {employeeTaskList.map(task => ( <div> { (filter==="all" || (filter==="incomplete" && !task.is_completed) || (filter==="complete" && task.is_completed)) ? (
         <div key={task.subtask_title} className="employee-progress">
           <div className="task-header">
           <FormControlLabel control={
@@ -175,8 +189,10 @@ function TaskList({ isManager,SERVER_URL, email }) {
           <Typography>{task.description}</Typography>
           </div>
           
+        </div>) : (<div></div>) }
         </div>
       ))}
+    </div>
     </div>)
 }
 </div>);
