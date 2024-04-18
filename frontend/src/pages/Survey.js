@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 
 function Survey() {
+  const [email, setEmail] = useState(''); 
   const [satisfactionLevel, setSatisfactionLevel] = useState('');
   const [numProjects, setNumProjects] = useState('');
   const [avgMonthlyHours, setAvgMonthlyHours] = useState('');
@@ -28,14 +29,15 @@ function Survey() {
     event.preventDefault();
     const SERVER_URL = "http://127.0.0.1:5000"; // Replace with your actual server URL
     const surveyData = {
-      satisfactionLevel,
-      numProjects,
-      avgMonthlyHours,
-      yearsAtCompany,
-      workAccident,
-      promotion,
-      department,
-      salary
+      employee_email: email,
+      satisfaction_level: satisfactionLevel,
+      num_projects: numProjects,
+      avg_monthly_hours: avgMonthlyHours,
+      years_at_company: yearsAtCompany,
+      work_accident: workAccident === "yes", // Convert the value to boolean
+      promotion_last_5years: promotion === "yes", // Convert the value to boolean
+      department: department,
+      salary: salary
     };
   
     fetch(`${SERVER_URL}/submit-survey`, { // Adjust the URL to your survey submission endpoint
@@ -56,19 +58,30 @@ function Survey() {
       console.error('Error submitting survey:', error);
     });
   };
-  const satisfactionBubbles = Array.from({ length: 10 }, (_, i) => i + 1).map((number) => (
-    <FormControlLabel
-      key={number}
-      value={String(number)}
-      control={<Radio />}
-      label={String(number)}
-    />
-  ));
+  // const satisfactionBubbles = Array.from({ length: 10 }, (_, i) => i + 1).map((number) => (
+  //   <FormControlLabel
+  //     key={number}
+  //     value={String(number)}
+  //     control={<Radio />}
+  //     label={String(number)}
+  //   />
+  // ));
   
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '700px', margin: 'auto' }}>
       <Typography variant="h6" style={{ textAlign: 'center', marginBottom: '20px' }}>Employee Survey</Typography>
-      
+
+      <FormControl fullWidth margin="normal">
+        <TextField
+          label="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          type="email"
+        />
+      </FormControl>
+
+
       <FormControl component="fieldset" margin="normal">
         <FormLabel component="legend">Satisfaction Level (1-10)</FormLabel>
         <RadioGroup
