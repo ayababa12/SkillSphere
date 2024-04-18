@@ -27,7 +27,7 @@ const Navigation = ({isManager}) => {
         )}
         {isManager?
             (<li>
-                <Link to="/predict-turnover">Analytics</Link>
+                <Link to="/analytics">Analytics</Link>
               </li>):
             (<div></div>)
         }
