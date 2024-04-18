@@ -2,8 +2,10 @@ from ..app import db, datetime, bcrypt, ma
 from sqlalchemy import Enum
 
 class SurveyResult(db.Model):
+    __tablename__ = 'survey_result'
     id = db.Column(db.Integer, primary_key=True)
-    employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
+    # employee_email = db.Column(db.Text, db.ForeignKey('employee.email'), nullable=False)
+    employee_email = db.Column(db.Text, nullable=False)
     satisfaction_level = db.Column(db.Float, nullable=False)
     num_projects = db.Column(db.Integer, nullable=False)
     avg_monthly_hours = db.Column(db.Integer, nullable=False)
@@ -14,4 +16,5 @@ class SurveyResult(db.Model):
     salary = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f'<SurveyResult {self.employee_id}>'
+        return f'<SurveyResult {self.employee_email}>'
+
