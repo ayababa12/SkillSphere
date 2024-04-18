@@ -14,6 +14,7 @@ import TaskDetails from './pages/TaskDetails';
 import SubtaskForm from './pages/SubtaskForm';
 import SubtaskDetails from './pages/SubtaskDetails';
 import Survey from './pages/Survey';
+import Analytics from './pages/Analytics'; 
 export const SERVER_URL = "http://127.0.0.1:5000";
 
 function App() {
@@ -67,6 +68,10 @@ function App() {
         path="/survey-submit"
         element={<Survey />}
         />
+        )}
+        {isManager && (
+          <Route path="/analytics" 
+          element={<Analytics />} />
         )}
         <Route
             path="/notFound"
