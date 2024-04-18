@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography, Paper, CircularProgress } from '@mui/material';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 const options = {
@@ -23,55 +23,79 @@ function Analytics() {
   const [genderData, setGenderData] = useState({});
   const [ageData, setAgeData] = useState({});
   const [departmentData, setDepartmentData] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // This is a base URL. Replace with your actual server URL where your API is hosted.
     const SERVER_URL = "http://127.0.0.1:5000";
   
-    // Fetch turnover by gender data
-    fetch(`${SERVER_URL}/analytics/gender`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Assuming data is an array of objects with `gender` and `turnover` properties
-        const labels = data.map((item) => item.gender);
-        const turnoverData = data.map((item) => item.turnover);
-  
-        // Now we will set the state with this new data in the format expected by Chart.js
-        setGenderData({
-          labels: labels,
-          datasets: [
-            {
-              label: 'Turnover',
-              data: turnoverData,
-              backgroundColor: [
-                // Add colors for each bar here
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                // ... more colors for additional bars
-              ],
-              borderColor: [
-                // Add border colors for each bar here
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                // ... more colors for additional bars
-              ],
-              borderWidth: 1,
-            },
-          ],
-        });
-      })
-      .catch((error) => {
-        console.error('There was an error fetching the gender turnover data:', error);
-      });
-  
-    // Repeat the above for age and department datasets.
+    Promise.all([
+      fetch(`${SERVER_URL}/analytics/gender`).then(handleResponse),
+      fetch(`${SERVER_URL}/analytics/age`).then(handleResponse),
+      fetch(`${SERVER_URL}/analytics/department`).then(handleResponse),
+    ])
+    .then(([genderResponse, ageResponse, departmentResponse]) => {
+      setupChartData('gender', genderResponse);
+      setupChartData('age', ageResponse);
+      setupChartData('department', departmentResponse);
+      setLoading(false);
+    })
+    .catch(error => {
+      setError('Failed to load data');
+      setLoading(false);
+      console.error('Error loading the analytics data:', error);
+    });
   }, []);
-  
+
+  // A helper function to handle responses and throw an error if not ok
+  function handleResponse(response) {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  }
+
+  function setupChartData(key, data) {
+    // Verify data is an array
+    if (!Array.isArray(data)) {
+      setError('Data is not in expected format');
+      return;
+    }
+
+    const labels = data.map(item => item[key]);
+    const turnoverData = data.map(item => item.turnover);
+
+    const chartData = {
+      labels,
+      datasets: [{
+        label: 'Turnover',
+        data: turnoverData,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1,
+      }],
+    };
+
+    switch (key) {
+      case 'gender':
+        setGenderData(chartData);
+        break;
+      case 'age':
+        setAgeData(chartData);
+        break;
+      case 'department':
+        setDepartmentData(chartData);
+        break;
+      default:
+        // Handle unexpected key
+        setError(`Unknown key: ${key}`);
+        break;
+    }
+  }
+
+  if (loading) return <CircularProgress />;
+  if (error) return <Typography color="error">{error}</Typography>;
+
   return (
     <Box sx={{ flexGrow: 1, padding: 3 }}>
       <Typography variant="h4" gutterBottom>
