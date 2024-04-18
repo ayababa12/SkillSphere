@@ -534,13 +534,13 @@ def submit_survey():
     try:
         data = request.json
         new_survey = SurveyResult(
-            employee_id=data['employee_id'],
+            employee_email=data['employee_email'],  # Changed from employee_id to employee_email
             satisfaction_level=data['satisfaction_level'],
             num_projects=data['num_projects'],
             avg_monthly_hours=data['avg_monthly_hours'],
             years_at_company=data['years_at_company'],
-            work_accident=data['work_accident'],
-            promotion_last_5years=data['promotion_last_5years'],
+            work_accident=bool(int(data['work_accident'])),  # Assuming you're passing '1' or '0'
+            promotion_last_5years=bool(int(data['promotion_last_5years'])),  # Assuming '1' or '0'
             department=data['department'],
             salary=data['salary']
         )
@@ -548,42 +548,99 @@ def submit_survey():
         db.session.commit()
         return jsonify({"message": "Survey submitted successfully", "id": new_survey.id}), 201
     except Exception as e:
-        db.session.rollback()
+        db.session.rollback()  # Ensures that if an error occurs, no changes are made to the database
         return jsonify({'error': str(e)}), 500
-    
+
+
 
 
 from joblib import load
 import pandas as pd
 
+# Load the model
 model = load('model/employee_turnover_model.joblib')
 
 @app.route('/predict-turnover', methods=['GET'])
 def predict_turnover():
     try:
-        
+        # Fetch all survey results
         surveys = SurveyResult.query.all()
         
+        # Prepare features for prediction
         features = [{
             'satisfaction_level': survey.satisfaction_level,
             'number_project': survey.num_projects,
             'average_montly_hours': survey.avg_monthly_hours,
             'time_spend_company': survey.years_at_company,
-            'Work_accident': survey.work_accident,
-            'promotion_last_5years': survey.promotion_last_5years,
-            'sales': survey.department,  # Assuming 'sales' was the column name for departments in your training data
+            'Work_accident': int(survey.work_accident),  # Ensure boolean is converted to int if needed
+            'promotion_last_5years': int(survey.promotion_last_5years),
+            'sales': survey.department,  
             'salary': survey.salary
         } for survey in surveys]
 
         df_features = pd.DataFrame(features)
         
-        # Predict using the loaded model
-        # Make sure to pass the correct data structure into model.predict()
+        # Predict turnover using the loaded model
         predictions = model.predict(df_features)
         
-        # Convert predictions to a more readable format or process further
-        turnover_predictions = [bool(pred) for pred in predictions]
+        # Process predictions into a readable format
+        turnover_predictions = predictions.tolist()
 
         return jsonify({"predictions": turnover_predictions}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+
+
+
+@app.route('/analytics/gender', methods=['GET'])
+def analytics_by_gender():
+    try:
+        results = db.session.query(
+            Employee.gender,
+            func.count(SurveyResult.employee_email).filter(SurveyResult.turnover_intent == True).label('turnover')
+        ).join(Employee, SurveyResult.employee_email == Employee.email)\
+        .group_by(Employee.gender).all()
+        
+        results = [{'gender': gender, 'turnover': turnover} for gender, turnover in results]
+        return jsonify(results), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/analytics/department', methods=['GET'])
+def analytics_by_department():
+    try:
+        results = db.session.query(
+            Employee.department,
+            func.count(SurveyResult.employee_email).filter(SurveyResult.turnover_intent == True).label('turnover')
+        ).join(Employee, SurveyResult.employee_email == Employee.email)\
+        .group_by(Employee.department).all()
+        
+
+        results = [{'department': department, 'turnover': turnover} for department, turnover in results]
+        return jsonify(results), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+from sqlalchemy import func
+
+
+@app.route('/analytics/age', methods=['GET'])
+def analytics_by_age():
+    try:
+        # Assuming you store date_of_birth and calculate age groups in the query
+        current_year = datetime.datetime.now().year
+        results = db.session.query(
+            ((current_year - func.extract('year', Employee.date_of_birth)) / 10).cast(db.Integer) * 10,
+            func.count(SurveyResult.id).filter(SurveyResult.turnover_intent == True).label('turnover')
+        ).join(SurveyResult, SurveyResult.employee_email == Employee.email)\
+        .group_by('age_group').all()
+
+        results = [{'age_group': f"{age_group}s", 'turnover': turnover} for age_group, turnover in results]
+        return jsonify(results), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
