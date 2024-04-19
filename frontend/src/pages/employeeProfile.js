@@ -118,7 +118,7 @@ const UserProfilePage = ({userToken}) => {
     </div>
       {/* Render user profile information */}
     { edit? (
-                <div>
+                <div style={{marginLeft: "220px"}}>
                     <Button  className='mui-button'
                         color="primary" 
                         variant="contained" 
