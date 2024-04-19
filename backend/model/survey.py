@@ -14,7 +14,7 @@ class SurveyResult(db.Model):
     promotion_last_5years = db.Column(db.Boolean, nullable=False)
     department = db.Column(db.String(50), nullable=False)
     salary = db.Column(db.String(50), nullable=False)
-
+    turnover_intent = db.Column(db.Boolean, nullable=True)
     def __repr__(self):
         return f'<SurveyResult {self.employee_email}>'
 

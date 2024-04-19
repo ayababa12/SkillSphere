@@ -548,7 +548,8 @@ def submit_survey():
                 work_accident=bool(int(data['work_accident'])),  # Assuming you're passing '1' or '0'
                 promotion_last_5years=bool(int(data['promotion_last_5years'])),  # Assuming '1' or '0'
                 department=data['department'],
-                salary=data['salary']
+                salary=data['salary'],
+                turnover_intent = None
             )
             db.session.add(new_survey)
         else:
@@ -576,26 +577,27 @@ def predict_turnover():
         surveys = SurveyResult.query.all()
         
         # Prepare features for prediction
-        features = [{
-            'satisfaction_level': survey.satisfaction_level,
-            'number_project': survey.num_projects,
-            'average_montly_hours': survey.avg_monthly_hours,
-            'time_spend_company': survey.years_at_company,
-            'Work_accident': int(survey.work_accident),  # Ensure boolean is converted to int if needed
-            'promotion_last_5years': int(survey.promotion_last_5years),
-            'sales': survey.department,  
-            'salary': survey.salary
-        } for survey in surveys]
+        for survey in surveys:
+            features = {
+                'satisfaction_level': survey.satisfaction_level,
+                'number_project': survey.num_projects,
+                'average_montly_hours': survey.avg_monthly_hours,
+                'time_spend_company': survey.years_at_company,
+                'Work_accident': int(survey.work_accident),  # Ensure boolean is converted to int if needed
+                'promotion_last_5years': int(survey.promotion_last_5years),
+                'sales': survey.department,  
+                'salary': survey.salary
+            }
 
-        df_features = pd.DataFrame(features)
+            df_features = pd.DataFrame([features], index=[0])
         
-        # Predict turnover using the loaded model
-        predictions = model.predict(df_features)
-        
-        # Process predictions into a readable format
-        turnover_predictions = predictions.tolist()
+            # Predict turnover using the loaded model
+            prediction = model.predict(df_features)
 
-        return jsonify({"predictions": turnover_predictions}), 200
+            survey.turnover_intent = prediction[0]
+            db.session.commit()       
+
+        return jsonify({"predictions": ""}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
