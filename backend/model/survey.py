@@ -5,7 +5,7 @@ class SurveyResult(db.Model):
     __tablename__ = 'survey_result'
     id = db.Column(db.Integer, primary_key=True)
    
-    employee_email = db.Column(db.Text, nullable=False)
+    employee_email = db.Column(db.Text, db.ForeignKey('employee.email', ondelete='CASCADE'), unique=True, nullable=False)
     satisfaction_level = db.Column(db.Float, nullable=False)
     num_projects = db.Column(db.Integer, nullable=False)
     avg_monthly_hours = db.Column(db.Integer, nullable=False)

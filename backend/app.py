@@ -533,22 +533,27 @@ from backend.model.survey import SurveyResult
 def submit_survey():
     try:
         data = request.json
-        new_survey = SurveyResult(
-            employee_email=data['employee_email'],  # Changed from employee_id to employee_email
-            satisfaction_level=data['satisfaction_level'],
-            num_projects=data['num_projects'],
-            avg_monthly_hours=data['avg_monthly_hours'],
-            years_at_company=data['years_at_company'],
-            work_accident=bool(int(data['work_accident'])),  # Assuming you're passing '1' or '0'
-            promotion_last_5years=bool(int(data['promotion_last_5years'])),  # Assuming '1' or '0'
-            department=data['department'],
-            salary=data['salary']
-        )
-        db.session.add(new_survey)
+        emp_email = db.session.execute(text("select employee_email from survey_result where employee_email = '"+data['employee_email']+"'")).fetchone()
+        if emp_email is None: # if the employee's email is not in this table, we create an entry for them
+            new_survey = SurveyResult(
+                employee_email=data['employee_email'],  # Changed from employee_id to employee_email
+                satisfaction_level=data['satisfaction_level'],
+                num_projects=data['num_projects'],
+                avg_monthly_hours=data['avg_monthly_hours'],
+                years_at_company=data['years_at_company'],
+                work_accident=bool(int(data['work_accident'])),  # Assuming you're passing '1' or '0'
+                promotion_last_5years=bool(int(data['promotion_last_5years'])),  # Assuming '1' or '0'
+                department=data['department'],
+                salary=data['salary']
+            )
+            db.session.add(new_survey)
+        else:
+            db.session.execute(text(f"update survey_result set satisfaction_level = {data['satisfaction_level']}, num_projects = {data['num_projects']}, avg_monthly_hours = {data['avg_monthly_hours']}, years_at_company = {data['years_at_company']}, work_accident = {bool(int(data['work_accident']))}, promotion_last_5years = {bool(int(data['promotion_last_5years']))}, department = '{data['department']}', salary = '{data['salary']}'"))
         db.session.commit()
-        return jsonify({"message": "Survey submitted successfully", "id": new_survey.id}), 201
+        return jsonify({"message": "Survey submitted successfully"}), 201
     except Exception as e:
         db.session.rollback()  # Ensures that if an error occurs, no changes are made to the database
+        print(e)
         return jsonify({'error': str(e)}), 500
 
 
