@@ -120,7 +120,7 @@ def authenticate():
 @app.route('/employees',methods=['GET'])
 def getEmployees():
     query = request.args.get("query")
-    all_employees = db.session.execute(text(f"select * from employee where LOWER(first_name) like LOWER('%{query}%') or LOWER(last_name) like LOWER('%{query}%') or LOWER(department) like LOWER('%{query}%')"))
+    all_employees = db.session.execute(text(f"select * from employee where LOWER(first_name) like LOWER('%{query}%') or LOWER(last_name) like LOWER('%{query}%') or LOWER(department) like LOWER('%{query}%') or LOWER(first_name || ' ' || last_name) LIKE LOWER('%{query}%') or LOWER(department || ' ' || first_name || ' ' || department || ' ' || last_name || ' ' || department) LIKE LOWER('%{query}%') "))
     
     return jsonify(many_employees_schema.dump(all_employees)) , 200
 
