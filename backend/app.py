@@ -611,7 +611,8 @@ def analytics_by_gender():
         results = {}
         for gender in ['Male', 'Female']:
             count_per_gender = db.session.execute(text(f"select count(*) from survey_result as s join employee as e on s.employee_email = e.email where gender = '{gender}' and turnover_intent = true")).fetchone()
-            results[gender] = count_per_gender[0]
+            total_entries_count = db.session.execute(text(f"select count(*) from survey_result as s join employee as e on s.employee_email = e.email where e.gender = '{gender}'")).fetchone()[0]
+            results[gender] = count_per_gender[0]/total_entries_count * 100
         return jsonify(results), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -622,7 +623,8 @@ def analytics_by_department():
         results = {}
         for department in department_list:
             count_per_department = db.session.execute(text(f"select count(*) from survey_result where department = '{department}' and turnover_intent = true")).fetchone()
-            results[department] = count_per_department[0]
+            total_entries_count = db.session.execute(text(f"select count(*) from survey_result where department = '{department}'")).fetchone()[0]
+            results[department] = count_per_department[0]/total_entries_count * 100
         print(results)
         return jsonify(results), 200
     except Exception as e:
