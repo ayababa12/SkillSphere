@@ -189,3 +189,28 @@ hr {
   margin-left: 50px;
   padding: 10px;
 }
+.task-list{
+  margin-left: 220px;
+  display: flex; 
+  flex-wrap: wrap;
+}
+.task-item{
+  background-color: #1f4d20;
+  color: white;
+  padding: 10px;
+  padding-top: 3px;
+  margin: 10px;
+  border-radius: 10px;
+}
+.task-item-element {
+  color: white;
+  margin: 15px;
+}
+.task-item-element:hover {
+  opacity: 0.5;
+}
+@media screen and (max-width: 1200px) {
+  .welcomeText {
+      display: none;
+  }
+}

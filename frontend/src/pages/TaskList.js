@@ -85,44 +85,44 @@ function TaskList({ isManager,SERVER_URL, email }) {
 
   return (<div>
     <Navigation isManager={isManager}/>
-    { isManager ? (<div>
+    { isManager ? (<div >
       <h1>Task List</h1>
       
       {error && <p style={{color:'red'}}>An error occurred: {error}</p>}
-      <div style={{marginLeft:"200px"}}>
-      <ul className = "nav">
+      <div>
+      <div className = "task-list">
         {tasks.map(task => (
-          <li key={task.id}>
-            <div className="whiteText">
+          <div key={task.id}>
+            <div className="task-item">
+            <div  >
               <h2>{task.title}</h2>
               <p>{task.description}</p>
             </div>
             {isManager && (
               <div>
                 {/* Render manager-specific UI elements */}
-                <Link to={`/tasks/${task.id}`}>View Details</Link>
+                <Link to={`/tasks/${task.id}`} className="task-item-element">View Details</Link>
                 {/* Add more buttons for manager functionalities */}
-                <Link to={`/tasks/${task.id}/subtasks/create`}>Add Subtasks</Link>
-                <Link to={`/tasks/${task.id}/subtasks/view`}>View Subtasks</Link>
-                <Button 
-                variant="contained" 
-                color="secondary" 
+                <Link to={`/tasks/${task.id}/subtasks/create`} className="task-item-element">Add Subtasks</Link>
+                <Link to={`/tasks/${task.id}/subtasks/view`} className="task-item-element">View Subtasks</Link>
+                <Link          className="task-item-element"       
                 onClick={() => handleClickOpen(task.id)}>
                 Delete Task
-              </Button>
+              </Link>
               </div>
             )}
             {!isManager && (
-              <div>
+              <div className="progress-section">
                 {/* Render manager-specific UI elements */}
-                <Link to={`/tasks/${task.id}`}>View Details</Link>
+                <Link to={`/tasks/${task.id}`} className="task-item-element">View Details</Link>
                 {/* Add more buttons for manager functionalities */}
-                <Link to={`/tasks/${task.id}/subtasks/view`}>View Subtasks</Link>
+                <Link to={`/tasks/${task.id}/subtasks/view`} className="task-item-element">View Subtasks</Link>
               </div>
             )}
-          </li>
+          </div>
+          </div>
         ))}
-      </ul>
+      </div>
       
       {isManager && (
         <Button variant="contained" color="primary" className="mui-button">
