@@ -447,7 +447,11 @@ def delete_Subtask(id):
 
 @app.route('/upcomingDeadlines', methods=["GET"])
 def getUpcomingDeadlines():
-    result = db.session.execute(text("select t.title, s.title, s.deadline from task as t join subtask as s on t.id=s.task_id ORDER BY ABS(julianday(s.deadline) - julianday('now')) asc limit 4;")).fetchall()
+    is_manager = request.args.get("is_manager")
+    if is_manager == "true":
+        result = db.session.execute(text("select t.title, s.title, s.deadline from task as t join subtask as s on t.id=s.task_id ORDER BY ABS(julianday(s.deadline) - julianday('now')) asc limit 4;")).fetchall()
+    else:
+        result = db.session.execute(text(f"select t.title, s.title, s.deadline from (task as t join subtask as s on t.id=s.task_id) join work_on as w on w.subtask_id = s.id where employee_email = '{request.args.get('email')}' ORDER BY ABS(julianday(s.deadline) - julianday('now')) asc limit 4;"))
     return jsonify({"result": [list(row) for row in result]}), 200
 
 @app.route('/progress/<int:id>', methods=["GET"])

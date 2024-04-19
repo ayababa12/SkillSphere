@@ -5,11 +5,11 @@ import { useNavigate  } from 'react-router-dom';
 import Navigation from '../components/navigation';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import "../App.css"
-const HomePage = ({ isManager, userName, SERVER_URL }) => {
+const HomePage = ({ isManager, userName, SERVER_URL, email }) => {
   let [deadlineList, setDeadlineList] = useState([]);
   const navigate = useNavigate ();
   const getUpcomingDeadlines = () => {
-    fetch(`${SERVER_URL}/upcomingDeadlines`, {method: "GET"})
+    fetch(`${SERVER_URL}/upcomingDeadlines?is_manager=${isManager}&email=${email}`, {method: "GET"})
     .then((response) => response.json())
     .then((array) =>{ setDeadlineList(array["result"]);})
     

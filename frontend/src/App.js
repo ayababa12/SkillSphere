@@ -32,7 +32,7 @@ function App() {
         />
         <Route
           path="/"
-          element={userToken ? <HomePage isManager={isManager} userName={userName} SERVER_URL={SERVER_URL}/> : <Navigate to="/authentication" replace />} //if user token is null, route is changed to /authentication
+          element={userToken ? <HomePage isManager={isManager} userName={userName} SERVER_URL={SERVER_URL} email = {email}/> : <Navigate to="/authentication" replace />} //if user token is null, route is changed to /authentication
         />
         <Route
               path="/employees"
