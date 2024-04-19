@@ -72,6 +72,9 @@ function Survey() {
   // ));
   
   return (
+    <div className="formPage">
+        <body className="formPage">
+        <div className='form'>
     <form onSubmit={handleSubmit} style={{ maxWidth: '700px', margin: 'auto' }}>
       <Typography variant="h6" style={{ textAlign: 'center', marginBottom: '20px' }}>Employee Survey</Typography>
 
@@ -199,10 +202,13 @@ function Survey() {
         </Grid>
       </Grid>
   
-      <Button variant="contained" color="primary" type="submit" style={{ marginTop: '20px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
+      <Button variant="contained" color="primary" type="submit" style={{ marginTop: '20px', marginBottom: '20px', backgroundColor: '#1f4d20', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
         Submit Survey
       </Button>
     </form>
+    </div>
+    </body>
+    </div>
   );
   
 }
