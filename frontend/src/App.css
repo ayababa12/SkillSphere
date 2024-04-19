@@ -193,6 +193,7 @@ hr {
   margin-left: 220px;
   display: flex; 
   flex-wrap: wrap;
+  
 }
 .task-item{
   background-color: #1f4d20;
@@ -202,12 +203,27 @@ hr {
   margin: 10px;
   border-radius: 10px;
 }
+.task-item li{
+  font-size: 20px;
+  margin-bottom: "10px";
+}
+
 .task-item-element {
   color: white;
   margin: 15px;
 }
 .task-item-element:hover {
   opacity: 0.5;
+}
+.task-info{
+  background-color: #1f4d20;
+  color: white;
+  padding: 10px;
+  padding-top: 3px;
+  margin: 10px;
+  border-radius: 10px;
+  margin-left: 230px;
+  font-size: larger;
 }
 @media screen and (max-width: 1200px) {
   .welcomeText {

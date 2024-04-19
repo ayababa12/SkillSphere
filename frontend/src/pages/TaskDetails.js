@@ -102,28 +102,30 @@ function TaskDetails({isManager, SERVER_URL}) {
   }
   return (
     <div>
-    <div className='whiteText'>
+    <div>
       <Navigation isManager={isManager}/>
-      {!edit ? (<div>
+      {!edit ? (<div >
                 <Button className='mui-button' 
                         color="primary" 
                         variant="contained" 
                         onClick={() => setEdit(true)} >Edit Task</Button>
                 
                 <h1 style={{color:'black'}}>Task Details</h1>
-                <ul style={{marginLeft:"200px"}} className="nav">
+                <div className='task-info'>
+                <ul  >
                   <li><strong>Title:</strong> {task.title}</li>
                   <li><strong>Description:</strong> {task.description}</li>
                   <li><strong>Deadline:</strong> {task.deadline}</li>
                   <li>
                     <strong>Employees:</strong>
-                    <ul>
+                    <ul >
                       {task.employees.map(employee => (
                         <li key={employee.id}>{employee.name}</li>
                       ))}
                     </ul>
                   </li>
                 </ul>
+                </div>
                 </div>):
               (<div>
                 <Button  className='mui-button'
