@@ -61,8 +61,11 @@ function TaskForm() {
   };
 
   return (
-    <>
+    <div className="formPage">
+        <body className="formPage">
+        <div className='form'>
       <form onSubmit={handleSubmit}>
+      <div className="form-item"> 
       <TextField
         fullWidth
         label="Title"
@@ -71,6 +74,8 @@ function TaskForm() {
         required
         margin="normal"
       />
+      </div>
+      <div className="form-item"> 
       <TextField
         fullWidth
         label="Description"
@@ -81,6 +86,8 @@ function TaskForm() {
         multiline
         rows={4}
       />
+      </div>
+      <div className="form-item"> 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateTimePicker
           label="Deadline"
@@ -90,15 +97,17 @@ function TaskForm() {
           renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
         />
       </LocalizationProvider>
+      </div>
       {error && <p className="error">{error}</p>}
+      <div className="form-item"> 
       <Button
         type="submit"
-        color="primary"
         variant="contained"
-        sx={{ marginY: 2 }}
+        sx={{ marginY: 2 , backgroundColor: '#1f4d20'}}
       >
         Add Task
       </Button>
+      </div>
       </form>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         {error ? (
@@ -111,7 +120,9 @@ function TaskForm() {
           </Alert>
         )}
       </Snackbar>
-    </>
+      </div>
+    </body>
+    </div>
   );
 }
 
