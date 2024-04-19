@@ -119,10 +119,9 @@ def authenticate():
     
 @app.route('/employees',methods=['GET'])
 def getEmployees():
-    all_employees=[]
-    for dept in department_list:
-        all_employees.extend(db.session.execute(text(f"select * from employee where department = "+'"'+dept+'"')).fetchall())
-    print(all_employees)
+    query = request.args.get("query")
+    all_employees = db.session.execute(text(f"select * from employee where LOWER(first_name) like LOWER('%{query}%') or LOWER(last_name) like LOWER('%{query}%') or LOWER(department) like LOWER('%{query}%')"))
+    
     return jsonify(many_employees_schema.dump(all_employees)) , 200
 
 @app.route('/employees/<email>', methods=["GET"])

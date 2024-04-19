@@ -189,16 +189,18 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
     let [employeeList, setEmployeeList] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    let [searchQuery, setSearchQuery] = useState("");
 
     const fetchEmployeeList = useCallback(() => { 
-        fetch(`${SERVER_URL}/employees`, { 
+        fetch(`${SERVER_URL}/employees?query=${searchQuery}`, { 
           headers: { 
             Authorization: `bearer ${userToken}`, 
           }, 
+          method :"GET"
         }) 
           .then((response) => response.json()) 
           .then((employeesList) => {setEmployeeList(employeesList); }); 
-      }, [isManager]);
+      }, [isManager, searchQuery]);
 
 
       
@@ -206,7 +208,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
         if (isManager) { 
             fetchEmployeeList();
     } 
-    }, [isManager, userToken]); 
+    }, [isManager, userToken, searchQuery]); 
      
     const columns = [
         { id: 'first_name', label: 'First Name', minWidth: 170 },
@@ -248,9 +250,17 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
                 > 
                 Add New Employee
             </Button>
+            <TextField
+                style ={{marginLeft:"210px", marginTop:"10px", width:"50%"}} 
+                label="Search" 
+                type="text" 
+                value={searchQuery} 
+                onChange={({ target: { value } }) => setSearchQuery(value)} 
+            />
+
             <br/><br/><br/>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }} style={{marginLeft:'202px'}}>
+                <TableContainer sx={{ maxHeight: 440 }} style={{marginLeft:'210px'}}>
                     <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow >
