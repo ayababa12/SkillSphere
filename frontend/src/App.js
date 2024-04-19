@@ -71,7 +71,7 @@ function App() {
         )}
         {isManager && (
           <Route path="/analytics" 
-          element={<Analytics />} />
+          element={<Analytics  SERVER_URL={SERVER_URL}/>} />
         )}
         <Route
             path="/notFound"
