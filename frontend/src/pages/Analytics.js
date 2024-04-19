@@ -31,7 +31,7 @@ function Analytics() {
   
     Promise.all([
       fetch(`${SERVER_URL}/analytics/gender`).then(handleResponse),
-      fetch(`${SERVER_URL}/analytics/age`).then(handleResponse),
+      
       fetch(`${SERVER_URL}/analytics/department`).then(handleResponse),
     ])
     .then(([genderResponse, ageResponse, departmentResponse]) => {

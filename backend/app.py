@@ -608,13 +608,10 @@ def predict_turnover():
 @app.route('/analytics/gender', methods=['GET'])
 def analytics_by_gender():
     try:
-        results = db.session.query(
-            Employee.gender,
-            func.count(SurveyResult.employee_email).filter(SurveyResult.turnover_intent == True).label('turnover')
-        ).join(Employee, SurveyResult.employee_email == Employee.email)\
-        .group_by(Employee.gender).all()
-        
-        results = [{'gender': gender, 'turnover': turnover} for gender, turnover in results]
+        results = {}
+        for gender in ['Male', 'Female']:
+            count_per_gender = db.session.execute(text(f"select count(*) from survey_result as s join employee as e on s.employee_email = e.email where gender = '{gender}' and turnover_intent = true")).fetchone()
+            results[gender] = count_per_gender[0]
         return jsonify(results), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -622,14 +619,11 @@ def analytics_by_gender():
 @app.route('/analytics/department', methods=['GET'])
 def analytics_by_department():
     try:
-        results = db.session.query(
-            Employee.department,
-            func.count(SurveyResult.employee_email).filter(SurveyResult.turnover_intent == True).label('turnover')
-        ).join(Employee, SurveyResult.employee_email == Employee.email)\
-        .group_by(Employee.department).all()
-        
-
-        results = [{'department': department, 'turnover': turnover} for department, turnover in results]
+        results = {}
+        for department in department_list:
+            count_per_department = db.session.execute(text(f"select count(*) from survey_result where department = '{department}' and turnover_intent = true")).fetchone()
+            results[department] = count_per_department[0]
+        print(results)
         return jsonify(results), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -639,19 +633,19 @@ def analytics_by_department():
 from sqlalchemy import func
 
 
-@app.route('/analytics/age', methods=['GET'])
-def analytics_by_age():
-    try:
-        # Assuming you store date_of_birth and calculate age groups in the query
-        current_year = datetime.datetime.now().year
-        results = db.session.query(
-            ((current_year - func.extract('year', Employee.date_of_birth)) / 10).cast(db.Integer) * 10,
-            func.count(SurveyResult.id).filter(SurveyResult.turnover_intent == True).label('turnover')
-        ).join(SurveyResult, SurveyResult.employee_email == Employee.email)\
-        .group_by('age_group').all()
+# @app.route('/analytics/age', methods=['GET'])
+# def analytics_by_age():
+#     try:
+#         # Assuming you store date_of_birth and calculate age groups in the query
+#         current_year = datetime.datetime.now().year
+#         results = db.session.query(
+#             ((current_year - func.extract('year', Employee.date_of_birth)) / 10).cast(db.Integer) * 10,
+#             func.count(SurveyResult.id).filter(SurveyResult.turnover_intent == True).label('turnover')
+#         ).join(SurveyResult, SurveyResult.employee_email == Employee.email)\
+#         .group_by('age_group').all()
 
-        results = [{'age_group': f"{age_group}s", 'turnover': turnover} for age_group, turnover in results]
-        return jsonify(results), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+#         results = [{'age_group': f"{age_group}s", 'turnover': turnover} for age_group, turnover in results]
+#         return jsonify(results), 200
+#     except Exception as e:
+#         return jsonify({'error': str(e)}), 500
     
