@@ -85,8 +85,11 @@ function SubtaskForm() {
   };
 
   return (
-    <>
+    <div className="formPage">
+        <body className="formPage">
+        <div className='form'>
       <form onSubmit={handleSubmit}>
+      <div className="form-item"> 
         <TextField
           fullWidth
           label="Title"
@@ -95,6 +98,8 @@ function SubtaskForm() {
           required
           margin="normal"
         />
+        </div>  
+        <div className="form-item"> 
         <TextField
           fullWidth
           label="Hours"
@@ -104,6 +109,8 @@ function SubtaskForm() {
           required
           margin="normal"
         />
+        </div>
+        <div className="form-item"> 
         <TextField
           fullWidth
           label="Description"
@@ -114,6 +121,8 @@ function SubtaskForm() {
           multiline
           rows={4}
         />
+        </div>
+        <div className="form-item"> 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateTimePicker
             label="Deadline"
@@ -123,6 +132,8 @@ function SubtaskForm() {
             renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
           />
         </LocalizationProvider>
+        </div>
+        <div className="form-item"> 
         <TextField
           select
           fullWidth
@@ -138,15 +149,18 @@ function SubtaskForm() {
             </MenuItem>
           ))}
         </TextField>
+        </div>
         {error && <p className="error">{error}</p>}
+        <div className="form-item"> 
         <Button
           type="submit"
           color="primary"
           variant="contained"
-          sx={{ marginY: 2 }}
+          sx={{ marginY: 2, backgroundColor: '#1f4d20' }}
         >
           Add Subtask
         </Button>
+        </div>
       </form>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         {error ? (
@@ -159,7 +173,9 @@ function SubtaskForm() {
           </Alert>
         )}
       </Snackbar>
-    </>
+    </div>
+    </body>
+    </div>
   );
 }
 

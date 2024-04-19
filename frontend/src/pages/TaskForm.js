@@ -103,7 +103,7 @@ function TaskForm() {
       <Button
         type="submit"
         variant="contained"
-        sx={{ marginY: 2 , backgroundColor: '#1f4d20'}}
+        sx={{ marginY: 2 ,backgroundColor: '#1f4d20'}}
       >
         Add Task
       </Button>
