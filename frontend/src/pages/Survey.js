@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -24,6 +25,8 @@ function Survey() {
   const [promotion, setPromotion] = useState('');
   const [department, setDepartment] = useState('');
   const [salary, setSalary] = useState('');
+
+  let navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,6 +60,7 @@ function Survey() {
       // Handle any errors here
       console.error('Error submitting survey:', error);
     });
+    navigate("/");
   };
   // const satisfactionBubbles = Array.from({ length: 10 }, (_, i) => i + 1).map((number) => (
   //   <FormControlLabel
