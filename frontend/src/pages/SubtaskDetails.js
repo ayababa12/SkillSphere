@@ -93,14 +93,16 @@ function SubtaskDetails({isManager}) {
   
   return (
     
-    <div style={{marginLeft:"200px"}}>
+    <div className="subtask-details-section">
       <Navigation isManager={isManager}/>
       {!edit ? (
         <div>
         <h1>Subtask Details</h1>
-          <div className="whiteText">
-          <ul className="nav">
+          <div >
+          
+          <ul >
           {subtasks.map((subtask, index) => (
+            <div className='sub-task-info'>
             <li key={index}>
               <h2>Subtask {index + 1}</h2>
               <ul>
@@ -123,12 +125,14 @@ function SubtaskDetails({isManager}) {
                   </ul>
                   
                 </li>
-                <li><Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask)}}>Edit</Link></li>
+                <Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask)}} style={{color:"white"}}>Edit</Link>
               </ul>
               
             </li>
+            </div>
           ))}
         </ul>
+        
         </div>
         </div>):
        (<div>

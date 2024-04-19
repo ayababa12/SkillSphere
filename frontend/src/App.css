@@ -225,6 +225,20 @@ hr {
   margin-left: 230px;
   font-size: larger;
 }
+.subtask-details-section{
+  margin-left: 220px;
+  
+  flex-wrap: wrap;
+}
+.sub-task-info{
+  background-color: #1f4d20;
+  color: white;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: -40px;
+}
 @media screen and (max-width: 1200px) {
   .welcomeText {
       display: none;
