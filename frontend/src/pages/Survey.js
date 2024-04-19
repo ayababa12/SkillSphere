@@ -174,9 +174,15 @@ function Survey() {
             <InputLabel>Department</InputLabel>
             <Select value={department} onChange={(e) => setDepartment(e.target.value)}
             required>
-              <MenuItem value="HR">HR</MenuItem>
-              <MenuItem value="Accounting">Accounting</MenuItem>
-              {/* Add other departments as needed */}
+              <MenuItem value={"accounting"}>Accounting</MenuItem> {/* !!!!!!! ATTENTION !!!!!!! PLACEHOLDER VALUES */}
+              <MenuItem value={"hr"}>HR</MenuItem>
+              <MenuItem value={"sales"}>Sales</MenuItem>
+              <MenuItem value={"technical"}>Technical</MenuItem>
+              <MenuItem value={"support"}>Support</MenuItem>
+              <MenuItem value={"management"}>Management</MenuItem>
+              <MenuItem value={"IT"}>IT</MenuItem>
+              <MenuItem value={"product_mng"}>Product Management</MenuItem>
+              <MenuItem value={"marketing"}>Marketing</MenuItem>
             </Select>
           </FormControl>
         </Grid>

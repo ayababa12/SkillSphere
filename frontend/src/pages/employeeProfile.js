@@ -154,9 +154,16 @@ const UserProfilePage = ({userToken}) => {
                             label="Department"
                             onChange={handleDepartment}
                         >
-                            <MenuItem value={"Accounting"}>Accounting</MenuItem> {/* !!!!!!! ATTENTION !!!!!!! PLACEHOLDER VALUES */}
-                            <MenuItem value={"HR"}>HR</MenuItem>
-                        
+                            <MenuItem value={"accounting"}>Accounting</MenuItem> {/* !!!!!!! ATTENTION !!!!!!! PLACEHOLDER VALUES */}
+                            <MenuItem value={"hr"}>HR</MenuItem>
+                            <MenuItem value={"sales"}>Sales</MenuItem>
+                            <MenuItem value={"technical"}>Technical</MenuItem>
+                            <MenuItem value={"support"}>Support</MenuItem>
+                            <MenuItem value={"management"}>Management</MenuItem>
+                            <MenuItem value={"IT"}>IT</MenuItem>
+                            <MenuItem value={"product_mng"}>Product Management</MenuItem>
+                            <MenuItem value={"marketing"}>Marketing</MenuItem>
+                    
                         </Select>
                     </FormControl>
                     </div>

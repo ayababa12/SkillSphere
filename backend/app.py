@@ -24,7 +24,7 @@ from backend.model.employee import Employee , employee_schema, many_employees_sc
 
 SECRET_KEY = "b'|\xe7\xbfU3`\xc4\xec\xa7\xa9zf:}\xb5\xc7\xb9\x139^3@Dv'"
 
-department_list=['Accounting', 'HR'] # !!!!!!! ATTENTION !!!!!!! PLACEHOLDER VALUES
+department_list=['accounting', 'hr','sales', 'technical','support','management','IT', 'product_mng', 'marketing'] # !!!!!!! ATTENTION !!!!!!! PLACEHOLDER VALUES
 
 def create_token(user_id): 
     payload = { 
