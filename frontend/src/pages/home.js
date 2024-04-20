@@ -1,67 +1,73 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { getUserToken, saveUserToken, clearUserToken, clearUserName } from "../localStorage";
-import {Button, Typography }from '@mui/material';
-import { useNavigate  } from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Navigation from '../components/navigation';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import "../App.css"
+import { Link } from 'react-router-dom';
 const HomePage = ({ isManager, userName, SERVER_URL, email }) => {
-  let [deadlineList, setDeadlineList] = useState([]);
-  const navigate = useNavigate ();
-  const getUpcomingDeadlines = () => {
-    fetch(`${SERVER_URL}/upcomingDeadlines?is_manager=${isManager}&email=${email}`, {method: "GET"})
-    .then((response) => response.json())
-    .then((array) =>{ setDeadlineList(array["result"]);})
-    
-    }
-  useEffect(getUpcomingDeadlines, [])
+  let [announcements, setAnnouncements] = useState([]);
+  const navigate = useNavigate(); // Define navigate
+
+  // Function to fetch announcements from the server
+  const fetchAnnouncements = () => {
+    fetch(`${SERVER_URL}/`, { method: "GET" })
+      .then((response) => response.json())
+      .then((data) => setAnnouncements(data))
+      .catch((error) => console.error('Error fetching announcements:', error));
+  };
+
+
+  useEffect(() => {
+    fetchAnnouncements(); // Fetch announcements when component mounts
+  }, [SERVER_URL]); // Re-fetch announcements when SERVER_URL changes
+
   return (
     <div>
       <div className="welcomeBanner">
-          <Typography className="welcomeText" variant='h4'>Welcome Back, {userName}!</Typography>
-          {deadlineList.length > 0 ? 
-          (<div>
-          <Typography className="upcomingDeadlines">Upcoming Deadlines:</Typography>
-          <div className = "deadlinesList">
-              <ul>
-              {deadlineList.map((item, index) => (
-                <li key={index}>{item[0]} — {item[1]} due by {item[2]}</li>
-              ))}
-            </ul>
-        </div>
-        </div>):
-        (<div></div>)
-            }
+        <Typography className="welcomeText" variant='h4'>Welcome Back, {userName}!</Typography>
       </div>
-      
+
       <hr></hr>
-      <div >
-                  <Button  className='mui-button'
-                    variant="contained" 
-                    onClick={() => {clearUserToken(); clearUserName(); navigate("/authentication");}} //go back to login page
-                  > 
-                    Logout 
-                  </Button>
-    
+
+      <div>
+        <Button className='mui-button'
+          variant="contained"
+          onClick={() => { clearUserToken(); clearUserName(); navigate("/authentication"); }} // Use navigate here
+        >
+          Logout
+        </Button>
       </div>
-      <Navigation isManager={isManager}/>
+
+      <Navigation isManager={isManager} />
+
       <div className="announcementsContainer">
-              <div className="announcement-header">
-              <Typography variant='h5' className="announcementText">Announcements</Typography>
-              {isManager && <Button className="addAnnouncementButton" variant="contained">Add Announcement</Button>}
-              </div>
-              <div className="announcementWrapper">
-                <Typography className="author" variant="h7">Ashley White</Typography> 
-                <Typography variant="h8">We have signed a new deal with UMG! I am excited about the new marvelous adventure! Cheers for more opportunities!</Typography>
-              </div>
-              <div className="announcementWrapper">
-                <Typography className="author" variant="h7">Morgan Freeman</Typography> 
-                <Typography variant="h8">We wish you and your loved ones a blessed holiday. Eid Moubarak!</Typography>
-              </div>
-              <div className="announcementWrapper">
-                <Typography className="author" variant="h7">Morgan Freeman</Typography> 
-                <Typography variant="h8">We are thrilled to announce the launch of our latest innovation. After months of hard work and dedication from our talented team, we are excited to bring this revolutionary product to market.</Typography>
-              </div>
+        <div className="announcement-header">
+          <Typography variant='h5' className="announcementText">Announcements</Typography>
+          {isManager && (
+            <Button
+              className="addAnnouncementButton"
+              variant="contained"
+              component={Link} // Use Link component from react-router-dom
+              to="/announcement" // Specify the destination URL
+            >
+              Add Announcement
+            </Button>
+          )}
+        </div>
+
+
+        {announcements.map((announcement, index) => (
+          <div key={index} className="announcementWrapper">
+            <div className="authorAndDate">
+              <Typography className="author" variant="h6">{announcement.employee.first_name} {announcement.employee.last_name}</Typography>
+              <Typography variant="body2" className="date">{announcement.date_posted}</Typography>
+            </div>
+            <Typography variant="body1">{announcement.content}</Typography>
+          </div>
+        ))}
+
+
       </div>
     </div>
   );

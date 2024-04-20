@@ -15,6 +15,7 @@ import SubtaskForm from './pages/SubtaskForm';
 import SubtaskDetails from './pages/SubtaskDetails';
 import Survey from './pages/Survey';
 import Analytics from './pages/Analytics'; 
+import AnnouncementForm from "./pages/AnnouncementForm";
 export const SERVER_URL = "http://127.0.0.1:5000";
 
 function App() {
@@ -62,6 +63,9 @@ function App() {
         />
         <Route
           path="/tasks/:task_id/subtasks/view" element={<SubtaskDetails />}
+        />
+        <Route
+          path="/announcement" element={<AnnouncementForm/>}
         />
         {!isManager && (
         <Route

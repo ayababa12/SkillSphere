@@ -1,3 +1,4 @@
+from os import abort
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -116,7 +117,12 @@ def authenticate():
             return jsonify({'message': 'incorrect password'}),403
     else: #user is neither
         return jsonify({'message': 'invalid email'}),403
-    
+
+
+from flask import jsonify
+
+
+
 @app.route('/employees',methods=['GET'])
 def getEmployees():
     query = request.args.get("query")
@@ -654,3 +660,76 @@ from sqlalchemy import func
 #     except Exception as e:
 #         return jsonify({'error': str(e)}), 500
     
+from backend.model.announcements import Announcements
+
+@app.route('/', methods=['GET'])
+def get_announcements():
+    try:
+        announcements = Announcements.query.all()
+        announcements_list = []
+        for announcement in announcements:
+            announcement_info = {
+                'content': announcement.content,  # Access content attribute on the announcement object
+                'date_posted': announcement.date_posted,
+                'employee': {}  # Initialize employee dictionary
+            }
+            # Fetch employee information
+            employee = db.session.execute(text("SELECT m.email, m.first_name, m.last_name FROM manager AS m JOIN announcements AS a ON m.email = a.employee_email WHERE a.employee_email = :email"), {'email': announcement.employee_email}).fetchone()
+            if employee:
+                announcement_info['employee'] = {
+                    'email': employee.email,
+                    'first_name': employee.first_name,
+                    'last_name': employee.last_name,
+                }
+            announcements_list.append(announcement_info)
+        return jsonify(announcements_list), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
+@app.route('/announcement', methods=['POST'])
+def create_announcement():
+    try:
+        # Get data from the request
+        data = request.get_json()
+        
+        # Extract required fields from the request data
+        content = data.get('content')
+        employee_id = None
+        token = extract_auth_token(request)
+        if token:
+            try:
+                employee_id = decode_token(token)
+            except:
+                # If token decoding fails, return a 403 error
+                abort(403)
+        else:
+            # If no token is provided, return a 401 Unauthorized response
+            return jsonify({"message": "Authentication token required."}), 401
+        if employee_id is None:
+            return jsonify({"message": "Invalid user ID."}), 403
+        employee_email = Manager.query.filter_by(email=employee_id).first()
+        if not employee_email:
+            return jsonify({"message": "User not found."}), 404
+        employee_email = employee_email.email 
+
+        # Get the current date and time
+        current_date_time = datetime.datetime.now()
+        
+        # Create a new announcement object
+        new_announcement = Announcements(
+            content=content,
+            date_posted=current_date_time,
+            employee_email=employee_email
+        )
+        
+        # Add the new announcement to the database
+        db.session.add(new_announcement)
+        db.session.commit()
+        
+        # Return a success message
+        return jsonify({"message": "Announcement created successfully"}), 201
+    
+    except Exception as e:
+        # If an error occurs, return an error message
+        return jsonify({'error': str(e)}), 400
