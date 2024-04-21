@@ -147,6 +147,8 @@ def updateEmployee(email):
         department = request.json['department']
         gender = request.json['gender']
         print(first_name)
+        if first_name == '' or last_name == '' :
+            return jsonify({'message': "enter a name"}), 400
         if request.json.get('date_of_birth') is not None:
             date_of_birth = datetime.datetime.strptime(request.json['date_of_birth'], "%Y-%m-%dT%H:%M:%S.%fZ")
             db.session.execute(text(f"UPDATE employee set first_name = '{first_name}', last_name = '{last_name}', department = '{department}', gender = '{gender}', date_of_birth = '{date_of_birth}' where email = '{email}'" ))

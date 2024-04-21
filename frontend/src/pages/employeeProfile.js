@@ -188,6 +188,7 @@ const UserProfilePage = ({userToken}) => {
                             
                     </LocalizationProvider>
                     </div>
+                    <p  style={{color:"red"}}>{errorMsg}</p>
                      <Button 
             sx={{
                 backgroundColor: '#cce4f1', 
@@ -235,7 +236,7 @@ const UserProfilePage = ({userToken}) => {
             variant="contained" 
             onClick={() => deleteEmployee()} 
             > 
-            Delete Subtask
+            Delete Employee
             </Button>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
         <Button 
@@ -255,7 +256,7 @@ const UserProfilePage = ({userToken}) => {
         >
           Cancel
         </Button></div>
-                    <p  style={{color:"red"}}>{errorMsg}</p>
+                    
             
           </div>
         ):
