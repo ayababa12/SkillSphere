@@ -558,8 +558,10 @@ def submit_survey():
     try:
         data = request.json
         emp_email = db.session.execute(text("select employee_email from survey_result where employee_email = '"+data['employee_email']+"'")).fetchone()
+        
         if emp_email is None: # if the employee's email is not in this table, we create an entry for them
             new_survey = SurveyResult(
+                
                 employee_email=data['employee_email'],  # Changed from employee_id to employee_email
                 satisfaction_level=data['satisfaction_level'],
                 num_projects=data['num_projects'],
@@ -573,7 +575,7 @@ def submit_survey():
             )
             db.session.add(new_survey)
         else:
-            db.session.execute(text(f"update survey_result set satisfaction_level = {data['satisfaction_level']}, num_projects = {data['num_projects']}, avg_monthly_hours = {data['avg_monthly_hours']}, years_at_company = {data['years_at_company']}, work_accident = {bool(int(data['work_accident']))}, promotion_last_5years = {bool(int(data['promotion_last_5years']))}, department = '{data['department']}', salary = '{data['salary']}'"))
+            db.session.execute(text(f"update survey_result set satisfaction_level = {data['satisfaction_level']}, num_projects = {data['num_projects']}, avg_monthly_hours = {data['avg_monthly_hours']}, years_at_company = {data['years_at_company']}, work_accident = {bool(int(data['work_accident']))}, promotion_last_5years = {bool(int(data['promotion_last_5years']))}, department = '{data['department']}', salary = '{data['salary']}' where employee_email = '{emp_email[0]}'"))
         db.session.commit()
         return jsonify({"message": "Survey submitted successfully"}), 201
     except Exception as e:

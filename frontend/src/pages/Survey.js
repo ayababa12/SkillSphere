@@ -15,8 +15,8 @@ import {
   InputLabel
 } from '@mui/material';
 
-function Survey() {
-  const [email, setEmail] = useState(''); 
+function Survey({email}) {
+  //const [email, setEmail] = useState(''); 
   const [satisfactionLevel, setSatisfactionLevel] = useState('');
   const [numProjects, setNumProjects] = useState('');
   const [avgMonthlyHours, setAvgMonthlyHours] = useState('');
@@ -70,7 +70,7 @@ function Survey() {
   //     label={String(number)}
   //   />
   // ));
-  
+
   return (
     <div className="formPage">
         <body className="formPage">
@@ -78,7 +78,7 @@ function Survey() {
     <form onSubmit={handleSubmit} style={{ maxWidth: '700px', margin: 'auto' }}>
       <Typography variant="h6" style={{ textAlign: 'center', marginBottom: '20px' ,fontWeight:'bold',fontFamily: 'Garamond, cursive', fontSize: '2.5rem'}}>Employee Survey</Typography>
 
-      <FormControl fullWidth margin="normal">
+      {/* <FormControl fullWidth margin="normal">
         <TextField
           label="Email"
           value={email}
@@ -86,7 +86,7 @@ function Survey() {
           required
           type="email"
         />
-      </FormControl>
+      </FormControl> */}
 
 
       <FormControl component="fieldset" margin="normal">
