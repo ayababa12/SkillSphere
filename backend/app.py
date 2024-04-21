@@ -682,6 +682,7 @@ def get_announcements():
         announcements_list = []
         for announcement in announcements:
             announcement_info = {
+                'id' : announcement.id,
                 'content': announcement.content,  # Access content attribute on the announcement object
                 'date_posted': announcement.date_posted,
                 'employee': {}  # Initialize employee dictionary
@@ -746,3 +747,14 @@ def create_announcement():
     except Exception as e:
         # If an error occurs, return an error message
         return jsonify({'error': str(e)}), 400
+    
+@app.route('/announcement/<int:id>', methods=['DELETE'])
+def deleteAnnouncement(id):
+    try:
+        db.session.execute(text(f'delete from announcements where id = {id}'))
+        db.session.commit()
+        return jsonify({"message": "successfully deleted"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": "error"}), 400
+

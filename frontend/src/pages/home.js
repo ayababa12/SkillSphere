@@ -41,6 +41,12 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
     container.classList.toggle('show');
   }, []); // This useEffect will run once when the component mounts
 
+  function deleteAnnouncement(id){
+    return fetch(`${SERVER_URL}/announcement/${id}`,{method:"DELETE"})
+    .then((response) => response.json())
+    .then((data) => fetchAnnouncements());
+  }
+
   return (
     <div>
       <div className="welcomeBanner">
@@ -103,6 +109,9 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
               <Typography variant="body2" className="date">{announcement.date_posted}</Typography>
             </div>
             <Typography variant="body1">{announcement.content}</Typography>
+            <div className="authorAndDate">
+            {isManager &&  <Button variant="text" onClick={() => deleteAnnouncement(announcement.id)}>Delete</Button>}
+            </div>
           </div>
         ))}
       </div>
