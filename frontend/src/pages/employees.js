@@ -82,7 +82,7 @@ const CreateEmployeePage = () => {
         <div className="formPage">
         <body className="formPage">
         <div className='form'>
-        <Typography variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold'}} gutterBottom>Add New Employee</Typography>
+        <Typography className="taskDetailsContainer" variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold',color:'white'}} >Add New Employee</Typography>
             <div className="form-item"> 
             <TextField 
                 fullWidth 

@@ -89,7 +89,7 @@ function SubtaskForm() {
     <div className="formPage">
         <body className="formPage">
         <div className='form'>
-        <Typography variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold'}} gutterBottom>Add Subtask</Typography>
+        <Typography className="taskDetailsContainer" variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold',color:'white'}} >Add Subtask</Typography>
       <form onSubmit={handleSubmit}>
       <div className="form-item"> 
         <TextField
@@ -154,25 +154,34 @@ function SubtaskForm() {
         </div>
         {error && <p className="error">{error}</p>}
         <div className="form-item"> 
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ 
-            marginY: 2,
-            backgroundColor: '#cce4f1', 
-            color:'black',
-            fontFamily: 'Garamond, cursive', // Add font-family property
-            transition: 'background-color 0.3s', // Smooth transition effect
-            '&:hover': {
-              backgroundColor: '#8ab6d6', // Pastel green color on hover
-            }
-          }}
-        >
-          Add Subtask
-        </Button>
         <Button 
             sx={{
-                marginY: 2,
+                backgroundColor: '#cce4f1', 
+                marginLeft: '10px', 
+                marginBottom: '10px',
+                color: 'black',
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                fontWeight:'bold',
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                    backgroundColor: '#8ab6d6', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
+            }}
+            type="submit"
+            color="primary" 
+            variant="contained" 
+              
+            
+            > 
+            Add Announcement 
+            </Button> 
+            <Button 
+            sx={{
                 backgroundColor: '#f08080', 
                 marginLeft:'10px', 
                 marginBottom:"10px",
@@ -181,7 +190,12 @@ function SubtaskForm() {
                 transition: 'background-color 0.3s', // Smooth transition effect
                 '&:hover': {
                 backgroundColor: '#e42020', // Pastel red color on hover
-                }
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
             }}
             color="primary" 
             variant="contained" 

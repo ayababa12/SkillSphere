@@ -102,27 +102,13 @@ function TaskDetails({isManager, SERVER_URL}) {
   }
   return (
     <div>
-    <div>
+    <div className="subtask-details-section">
+    <div className="subtaskDetailsContainer">
+              <Typography className="subtaskDetailsText" variant='h4'>Task Details</Typography>
+            </div>
       <Navigation isManager={isManager}/>
       {!edit ? (<div >
-                <Button className='mui-button' 
-                        sx={{
-                          backgroundColor: '#cce4f1', 
-                          marginLeft: '10px', 
-                          marginBottom: '10px',
-                          color: 'black',
-                          fontFamily: 'Garamond, cursive', // Add font-family property
-                          fontWeight:'bold',
-                          transition: 'background-color 0.3s', // Smooth transition effect
-                          '&:hover': {
-                              backgroundColor: '#8ab6d6', // Pastel red color on hover
-                          }
-                      }}
-                      color="primary" 
-                      variant="contained" 
-                        onClick={() => setEdit(true)} >Edit Task</Button>
-                
-                <h1 style={{color:'black'}}>Task Details</h1>
+             
                 <div className='task-info'>
                 <ul  >
                   <li><strong>Title:</strong> {task.title}</li>
@@ -138,32 +124,29 @@ function TaskDetails({isManager, SERVER_URL}) {
                   </li>
                 </ul>
                 </div>
-                </div>):
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
+        <Button 
+          sx={{
+            backgroundColor: '#f08080', 
+            color: 'white',
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            fontWeight:'bold',
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+              backgroundColor: '#e42020', // Pastel red color on hover
+            }
+          }}
+          color="primary" 
+          variant="contained" 
+          onClick={() => setEdit(true)} 
+        >
+          Edit Task
+        </Button>
+      </div>
+                </div>
+                ):
               (<div>
-                <Button  className='mui-button'
-                        sx={{
-                          backgroundColor: '#f08080', 
-                          marginLeft:'10px', 
-                          marginBottom:"10px",
-                          fontWeight:'bold',
-                          color:'black',
-                          fontFamily: 'Garamond, cursive', // Add font-family property
-                          transition: 'background-color 0.3s', // Smooth transition effect
-                          '&:hover': {
-                          backgroundColor: '#e42020', // Pastel red color on hover
-                          },
-                          display: 'block', // Center the button
-                          marginLeft: 'auto', // Center the button
-                          marginRight: 'auto', // Center the button
-                          marginTop: '20px', // Add top margin
-                          marginBottom: '20px', // Add bottom margin
-                      }}
-                      color="primary" 
-                      variant="contained" 
-                        onClick={() => setEdit(false)} 
-                        > 
-                        Cancel 
-                  </Button> 
+              
                   <div className = 'taskForm'>
                   <div className="form-item"> 
                         <TextField className="taskFormItem"
@@ -244,11 +227,32 @@ function TaskDetails({isManager, SERVER_URL}) {
                         Delete Task 
                     </Button>
                   </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
+        <Button 
+           sx={{
+            backgroundColor: '#a9aeb3', 
+            marginLeft:'10px', 
+            marginBottom:"10px",
+            fontWeight:'bold',
+            color:'white',
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+            backgroundColor: '#ff8989', // Pastel red color on hover
+            }
+          }}
+          color="primary" 
+          variant="contained" 
+          onClick={() => setEdit(false)} 
+          > 
+          Cancel 
+        </Button></div>
+                  
               </div>)}
   </div>
   <div className = "progress-section-wrapper">
       <div className = "progress-section">
-        <Typography variant="h5"  style={{
+        <Typography  variant="h5"  style={{
     fontWeight: "bold",
     fontFamily: 'Garamond, cursive',
     fontSize: '2rem', // Adjust the font size as needed
@@ -257,8 +261,8 @@ function TaskDetails({isManager, SERVER_URL}) {
           <LinearProgress  
             sthickness={100}
             sx={{
-              backgroundColor: '#a9b8aa',
-              color: "#1f4d20",
+              backgroundColor: '#c9cdd2',
+              color: "#8ab6d6",
               height: "10px"
             }}
             determinate
@@ -268,16 +272,10 @@ function TaskDetails({isManager, SERVER_URL}) {
      
       <hr></hr>
       <br></br>
-      <Typography
-  variant="h5"
-  style={{
-    fontWeight: "bold",
-    fontFamily: 'Garamond, cursive',
-    fontSize: '2rem', // Adjust the font size as needed
-  }}
->
-  Progress By Employee
-</Typography>
+      <div className="subtaskDetailsContainer">
+              <Typography className="subtaskDetailsText" variant='h4'>Progress By Employee</Typography>
+            </div>
+            
       {Object.entries(employeeProgressList).map(([email, employee]) => (  
         <div className="employee-progress">
           <Typography variant="h5"style={{
@@ -285,6 +283,7 @@ function TaskDetails({isManager, SERVER_URL}) {
     fontFamily: 'Garamond, cursive',
     fontSize: '1.5rem', // Adjust the font size as needed
   }}>{employee.firstName} {employee.lastName} ({email})</Typography>
+  
           <div className = "progress-section">
             <Typography variant='h6' style={{
     fontWeight: "bold",
@@ -306,7 +305,7 @@ function TaskDetails({isManager, SERVER_URL}) {
         </div>
           <div className="completed-remaining-tasks">
           { Object.keys(employee.completedSubTasks).length > 0 && <div>
-          <Typography variant="h6">Completed Sub-Tasks:</Typography>
+          <Typography variant="h6" style={{ fontFamily: 'Garamond, cursive' ,fontWeight:'bold'}} >Completed Sub-Tasks:</Typography>
           <ul>
             {employee.completedSubTasks.map(subTask => (
               <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
@@ -315,11 +314,12 @@ function TaskDetails({isManager, SERVER_URL}) {
           </div>
           <div className="completed-remaining-tasks">
           { Object.keys(employee.remainingSubTasks).length > 0 && <div>
-          <Typography variant="h6">Remaining Sub-Tasks:</Typography>
+            <Typography variant="h6" style={{ fontFamily: 'Garamond, cursive' ,fontWeight:'bold'}} >Remaining Sub-Tasks:</Typography>
           <ul>
+          <Typography variant="h6" style={{ fontFamily: 'Garamond, cursive' ,fontSize: '1.25rem'}}>
             {employee.remainingSubTasks.map(subTask => (
               <li key={subTask.title}>{subTask.title} ({subTask.hours} hours)</li>
-            ))}
+            ))}</Typography>
           </ul></div>}
           </div>
           </div>

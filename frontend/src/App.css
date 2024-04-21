@@ -145,7 +145,7 @@ hr {
   height: auto;
   background-color: #cce4f1;
   margin-left: 220px;
-  padding-top: 20px;
+  padding: 20px;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -217,9 +217,14 @@ hr {
 }
 .progress-section{
   align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
-  
+  background-color: #a9aeb3;
+  border-radius: 14px;
+  padding: 10px;
+  color: white;
 }
 .employee-progress{
   background-color: #cce4f1;
@@ -265,6 +270,8 @@ hr {
   flex-direction: column;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased blur radius */
   transition: margin-left 0.3s ease; 
+  font-family: 'Georgia', cursive !important; 
+  font-weight :500 !important
 
 }
 .task-item{
@@ -293,9 +300,9 @@ hr {
   color: rgb(0, 0, 0);
   padding: 10px;
   padding-top: 3px;
-  margin: 10px;
+  margin: 0px;
   border-radius: 10px;
-  margin-left: 230px;
+  margin-left: 0px;
   font-size: 1.5rem;
   font-family: 'Garamond', cursive !important
 
@@ -312,31 +319,48 @@ hr {
   border-radius: 10px;
   padding: 30px;
   margin-left: -40px;
+  font-size:1.25rem;
+  font-weight: 500;
   font-family: 'Garamond', cursive !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */ 
 }
 .subtaskDetailsContainer {
   margin: 20px;
+  justify-content: center;
   width: auto;
   height: auto;
   min-height: 15vh; /* Adjust the height as desired */
   display: flex;
   margin-left: 0px;
-  background-color: #cce4f1;
+  background-color: #437693;
   padding: 20px;
   align-items: center;
   border-radius: 15px; /* Add border-radius for curved edges */
   color: black; /* Set text color to black */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
 }
-
+.taskDetailsContainer {
+  margin: 0;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  min-height: 15vh; /* Adjust the height as desired */
+  display: flex;
+  margin-left: 0px;
+  background-color: #437693;
+  padding: 20px;
+  align-items: center;
+  border-radius: 10px; /* Add border-radius for curved edges */
+  color: black; /* Set text color to black */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+}
 .subtaskDetailsText {
   position: sticky; /* Set position to sticky */
   left: 250px; /* Adjust left position as needed */
   top: 50px; /* Adjust top position as needed */
   font-family: 'Garamond', cursive !important; 
   font-weight: bold; /* Set font weight to bold */
-  color: black; /* Set text color to black */
+  color: rgb(255, 255, 255); /* Set text color to black */
 }
 
 

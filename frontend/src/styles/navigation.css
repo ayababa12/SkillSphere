@@ -47,6 +47,7 @@ nav {
   padding: 10px;
   text-decoration: none;
   color: rgb(0, 0, 0);
+  font-weight: bold;
   text-align: center;
   font-family: 'Garamond', cursive !important; 
 }

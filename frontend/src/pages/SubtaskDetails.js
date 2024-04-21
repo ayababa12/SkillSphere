@@ -128,7 +128,7 @@ function SubtaskDetails({isManager}) {
                   </ul>
                   
                 </li>
-                <Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask)}} style={{color:"black"}}>Edit</Link>
+                <Link className="task-item-element"  onClick = {() => {setEdit(true); setSubTaskToEdit(subtask)}} style={{color:"black"}}>Edit</Link>
               </ul>
               
             </li>
@@ -139,13 +139,7 @@ function SubtaskDetails({isManager}) {
         </div>
         </div>):
        (<div>
-        <Button  className='mui-button'
-                        color="primary" 
-                        variant="contained" 
-                        onClick={() => setEdit(false)} 
-                        > 
-                        Cancel 
-                  </Button> 
+      
                   <div className = 'taskForm'>
                   <div className="form-item"> 
                         <TextField className="taskFormItem"
@@ -186,21 +180,76 @@ function SubtaskDetails({isManager}) {
                     />
                     </LocalizationProvider>
                     </div>
-                    <Button  style={{backgroundColor: '#1f4d20', marginLeft:'40px'}}
-                        color="primary" 
-                        variant="contained" 
-                        onClick={() => {updateSubTask(title,description,deadline);}} 
-                        > 
-                        Apply Changes 
-                    </Button> 
-                    <Button style={{backgroundColor: '#1f4d20',marginLeft:'40px'}}
-                        color="primary" 
-                        variant="contained" 
-                        onClick={() => deleteSubTask()} 
-                        > 
-                        Delete Sub-Task 
-                    </Button>
+                    <Button 
+            sx={{
+                backgroundColor: '#cce4f1', 
+                marginLeft: '10px', 
+                marginBottom: '10px',
+                color: 'black',
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                fontWeight:'bold',
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                    backgroundColor: '#8ab6d6', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
+            }}
+            type="submit"
+            color="primary" 
+            variant="contained" 
+            onClick={() => {updateSubTask(title,description,deadline);}} 
+            
+            > 
+            Apply Changes
+            </Button> 
+            <Button 
+            sx={{
+                backgroundColor: '#f08080', 
+                marginLeft:'10px', 
+                marginBottom:"10px",
+                fontWeight:'bold',
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                backgroundColor: '#e42020', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
+            }}
+            color="primary" 
+            variant="contained" 
+            onClick={() => deleteSubTask()} 
+            > 
+            Delete Subtask
+            </Button>
                   </div>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
+        <Button 
+           sx={{
+            backgroundColor: '#a9aeb3', 
+            marginLeft:'10px', 
+            marginBottom:"10px",
+            fontWeight:'bold',
+            color:'white',
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+            backgroundColor: '#ff8989', // Pastel red color on hover
+            }
+          }}
+          color="primary" 
+          variant="contained" 
+          onClick={() => setEdit(false)} 
+          > 
+          Cancel 
+        </Button></div>
        </div>)}
     </div>
   );

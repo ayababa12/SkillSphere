@@ -61,7 +61,7 @@ function TaskForm() {
     <div className="formPage">
         <body className="formPage">
         <div className='form'>
-        <Typography variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold'}} gutterBottom>Add Task</Typography>
+        <Typography className="taskDetailsContainer" variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold',color:'white'}} >Add Task</Typography>
       <form onSubmit={handleSubmit}>
       <div className="form-item"> 
       <TextField

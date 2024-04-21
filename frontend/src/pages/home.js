@@ -51,13 +51,14 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
               position: 'absolute',
               top: '20px',
               right: '20px',
-              backgroundColor: '#cce4f1',
+              backgroundColor: '#f08080',
               color: 'black',
+              fontWeight:'bold',
               marginBottom: '10px',
               fontFamily: 'Garamond, cursive',
               transition: 'background-color 0.3s',
               '&:hover': {
-                backgroundColor: '#8ab6d6',
+                backgroundColor: '#e42020',
               }
             }}
             variant="contained"
