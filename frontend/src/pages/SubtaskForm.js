@@ -48,7 +48,14 @@ function SubtaskForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const SERVER_URL = "http://127.0.0.1:5000";
-
+    if(hours <= 0){
+      setError("Hours field should be a positive number");
+      return;
+    }
+    if (!deadline){
+      setError("Ented a deadline");
+      return;
+    }
     fetch(`${SERVER_URL}/tasks/${task_id}/subtasks/create`, {
       method: 'POST',
       headers: {

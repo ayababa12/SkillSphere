@@ -18,7 +18,8 @@ CORS(app)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 ma = Marshmallow(app)
-
+with app.app_context():
+    db.session.execute(text("PRAGMA foreign_keys = ON"))
 migrate = Migrate(app, db)
 from backend.model.manager import Manager , manager_schema
 from backend.model.employee import Employee , employee_schema, many_employees_schema
@@ -440,6 +441,9 @@ def updateSubTask(id):
         description = request.json['description']
         hours = request.json['hours']
         if request.json.get('deadline') is not None:
+            parent_task_deadline = db.session.execute(text(f"select deadline from task where id = (select task_id from subtask where id = {id})")).fetchone()[0]
+            if parent_task_deadline < request.json['deadline']:
+                return jsonify({"message": "Subtask deadline should be before parent task's deadline"}), 400
             deadline = datetime.datetime.strptime(request.json['deadline'], "%Y-%m-%dT%H:%M:%S.%fZ")
             db.session.execute(text(f"UPDATE subtask set title = '{title}', description = '{description}', hours ='{hours}', deadline = '{deadline}' where id = '{id}'" ))
             db.session.commit()

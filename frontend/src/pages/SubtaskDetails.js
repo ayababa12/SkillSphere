@@ -47,15 +47,21 @@ function SubtaskDetails({isManager}) {
     fetchSubtasks();
   }, [task_id, edit]);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   if (subtasks.length === 0) {
     return <div>No subtasks available for this task</div>;
   }
 
   function updateSubTask(title,description,deadline) { 
+    if (!title || ! description){
+      setError("Enter title and description");
+      return;
+    }
+    if (hours <=0 ){
+      setError("Hours should be a positive integer");
+      return;
+    }
+
     return fetch(`${SERVER_URL}/subTask/${subTaskToEdit.id}`, { 
       method: "PUT", 
       headers: { 
@@ -95,7 +101,7 @@ function SubtaskDetails({isManager}) {
   return (
     
     <div className="subtask-details-section">
-      <Navigation isManager={isManager}/>
+      <Navigation isManager={true}/>
       {!edit ? (
         <div>
         <div className="subtaskDetailsContainer">
@@ -180,6 +186,7 @@ function SubtaskDetails({isManager}) {
                     />
                     </LocalizationProvider>
                     </div>
+                    <p style={{color:"red"}}>{error}</p>
                     <Button 
             sx={{
                 backgroundColor: '#cce4f1', 
