@@ -182,17 +182,19 @@ function TaskList({ isManager, SERVER_URL, email }) {
           <div className="employee-specific-task-section-wrapper">
           <ul >
             {employeeTaskList.map((task, index) => (
-              <div key={task.subtask_title} className={`sub-task-info task-${index + 1}`}>
+              <div>
                 {(filter === "all" || (filter === "incomplete" && !task.is_completed) || (filter === "complete" && task.is_completed)) ? (
+                  <div key={task.subtask_title} className={`sub-task-info task-${index + 1}`}>
                   <div>
                     <div>
                       <h2>Task {index + 1}</h2>
                       <ul>
-                        <li><strong>Title:</strong> {task.task_title}</li>
+                        <li><strong>Title:</strong>{task.task_title} — {task.subtask_title} <Checkbox checked={task.is_completed ? true:false} onClick={() => handleCheckboxChange(task.subtask_id, email, task.is_completed)}></Checkbox></li>
                         <li><strong>Description:</strong> {task.description}</li>
                         <li><strong>Is Completed:</strong> {task.is_completed ? 'Yes' : 'No'}</li>
                       </ul>
                     </div>
+                  </div>
                   </div>
                 ) : null}
               </div>
