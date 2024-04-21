@@ -22,7 +22,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import '../styles/employees.css'
-
+import Typography from '@mui/material/Typography';
 
 
 const CreateEmployeePage = () => {
@@ -82,6 +82,7 @@ const CreateEmployeePage = () => {
         <div className="formPage">
         <body className="formPage">
         <div className='form'>
+        <Typography variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold'}} gutterBottom>Add New Employee</Typography>
             <div className="form-item"> 
             <TextField 
                 fullWidth 
@@ -169,33 +170,46 @@ const CreateEmployeePage = () => {
             </LocalizationProvider>
             </div>
             <Button 
-            style={{
+            sx={{
                 backgroundColor: '#cce4f1', 
-                color:'#000',
-                marginLeft:'50px', 
-                marginBottom:"10px",
-                fontFamily: 'Garamond, cursive',
+                marginLeft: '10px', 
+                marginBottom: '10px',
+                color: 'black',
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                fontWeight:'bold',
                 transition: 'background-color 0.3s', // Smooth transition effect
                 '&:hover': {
-                backgroundColor: '#8ab6d6', // Change color on hover
-                }
+                    backgroundColor: '#8ab6d6', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
             }}
             color="primary" 
             variant="contained" 
+              
             onClick={() => {createEmployee(email, password, first_name, last_name, department, gender, dateOfBirth);}} 
             > 
             Add Employee 
             </Button> 
             <Button 
-            style={{
+            sx={{
                 backgroundColor: '#f08080', 
                 marginLeft:'10px', 
                 marginBottom:"10px",
+                fontWeight:'bold',
                 fontFamily: 'Garamond, cursive', // Add font-family property
                 transition: 'background-color 0.3s', // Smooth transition effect
                 '&:hover': {
-                backgroundColor: '#f08080', // Pastel red color on hover
-                }
+                backgroundColor: '#e42020', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
             }}
             color="primary" 
             variant="contained" 
@@ -287,6 +301,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
             color: 'black',
             marginLeft: '100px', // Changed from marginLeft to marginRight
             marginBottom: '10px',
+            fontWeight: 'bold' ,
             fontFamily: 'Garamond, cursive',
             transition: 'background-color 0.3s',
             '&:hover': {
@@ -314,7 +329,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
                             <TableCell 
                             key={column.id}
                             align={column.align}
-                            style={{ minWidth: column.minWidth, backgroundColor: "#cce4f1", color:'black', fontWeight:'bold' }}
+                            style={{ minWidth: column.minWidth, backgroundColor: "#cce4f1", color:'black', fontWeight:'bold',fontFamily: 'Garamond, cursive' }}
                             >
                             {column.label}
                             </TableCell>

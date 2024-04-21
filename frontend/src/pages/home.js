@@ -28,44 +28,49 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
     setSortOrder(event.target.value); // Update sort order
   };
 
+  // Function to handle logout
+  const handleLogout = () => {
+    clearUserToken();
+    clearUserName();
+    navigate("/authentication");
+  };
 
-  
+  useEffect(() => {
+    // JavaScript or React code to toggle the class
+    const container = document.querySelector('.announcementsContainer');
+    container.classList.toggle('show');
+  }, []); // This useEffect will run once when the component mounts
+
   return (
     <div>
-      
       <div className="welcomeBanner">
         <Typography className="welcomeText" variant='h4'>Welcome Back, {userName}!</Typography>
         <div>
-        <Button
-    sx={{
-        position: 'absolute',
-        top: '20px',
-        right: '20px',
-        backgroundColor: '#cce4f1',
-        color: 'black',
-        marginBottom: '10px',
-        fontFamily: 'Garamond, cursive',
-        transition: 'background-color 0.3s',
-        '&:hover': {
-            backgroundColor: '#8ab6d6',
-        }
-    }}
-    variant="contained"
-    onClick={() => { clearUserToken(); clearUserName(); navigate("/authentication"); }} // Use navigate here
->
-    Logout
-</Button>
-
-
+          <Button
+            sx={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              backgroundColor: '#cce4f1',
+              color: 'black',
+              marginBottom: '10px',
+              fontFamily: 'Garamond, cursive',
+              transition: 'background-color 0.3s',
+              '&:hover': {
+                backgroundColor: '#8ab6d6',
+              }
+            }}
+            variant="contained"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </div>
       </div>
-      </div>
-      
-   
 
-    
       <Navigation isManager={isManager} />
 
-      <div className="announcementsContainer">
+      <div className={`announcementsContainer ${announcements.length > 0 ? 'show' : ''}`}>
         <div className="announcement-header">
           <Typography variant='h5' className="announcementText">Announcements</Typography>
           {isManager && (
@@ -79,16 +84,15 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
             </Button>
           )}
           <Select
-              value={sortOrder}
-              onChange={handleSortOrderChange}
-              variant="outlined"
-              className="sortOrderSelect" // Apply the sortOrderSelect class
-              MenuProps={{ classes: { paper: 'dropdownMenu' } }} // Apply the dropdownMenu class to the drop-down menu
-            >
+            value={sortOrder}
+            onChange={handleSortOrderChange}
+            variant="outlined"
+            className="sortOrderSelect" // Apply the sortOrderSelect class
+            MenuProps={{ classes: { paper: 'dropdownMenu' } }} // Apply the dropdownMenu class to the drop-down menu
+          >
             <MenuItem value="newest">Newest to Oldest</MenuItem>
             <MenuItem value="oldest">Oldest to Newest</MenuItem>
           </Select>
-
         </div>
 
         {announcements.map((announcement, index) => (
@@ -100,7 +104,6 @@ const HomePage = ({ isManager, userName, SERVER_URL }) => {
             <Typography variant="body1">{announcement.content}</Typography>
           </div>
         ))}
-
       </div>
     </div>
   );

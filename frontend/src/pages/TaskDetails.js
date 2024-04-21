@@ -106,8 +106,20 @@ function TaskDetails({isManager, SERVER_URL}) {
       <Navigation isManager={isManager}/>
       {!edit ? (<div >
                 <Button className='mui-button' 
-                        color="primary" 
-                        variant="contained" 
+                        sx={{
+                          backgroundColor: '#cce4f1', 
+                          marginLeft: '10px', 
+                          marginBottom: '10px',
+                          color: 'black',
+                          fontFamily: 'Garamond, cursive', // Add font-family property
+                          fontWeight:'bold',
+                          transition: 'background-color 0.3s', // Smooth transition effect
+                          '&:hover': {
+                              backgroundColor: '#8ab6d6', // Pastel red color on hover
+                          }
+                      }}
+                      color="primary" 
+                      variant="contained" 
                         onClick={() => setEdit(true)} >Edit Task</Button>
                 
                 <h1 style={{color:'black'}}>Task Details</h1>
@@ -129,8 +141,25 @@ function TaskDetails({isManager, SERVER_URL}) {
                 </div>):
               (<div>
                 <Button  className='mui-button'
-                        color="primary" 
-                        variant="contained" 
+                        sx={{
+                          backgroundColor: '#f08080', 
+                          marginLeft:'10px', 
+                          marginBottom:"10px",
+                          fontWeight:'bold',
+                          color:'black',
+                          fontFamily: 'Garamond, cursive', // Add font-family property
+                          transition: 'background-color 0.3s', // Smooth transition effect
+                          '&:hover': {
+                          backgroundColor: '#e42020', // Pastel red color on hover
+                          },
+                          display: 'block', // Center the button
+                          marginLeft: 'auto', // Center the button
+                          marginRight: 'auto', // Center the button
+                          marginTop: '20px', // Add top margin
+                          marginBottom: '20px', // Add bottom margin
+                      }}
+                      color="primary" 
+                      variant="contained" 
                         onClick={() => setEdit(false)} 
                         > 
                         Cancel 
@@ -166,16 +195,50 @@ function TaskDetails({isManager, SERVER_URL}) {
                     />
                     </LocalizationProvider>
                     </div>
-                    <Button  style={{backgroundColor: '#1f4d20', marginLeft:'40px'}}
-                        color="primary" 
-                        variant="contained" 
+                    <Button  sx={{
+                          backgroundColor: '#cce4f1', 
+                          marginLeft: '10px', 
+                          marginBottom: '10px',
+                          color: 'black',
+                          fontFamily: 'Garamond, cursive', // Add font-family property
+                          fontWeight:'bold',
+                          transition: 'background-color 0.3s', // Smooth transition effect
+                          '&:hover': {
+                              backgroundColor: '#8ab6d6', // Pastel red color on hover
+                          },
+                          display: 'block', // Center the button
+                          marginLeft: 'auto', // Center the button
+                          marginRight: 'auto', // Center the button
+                          marginTop: '20px', // Add top margin
+                          marginBottom: '20px', // Add bottom margin
+                      }}
+                              
+                      color="primary" 
+                      variant="contained" 
                         onClick={() => {updateTask(title,description,deadline);}} 
                         > 
                         Apply Changes 
                     </Button> 
-                    <Button style={{backgroundColor: '#1f4d20',marginLeft:'40px'}}
-                        color="primary" 
-                        variant="contained" 
+                    <Button sx={{
+                          backgroundColor: '#f08080', 
+                          marginLeft: '10px', 
+                          marginBottom: '10px',
+                          color: 'black',
+                          fontFamily: 'Garamond, cursive', // Add font-family property
+                          fontWeight:'bold',
+                          transition: 'background-color 0.3s', // Smooth transition effect
+                          '&:hover': {
+                              backgroundColor: '#e42020', // Pastel red color on hover
+                          },
+                          display: 'block', // Center the button
+                          marginLeft: 'auto', // Center the button
+                          marginRight: 'auto', // Center the button
+                          marginTop: '20px', // Add top margin
+                          marginBottom: '20px', // Add bottom margin
+                      }}
+                      
+                      color="primary" 
+                      variant="contained" 
                         onClick={() => deleteTask()} 
                         > 
                         Delete Task 
@@ -185,7 +248,11 @@ function TaskDetails({isManager, SERVER_URL}) {
   </div>
   <div className = "progress-section-wrapper">
       <div className = "progress-section">
-        <Typography variant="h5" style={{fontWeight:"bold"}}>Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
+        <Typography variant="h5"  style={{
+    fontWeight: "bold",
+    fontFamily: 'Garamond, cursive',
+    fontSize: '2rem', // Adjust the font size as needed
+  }}>Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
         <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
           <LinearProgress  
             sthickness={100}
@@ -201,19 +268,35 @@ function TaskDetails({isManager, SERVER_URL}) {
      
       <hr></hr>
       <br></br>
-      <Typography variant="h5" style={{fontWeight:"bold"}}>Progress By Employee</Typography>
-      
+      <Typography
+  variant="h5"
+  style={{
+    fontWeight: "bold",
+    fontFamily: 'Garamond, cursive',
+    fontSize: '2rem', // Adjust the font size as needed
+  }}
+>
+  Progress By Employee
+</Typography>
       {Object.entries(employeeProgressList).map(([email, employee]) => (  
         <div className="employee-progress">
-          <Typography variant="h5" style={{fontWeight:"bold"}}>{employee.firstName} {employee.lastName} ({email})</Typography>
+          <Typography variant="h5"style={{
+    fontWeight: "bold",
+    fontFamily: 'Garamond, cursive',
+    fontSize: '1.5rem', // Adjust the font size as needed
+  }}>{employee.firstName} {employee.lastName} ({email})</Typography>
           <div className = "progress-section">
-            <Typography variant='h6'>Progress: {Math.ceil(employee.completedHours/(employee.completedHours + employee.remainingHours)*100)}% Complete</Typography>
+            <Typography variant='h6' style={{
+    fontWeight: "bold",
+    fontFamily: 'Garamond, cursive',
+    fontSize: '1.25rem', // Adjust the font size as needed
+  }}>Progress: {Math.ceil(employee.completedHours/(employee.completedHours + employee.remainingHours)*100)}% Complete</Typography>
             <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
             <LinearProgress  
               sthickness={100}
               sx={{
-                backgroundColor: '#8c968d',
-                color: "white",
+                backgroundColor: '#c9cdd2',
+                color: "#8ab6d6",
                 height: "10px",
                 width: "400px",
               }}

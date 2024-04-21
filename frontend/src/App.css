@@ -51,9 +51,11 @@
   padding-top: 10px;
   border-radius: 15px;
   display: flex;
-  flex-direction: row; /* Change to row */
-  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end; /* Align items to the far right */
+  align-items: center; /* Align items vertically */
 }
+
 .top-page-2 {
   display: flex;
   justify-content: space-between; /* Pushes the button to the far right */
@@ -99,7 +101,7 @@
   border-radius: 15px; /* Add border-radius for curved edges */
   color: black; /* Set text color to black */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
-  
+  transition: margin-left 0.3s ease;
   /* Crop the background image */
   background-size: cover;
   background-position: center;
@@ -148,8 +150,12 @@ hr {
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+  transition: margin-left 0.3s ease; 
 }
-
+.announcementsContainer.show {
+  opacity: 1; /* Show the container by setting opacity to 1 */
+  transform: translateY(0); /* Move the container back to its original position */
+}
 
 .announcementText{
   margin-top: 0px !important;
@@ -167,6 +173,7 @@ hr {
   border-radius: 10px;
   display: flex; 
   flex-direction: column;
+  transition: margin-left 0.3s ease; 
 
 }
 .author{
@@ -185,13 +192,14 @@ hr {
   transition: opacity .5s ease-out;
   margin-right: 10px !important;
   font-family: 'Garamond', cursive !important; 
+  
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
 }
 .sortOrderSelect {
   background-color: #ffffff !important;
   color: rgb(0, 0, 0) !important;
   font-weight: bold !important;
-  
+  font-weight: bold !important;
   transition: opacity .5s ease-out;
   margin-right: 10px !important;
   font-family: 'Garamond', cursive !important; 
@@ -232,7 +240,7 @@ hr {
   margin-top: 15px;
 }
 .employee-specific-task-section-wrapper{
-  margin-left: 200px;
+  margin-left: 0px;
   
 }
 .task-header{
@@ -246,9 +254,18 @@ hr {
   padding: 10px;
 }
 .task-list{
+  margin: 20px;
+  width: auto;
+  height: auto;
+  background-color: #cce4f1;
+  margin-left: 0px;
+  padding-top: 20px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+  transition: margin-left 0.3s ease; 
 
-  display: flex; 
-  flex-wrap: wrap;
 }
 .task-item{
   background-color: #cce4f1;
@@ -257,6 +274,7 @@ hr {
   padding-top: 3px;
   margin: 10px;
   border-radius: 10px;
+  
 }
 .task-item li{
   font-size: 20px;
@@ -278,7 +296,8 @@ hr {
   margin: 10px;
   border-radius: 10px;
   margin-left: 230px;
-  font-size: larger;
+  font-size: 1.5rem;
+  font-family: 'Garamond', cursive !important
 
 }
 .subtask-details-section{

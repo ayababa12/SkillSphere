@@ -76,7 +76,7 @@ function Survey() {
         <body className="formPage">
         <div className='form'>
     <form onSubmit={handleSubmit} style={{ maxWidth: '700px', margin: 'auto' }}>
-      <Typography variant="h6" style={{ textAlign: 'center', marginBottom: '20px' }}>Employee Survey</Typography>
+      <Typography variant="h6" style={{ textAlign: 'center', marginBottom: '20px' ,fontWeight:'bold',fontFamily: 'Garamond, cursive', fontSize: '2.5rem'}}>Employee Survey</Typography>
 
       <FormControl fullWidth margin="normal">
         <TextField
@@ -202,9 +202,31 @@ function Survey() {
         </Grid>
       </Grid>
   
-      <Button variant="contained" color="primary" type="submit" style={{ marginTop: '20px', marginBottom: '20px', backgroundColor: '#1f4d20', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}>
-        Submit Survey
-      </Button>
+      <Button 
+    sx={{
+        backgroundColor: '#cce4f1', 
+        marginLeft: '10px', 
+        marginBottom: '10px',
+        color: 'black',
+        fontFamily: 'Garamond, cursive', // Add font-family property
+        fontWeight:'bold',
+        transition: 'background-color 0.3s', // Smooth transition effect
+        '&:hover': {
+            backgroundColor: '#8ab6d6', // Pastel red color on hover
+        },
+        display: 'block', // Center the button
+        marginLeft: 'auto', // Center the button
+        marginRight: 'auto', // Center the button
+        marginTop: '20px', // Add top margin
+        marginBottom: '20px', // Add bottom margin
+    }}
+    color="primary" 
+    variant="contained" 
+    type="submit"
+>
+    Submit Survey
+</Button>
+
     </form>
     </div>
     </body>

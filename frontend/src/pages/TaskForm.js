@@ -1,14 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-
+import { Button, TextField, Snackbar,Typography } from '@mui/material';
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -64,6 +61,7 @@ function TaskForm() {
     <div className="formPage">
         <body className="formPage">
         <div className='form'>
+        <Typography variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold'}} gutterBottom>Add Task</Typography>
       <form onSubmit={handleSubmit}>
       <div className="form-item"> 
       <TextField
@@ -101,22 +99,53 @@ function TaskForm() {
       {error && <p className="error">{error}</p>}
       <div className="form-item"> 
       <Button
-  type="submit"
-  variant="contained"
-  sx={{ 
-    marginY: 2,
+   sx={{
     backgroundColor: '#cce4f1', 
-    color:'black',
+    marginLeft: '10px', 
+    marginBottom: '10px',
+    color: 'black',
     fontFamily: 'Garamond, cursive', // Add font-family property
+    fontWeight:'bold',
     transition: 'background-color 0.3s', // Smooth transition effect
     '&:hover': {
-      backgroundColor: '#8ab6d6', // Pastel green color on hover
-    }
-  }}
+        backgroundColor: '#8ab6d6', // Pastel red color on hover
+    },
+    display: 'block', // Center the button
+    marginLeft: 'auto', // Center the button
+    marginRight: 'auto', // Center the button
+    marginTop: '20px', // Add top margin
+    marginBottom: '20px', // Add bottom margin
+}}
+color="primary" 
+variant="contained" 
+  
 >
   Add Task
 </Button>
-
+<Button 
+ sx={{
+  backgroundColor: '#f08080', 
+  marginLeft: '10px', 
+  marginBottom: '10px',
+  color: 'black',
+  fontFamily: 'Garamond, cursive', // Add font-family property
+  fontWeight:'bold',
+  transition: 'background-color 0.3s', // Smooth transition effect
+  '&:hover': {
+      backgroundColor: '#e42020', // Pastel red color on hover
+  },
+  display: 'block', // Center the button
+  marginLeft: 'auto', // Center the button
+  marginRight: 'auto', // Center the button
+  marginTop: '20px', // Add top margin
+  marginBottom: '20px', // Add bottom margin
+}}
+color="primary" 
+variant="contained" 
+            onClick={() => navigate("/tasks")} // Go back to login page
+            > 
+            Cancel
+            </Button>
       </div>
       </form>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>

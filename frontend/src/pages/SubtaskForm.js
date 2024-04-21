@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -88,6 +89,7 @@ function SubtaskForm() {
     <div className="formPage">
         <body className="formPage">
         <div className='form'>
+        <Typography variant="h4" style={{ fontFamily: 'Garamond, cursive', textAlign: 'center' ,fontWeight:'bold'}} gutterBottom>Add Subtask</Typography>
       <form onSubmit={handleSubmit}>
       <div className="form-item"> 
         <TextField
@@ -154,12 +156,39 @@ function SubtaskForm() {
         <div className="form-item"> 
         <Button
           type="submit"
-          color="primary"
           variant="contained"
-          sx={{ marginY: 2, backgroundColor: '#1f4d20' }}
+          sx={{ 
+            marginY: 2,
+            backgroundColor: '#cce4f1', 
+            color:'black',
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+              backgroundColor: '#8ab6d6', // Pastel green color on hover
+            }
+          }}
         >
           Add Subtask
         </Button>
+        <Button 
+            sx={{
+                marginY: 2,
+                backgroundColor: '#f08080', 
+                marginLeft:'10px', 
+                marginBottom:"10px",
+                fontWeight:'bold',
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                backgroundColor: '#e42020', // Pastel red color on hover
+                }
+            }}
+            color="primary" 
+            variant="contained" 
+            onClick={() => navigate("/tasks")} // Go back to login page
+            > 
+            Cancel
+            </Button>
         </div>
       </form>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>

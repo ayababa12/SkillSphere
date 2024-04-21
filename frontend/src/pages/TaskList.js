@@ -90,29 +90,7 @@ function TaskList({ isManager,SERVER_URL, email }) {
       <div className="subtaskDetailsContainer">
         <Typography className="subtaskDetailsText" variant='h4'>Tasks</Typography>
         </div>
-      <div className="top-page">
-      {isManager && (
-        <Button 
-        sx={{
-            backgroundColor: '#cce4f1', 
-            marginLeft:'10px', 
-            marginBottom:"10px",
-            color:"black",
-            fontFamily: 'Garamond, cursive', // Add font-family property
-            transition: 'background-color 0.3s', // Smooth transition effect
-            '&:hover': {
-                backgroundColor: '#8ab6d6', // Pastel red color on hover
-            }
-        }}
-        color="primary" 
-        variant="contained" 
-        onClick={() => navigate("/tasks/create")} // Navigate to the task creation page
-    > 
-        Add Task
-    </Button>
-    
-      )}
-      </div>
+      
       {error && <p style={{color:'red'}}>An error occurred: {error}</p>}
       <div>
       <div className = "task-list">
@@ -148,6 +126,30 @@ function TaskList({ isManager,SERVER_URL, email }) {
           </div>
         ))}
       </div>
+      <div className="top-page">
+      {isManager && (
+        <Button 
+        sx={{
+            backgroundColor: '#cce4f1', 
+            marginLeft:'10px', 
+            marginBottom:"10px",
+            color:"black",
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            fontWeight:'bold',
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+                backgroundColor: '#8ab6d6', // Pastel red color on hover
+            }
+        }}
+        color="primary" 
+        variant="contained" 
+        onClick={() => navigate("/tasks/create")} // Navigate to the task creation page
+    > 
+        Add Task
+    </Button>
+    
+      )}
+      </div>
       
 
       <Dialog
@@ -175,16 +177,16 @@ function TaskList({ isManager,SERVER_URL, email }) {
       
     </div>):
     (<div>
-      <FormControl style={{marginLeft:"220px", marginTop:"10px"}}>
+      <FormControl style={{marginLeft:"20px", marginTop:"10px"}}>
           <Select 
               labelId="select-label"
               id="select"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               >
-          <MenuItem value="all">All</MenuItem>
-          <MenuItem value="incomplete">Incomplete</MenuItem>
-          <MenuItem value="complete">Complete</MenuItem>
+          <MenuItem value="all">View All Tasks</MenuItem>
+          <MenuItem value="incomplete">View Incomplete Tasks</MenuItem>
+          <MenuItem value="complete">View Completed Tasks</MenuItem>
           </Select>
       </FormControl>
     <div className="employee-specific-task-section-wrapper">
