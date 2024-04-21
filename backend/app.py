@@ -295,6 +295,9 @@ def create_subtask(task_id):
         )
         if deadline:
             subtask.deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
+            task_deadline = db.session.execute(text(f"select deadline from task where id = {task_id}")).fetchone()[0]
+            if task_deadline < deadline:
+                return jsonify({"message": "subtask deadline must be before task deadline"}), 400
         db.session.add(subtask)
         db.session.commit()
         # Create the association between subtask and employee

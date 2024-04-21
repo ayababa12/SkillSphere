@@ -57,12 +57,13 @@ function SubtaskForm() {
       body: JSON.stringify({ title, description, deadline, employee, hours }),
     })
       .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
         return response.json();
       })
-      .then(() => {
+      .then((data) => {
+        if (data.message){
+          throw new Error(data.message);
+          return;
+        }
         setTitle('');
         setDescription('');
         setDeadline(null);
@@ -152,7 +153,7 @@ function SubtaskForm() {
           ))}
         </TextField>
         </div>
-        {error && <p className="error">{error}</p>}
+        {error && <p className="error" style={{color:"red", marginLeft:"30px"}}>{error}</p>}
         <div className="form-item"> 
         <Button 
             sx={{
