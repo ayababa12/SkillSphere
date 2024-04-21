@@ -113,19 +113,14 @@ const UserProfilePage = ({userToken}) => {
   return (
     <div>
         <Navigation isManager={true}/>
-    <div className="welcomeBanner">
-      <Typography className="welcomeText" variant='h4'>{first_name} {last_name}</Typography>
+    <div className="welcomeBanner2">
+      <Typography className="welcomeText2" variant='h4'>{first_name} {last_name}</Typography>
     </div>
+    
       {/* Render user profile information */}
     { edit? (
                 <div style={{marginLeft: "220px"}}>
-                    <Button  className='mui-button'
-                        color="primary" 
-                        variant="contained" 
-                        onClick={() => setEdit(false)} 
-                        > 
-                        Cancel 
-                    </Button> 
+                    
                     <div className="form-item"> 
                         <TextField 
                         fullWidth 
@@ -193,20 +188,73 @@ const UserProfilePage = ({userToken}) => {
                             
                     </LocalizationProvider>
                     </div>
-                    <Button  style={{backgroundColor: '#1f4d20', marginLeft:'40px'}}
-                        color="primary" 
-                        variant="contained" 
-                        onClick={() => updateEmployee(first_name,last_name,department,gender, dateOfBirth)} 
-                        > 
-                        Apply Changes 
-                    </Button> 
-                    <Button style={{backgroundColor: '#1f4d20',marginLeft:'40px'}}
-                        color="primary" 
-                        variant="contained" 
-                        onClick={() => deleteEmployee()} 
-                        > 
-                        Delete Employee 
-                    </Button> 
+                     <Button 
+            sx={{
+                backgroundColor: '#cce4f1', 
+                marginLeft: '10px', 
+                marginBottom: '10px',
+                color: 'black',
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                fontWeight:'bold',
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                    backgroundColor: '#8ab6d6', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
+            }}
+            type="submit"
+            color="primary" 
+            variant="contained" 
+            onClick={() => {updateEmployee(first_name,last_name,department,gender, dateOfBirth)}} 
+            
+            > 
+            Apply Changes
+            </Button> 
+            <Button 
+            sx={{
+                backgroundColor: '#f08080', 
+                marginLeft:'10px', 
+                marginBottom:"10px",
+                fontWeight:'bold',
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                backgroundColor: '#e42020', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
+            }}
+            color="primary" 
+            variant="contained" 
+            onClick={() => deleteEmployee()} 
+            > 
+            Delete Subtask
+            </Button>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
+        <Button 
+          sx={{
+            backgroundColor: '#a9aeb3', 
+            color: 'white',
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            fontWeight:'bold',
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+              backgroundColor: '#ff8989', // Pastel red color on hover
+            }
+          }}
+          color="primary" 
+          variant="contained" 
+          onClick={() => setEdit(false)} 
+        >
+          Cancel
+        </Button></div>
                     <p  style={{color:"red"}}>{errorMsg}</p>
             
           </div>
@@ -214,13 +262,24 @@ const UserProfilePage = ({userToken}) => {
 
         (
             <div>
-                <Button className='mui-button'
-                    color="primary" 
-                    variant="contained" 
-                    onClick={() => setEdit(true)} 
-                    > 
-                    Edit 
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px', marginBottom: '20px' }}>
+        <Button 
+          sx={{
+            backgroundColor: '#f08080', 
+            color: 'white',
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            fontWeight:'bold',
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+              backgroundColor: '#e42020', // Pastel red color on hover
+            }
+          }}
+          color="primary" 
+          variant="contained" 
+          onClick={() => setEdit(true)} 
+        >
+          Edit Employee
+        </Button></div>
                 <FormControl style={{marginLeft:"220px", marginTop:"10px"}}>
                     <Select 
                         labelId="select-label"
@@ -228,11 +287,12 @@ const UserProfilePage = ({userToken}) => {
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
                         >
-                    <MenuItem value="all">All</MenuItem>
-                    <MenuItem value="incomplete">Incomplete</MenuItem>
-                    <MenuItem value="complete">Complete</MenuItem>
+                    <MenuItem value="all">View All Tasks</MenuItem>
+                    <MenuItem value="incomplete">View Incomplete Tasks</MenuItem>
+                    <MenuItem value="complete">View Complete Tasks</MenuItem>
                     </Select>
                 </FormControl>
+                <div className='announcementsContainer'>
                 {employeeTaskList.length > 0 ? 
                 (<div className="employee-specific-task-section-wrapper">
                     {employeeTaskList.map(task => ( <div>{ (filter==="all" || (filter==="incomplete" && !task.is_completed) || (filter==="complete" && task.is_completed)) ? (
@@ -251,13 +311,14 @@ const UserProfilePage = ({userToken}) => {
                 </div>):
                 (<div></div>)
                 }
+                </div>
             </div>
 
         )
 
     }
     </div>
-
+  
   );
 };
 

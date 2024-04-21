@@ -116,6 +116,8 @@ function TaskForm() {
     marginTop: '20px', // Add top margin
     marginBottom: '20px', // Add bottom margin
 }}
+
+type="submit"
 color="primary" 
 variant="contained" 
   

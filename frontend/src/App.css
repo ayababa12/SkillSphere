@@ -121,7 +121,29 @@
 hr {
   margin: 0; /* Remove default margin of hr */
 }
+.welcomeBanner2{
+  margin: 20px;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  min-height: 15vh; /* Adjust the height as desired */
+  display: flex;
+  margin-left: 220px;
+  background-color: #437693;
+  padding: 20px;
+  align-items: center;
+  border-radius: 15px; /* Add border-radius for curved edges */
+  color: rgb(255, 255, 255); /* Set text color to black */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+}
 
+.welcomeText2{
+  position: fixed;
+  left: 250px !important;
+  top: 50px;
+  font-family: 'Georgia', cursive !important; 
+  font-weight: bold !important;
+}
 .deadlinesList{
     position:fixed;
     right: 20px;

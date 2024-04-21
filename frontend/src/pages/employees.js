@@ -200,6 +200,7 @@ const CreateEmployeePage = () => {
                 marginLeft:'10px', 
                 marginBottom:"10px",
                 fontWeight:'bold',
+                color:'black',
                 fontFamily: 'Garamond, cursive', // Add font-family property
                 transition: 'background-color 0.3s', // Smooth transition effect
                 '&:hover': {
