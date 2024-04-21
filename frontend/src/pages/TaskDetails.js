@@ -258,7 +258,7 @@ function TaskDetails({isManager, SERVER_URL}) {
     fontWeight: "bold",
     fontFamily: 'Garamond, cursive',
     fontSize: '2rem', // Adjust the font size as needed
-  }}>Overall progress: {Math.ceil(totalProgress)}% Complete</Typography>
+  }}>Overall progress: {isNaN(Math.ceil(totalProgress)) ? 0 : Math.ceil(totalProgress)}% Complete</Typography>
         <Stack spacing={2} sx={{ flex: 1, margin: "50px" }}>
           <LinearProgress  
             sthickness={100}

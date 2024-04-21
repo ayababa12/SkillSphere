@@ -22,7 +22,10 @@ function TaskForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const SERVER_URL = "http://127.0.0.1:5000"; // Replace with your actual server URL
-
+    if (!deadline){
+      setError("Please select a deadline");
+      return;
+    }
     fetch(`${SERVER_URL}/tasks/create`, {
       method: 'POST',
       headers: {
@@ -96,7 +99,7 @@ function TaskForm() {
         />
       </LocalizationProvider>
       </div>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error" style={{marginLeft:"30px", color:"red"}}>{error}</p>}
       <div className="form-item"> 
       <Button
    sx={{
