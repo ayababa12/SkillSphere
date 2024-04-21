@@ -215,7 +215,7 @@ function TaskDetails({isManager, SERVER_URL}) {
                 backgroundColor: '#8c968d',
                 color: "white",
                 height: "10px",
-                width: "400px"
+                width: "400px",
               }}
               determinate
               value={Math.ceil(employee.completedHours/(employee.completedHours + employee.remainingHours)*100)} />

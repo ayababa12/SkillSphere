@@ -42,24 +42,38 @@
 .whiteText{
   color:white;
 }
-.mui-button{
-  background-color:#1f4d20 !important;
-  position: fixed !important;
-  top: 20px !important;
-  right: 20px !important;
-  z-index: 1001
+
+.top-page {
+  margin: 20px;
+  width: auto;
+  height: auto;
+  margin-left: 220px;
+  padding-top: 10px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row; /* Change to row */
+  align-items: center;
 }
-.mui-button:hover{
-  background-color:#3e683e;
+.top-page-2 {
+  display: flex;
+  justify-content: space-between; /* Pushes the button to the far right */
+  align-items: center; /* Aligns items vertically */
 }
+
+.add-task-button-container {
+  margin-left: 10px; /* Adjust margin as needed */
+}
+
+
 .taskForm{
   margin-top: 50px;
   background-color: #ffffff;
-  border-color:#1f4d20;
+  border-color:#dde7fd;
   border-radius: 15px;
   margin-left: auto;
   margin-right: auto;
   padding: 30px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased blur radius */
 }
 /* .taskFormItem .MuiInputBase-input {
   color: white;
@@ -70,24 +84,42 @@
   color: white; 
   border-color: white;
 } */
-.welcomeBanner{
-  min-height: 25vh; 
-  display: flex;  
-  margin: 0;
-  background-color: #f0f0f0;
-  padding:20px;
+.welcomeBanner {
+  position: relative; /* Set position to relative */
+  margin: 20px;
+  width: auto;
+  height: auto;
+  min-height: 80vh; /* Adjust the height as desired */
+  display: flex;
+  margin-left: 220px;
+  background-image: url('homepage.png'); /* Adjust the path as needed */
+  background-color: #EFEFF0;
+  padding: 20px;
   align-items: center;
+  border-radius: 15px; /* Add border-radius for curved edges */
+  color: black; /* Set text color to black */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+  
+  /* Crop the background image */
+  background-size: cover;
+  background-position: center;
 }
+
+.welcomeText {
+  position: absolute; /* Set position to absolute */
+  top: 20px; /* Adjust the top position as needed */
+  left: 20px; /* Adjust the left position as needed */
+  font-family: 'Garamond', cursive !important; 
+  font-weight: bold !important;
+  color: white; /* Set text color to white */
+  z-index: 1; /* Ensure text is above the background image */
+}
+
+
 hr {
   margin: 0; /* Remove default margin of hr */
 }
-.welcomeText{
-  position: fixed;
-  left: 250px !important;
-  top: 50px;
-  font-family: 'Lucida Handwriting', cursive !important; 
-  font-weight: bold !important;
-}
+
 .deadlinesList{
     position:fixed;
     right: 20px;
@@ -102,26 +134,29 @@ hr {
   position:fixed;
   top: 38px;
   right: 280px;
-  font-family: 'Lucida Handwriting', cursive !important; 
+  font-family: 'Georgia', cursive !important; 
   font-weight: bold !important;
 }
-.announcementsContainer{
+.announcementsContainer {
   margin: 20px;
-  width: auto; 
-  height: auto; 
-  background-color: #1f4d20;
-  margin-left: 220px; 
+  width: auto;
+  height: auto;
+  background-color: #cce4f1;
+  margin-left: 220px;
   padding-top: 20px;
-  border-radius: 10px;
-  display: flex; 
+  border-radius: 15px;
+  display: flex;
   flex-direction: column;
- 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Increased blur radius */
 }
+
+
 .announcementText{
   margin-top: 0px !important;
   margin-left: 10px !important;
-  color: white;
+  color: rgb(0, 0, 0);
   font-weight: bold !important;
+  font-family: 'Garamond', cursive !important; 
 }
 .announcementWrapper{
   margin:10px;
@@ -132,6 +167,7 @@ hr {
   border-radius: 10px;
   display: flex; 
   flex-direction: column;
+
 }
 .author{
   font-weight: bold !important;
@@ -142,12 +178,28 @@ hr {
   flex-direction: row;
 }
 .addAnnouncementButton{
-  background-color: #1f4d20 !important;
-  color: white !important;
+  background-color: #ffffff !important;
+  color: rgb(0, 0, 0) !important;
   font-weight: bold !important;
   border: 1px solid white !important;
   transition: opacity .5s ease-out;
   margin-right: 10px !important;
+  font-family: 'Garamond', cursive !important; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+}
+.sortOrderSelect {
+  background-color: #ffffff !important;
+  color: rgb(0, 0, 0) !important;
+  font-weight: bold !important;
+  
+  transition: opacity .5s ease-out;
+  margin-right: 10px !important;
+  font-family: 'Garamond', cursive !important; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+}
+
+.sortOrderSelect:hover {
+  opacity: 1;
 }
 .addAnnouncementButton:hover {
   opacity: 1;
@@ -159,13 +211,16 @@ hr {
   align-items: center;
   display: flex;
   flex-direction: row;
+  
 }
 .employee-progress{
-  background-color: #1f4d20;
-  color: white;
+  background-color: #cce4f1;
+  color: rgb(0, 0, 0);
   border-radius: 14px;
   margin: 10px;
   padding: 5px;
+
+  
 }
 .completed-remaining-tasks{
   display: flex;
@@ -178,6 +233,7 @@ hr {
 }
 .employee-specific-task-section-wrapper{
   margin-left: 200px;
+  
 }
 .task-header{
   padding-top: 10px;
@@ -190,14 +246,13 @@ hr {
   padding: 10px;
 }
 .task-list{
-  margin-left: 220px;
+
   display: flex; 
   flex-wrap: wrap;
-  
 }
 .task-item{
-  background-color: #1f4d20;
-  color: white;
+  background-color: #cce4f1;
+  color: rgb(0, 0, 0);
   padding: 10px;
   padding-top: 3px;
   margin: 10px;
@@ -209,36 +264,63 @@ hr {
 }
 
 .task-item-element {
-  color: white;
+  color: rgb(0, 0, 0);
   margin: 15px;
 }
 .task-item-element:hover {
   opacity: 0.5;
 }
 .task-info{
-  background-color: #1f4d20;
-  color: white;
+  background-color: #cce4f1;
+  color: rgb(0, 0, 0);
   padding: 10px;
   padding-top: 3px;
   margin: 10px;
   border-radius: 10px;
   margin-left: 230px;
   font-size: larger;
+
 }
 .subtask-details-section{
   margin-left: 220px;
-  
   flex-wrap: wrap;
 }
 .sub-task-info{
-  background-color: #1f4d20;
-  color: white;
+  background-color: #cce4f1;
+  color: rgb(0, 0, 0);
   margin-right: 20px;
   margin-bottom: 20px;
   border-radius: 10px;
-  padding: 10px;
+  padding: 30px;
   margin-left: -40px;
+  font-family: 'Garamond', cursive !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */ 
 }
+.subtaskDetailsContainer {
+  margin: 20px;
+  width: auto;
+  height: auto;
+  min-height: 15vh; /* Adjust the height as desired */
+  display: flex;
+  margin-left: 0px;
+  background-color: #cce4f1;
+  padding: 20px;
+  align-items: center;
+  border-radius: 15px; /* Add border-radius for curved edges */
+  color: black; /* Set text color to black */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
+}
+
+.subtaskDetailsText {
+  position: sticky; /* Set position to sticky */
+  left: 250px; /* Adjust left position as needed */
+  top: 50px; /* Adjust top position as needed */
+  font-family: 'Garamond', cursive !important; 
+  font-weight: bold; /* Set font weight to bold */
+  color: black; /* Set text color to black */
+}
+
+
 @media screen and (max-width: 1200px) {
   .welcomeText {
       display: none;

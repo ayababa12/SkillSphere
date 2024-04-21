@@ -168,20 +168,42 @@ const CreateEmployeePage = () => {
                     
             </LocalizationProvider>
             </div>
-            <Button style={{backgroundColor: '#1f4d20', marginLeft:'50px', marginBottom:"10px" }}
+            <Button 
+            style={{
+                backgroundColor: '#cce4f1', 
+                color:'#000',
+                marginLeft:'50px', 
+                marginBottom:"10px",
+                fontFamily: 'Garamond, cursive',
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                backgroundColor: '#8ab6d6', // Change color on hover
+                }
+            }}
             color="primary" 
             variant="contained" 
             onClick={() => {createEmployee(email, password, first_name, last_name, department, gender, dateOfBirth);}} 
             > 
             Add Employee 
             </Button> 
-            <Button style={{backgroundColor: '#1f4d20', marginLeft:'10px', marginBottom:"10px"  }}
-                color="primary" 
-                variant="contained" 
-                onClick={() => navigate("/employees")} //go back to login page
-                > 
-                Cancel
+            <Button 
+            style={{
+                backgroundColor: '#f08080', 
+                marginLeft:'10px', 
+                marginBottom:"10px",
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                backgroundColor: '#f08080', // Pastel red color on hover
+                }
+            }}
+            color="primary" 
+            variant="contained" 
+            onClick={() => navigate("/employees")} // Go back to login page
+            > 
+            Cancel
             </Button>
+
             <p  style={{color:"red", marginLeft:'50px'}}>{errorMsg}</p>
             
         </div>
@@ -249,14 +271,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
 
     return(
         <div>
-            <Navigation isManager={isManager}/>
-            <Button  className='mui-button'
-                color="primary" 
-                variant="contained" 
-                onClick={() => navigate("/createEmployee")} //go back to login page
-                > 
-                Add New Employee
-            </Button>
+            <div className="top-page">
             <TextField
                 style ={{marginLeft:"210px", marginTop:"10px", width:"50%"}} 
                 label="Search" 
@@ -264,7 +279,31 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
                 value={searchQuery} 
                 onChange={({ target: { value } }) => setSearchQuery(value)} 
             />
+            <Navigation isManager={isManager}/>
+            <Button
+        sx={{
+            marginY: 2,
+            backgroundColor: '#cce4f1',
+            color: 'black',
+            marginLeft: '100px', // Changed from marginLeft to marginRight
+            marginBottom: '10px',
+            fontFamily: 'Garamond, cursive',
+            transition: 'background-color 0.3s',
+            '&:hover': {
+            backgroundColor: '#8ab6d6',
+            }
+        }}
+        color="primary"
+        variant="contained"
+        onClick={() => navigate("/createEmployee")}
+        >
+        Add New Employee
+        </Button>
 
+
+
+            
+            </div>
             <br/><br/><br/>
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }} style={{marginLeft:'210px'}}>
@@ -275,7 +314,7 @@ const DisplayEmployeePage = ({isManager, userToken}) => {
                             <TableCell 
                             key={column.id}
                             align={column.align}
-                            style={{ minWidth: column.minWidth, backgroundColor: "#1f4d20", color:'white', fontWeight:'bold' }}
+                            style={{ minWidth: column.minWidth, backgroundColor: "#cce4f1", color:'black', fontWeight:'bold' }}
                             >
                             {column.label}
                             </TableCell>

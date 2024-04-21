@@ -83,11 +83,36 @@ function TaskList({ isManager,SERVER_URL, email }) {
   }
   useEffect(getEmployeeTasks,[]);
 
-  return (<div>
+  return (
+  <div className="subtask-details-section">
     <Navigation isManager={isManager}/>
     { isManager ? (<div >
-      <h1>Task List</h1>
-      
+      <div className="subtaskDetailsContainer">
+        <Typography className="subtaskDetailsText" variant='h4'>Tasks</Typography>
+        </div>
+      <div className="top-page">
+      {isManager && (
+        <Button 
+        sx={{
+            backgroundColor: '#cce4f1', 
+            marginLeft:'10px', 
+            marginBottom:"10px",
+            color:"black",
+            fontFamily: 'Garamond, cursive', // Add font-family property
+            transition: 'background-color 0.3s', // Smooth transition effect
+            '&:hover': {
+                backgroundColor: '#8ab6d6', // Pastel red color on hover
+            }
+        }}
+        color="primary" 
+        variant="contained" 
+        onClick={() => navigate("/tasks/create")} // Navigate to the task creation page
+    > 
+        Add Task
+    </Button>
+    
+      )}
+      </div>
       {error && <p style={{color:'red'}}>An error occurred: {error}</p>}
       <div>
       <div className = "task-list">
@@ -124,11 +149,7 @@ function TaskList({ isManager,SERVER_URL, email }) {
         ))}
       </div>
       
-      {isManager && (
-        <Button variant="contained" color="primary" className="mui-button">
-          <Link to="/tasks/create" style={{ textDecoration: 'none', color: 'white' }}>Add Task</Link>
-        </Button>
-      )}
+
       <Dialog
         open={openDialog}
         onClose={handleClose}
@@ -195,7 +216,8 @@ function TaskList({ isManager,SERVER_URL, email }) {
     </div>
     </div>)
 }
-</div>);
+</div>
+);
 }
 
 export default TaskList;

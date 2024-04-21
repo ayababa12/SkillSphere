@@ -665,7 +665,20 @@ from backend.model.announcements import Announcements
 @app.route('/', methods=['GET'])
 def get_announcements():
     try:
-        announcements = Announcements.query.all()
+        # Fetch query parameters
+        sort_order = request.args.get('sort_order', default='newest', type=str)
+        
+        # Determine the sorting order based on the query parameter
+        if sort_order == 'newest':
+            # Fetch announcements ordered by date_posted in descending order
+            announcements = Announcements.query.order_by(Announcements.date_posted.desc()).all()
+        elif sort_order == 'oldest':
+            # Fetch announcements ordered by date_posted in ascending order
+            announcements = Announcements.query.order_by(Announcements.date_posted.asc()).all()
+        else:
+            # If sort_order is invalid, return a 400 Bad Request response
+            return jsonify({'message': 'Invalid sort order parameter. Use "newest" or "oldest".'}), 400
+        
         announcements_list = []
         for announcement in announcements:
             announcement_info = {

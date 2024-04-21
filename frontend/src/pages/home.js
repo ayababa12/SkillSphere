@@ -1,44 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import { getUserToken, saveUserToken, clearUserToken, clearUserName } from "../localStorage";
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, MenuItem, Select } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Navigation from '../components/navigation';
-import "../App.css"
 import { Link } from 'react-router-dom';
-const HomePage = ({ isManager, userName, SERVER_URL, email }) => {
-  let [announcements, setAnnouncements] = useState([]);
+import { getUserToken, clearUserToken, clearUserName } from "../localStorage";
+import "../App.css"
+
+const HomePage = ({ isManager, userName, SERVER_URL }) => {
+  const [announcements, setAnnouncements] = useState([]);
+  const [sortOrder, setSortOrder] = useState('newest'); // Default sort order
   const navigate = useNavigate(); // Define navigate
 
   // Function to fetch announcements from the server
   const fetchAnnouncements = () => {
-    fetch(`${SERVER_URL}/`, { method: "GET" })
+    fetch(`${SERVER_URL}/?sort_order=${sortOrder}`, { method: "GET" }) // Pass sort_order as query parameter
       .then((response) => response.json())
       .then((data) => setAnnouncements(data))
       .catch((error) => console.error('Error fetching announcements:', error));
   };
 
-
   useEffect(() => {
-    fetchAnnouncements(); // Fetch announcements when component mounts
-  }, [SERVER_URL]); // Re-fetch announcements when SERVER_URL changes
+    fetchAnnouncements(); // Fetch announcements when component mounts or when sort order changes
+  }, [SERVER_URL, sortOrder]);
 
+  // Function to handle sort order change
+  const handleSortOrderChange = (event) => {
+    setSortOrder(event.target.value); // Update sort order
+  };
+
+
+  
   return (
     <div>
+      
       <div className="welcomeBanner">
         <Typography className="welcomeText" variant='h4'>Welcome Back, {userName}!</Typography>
+        <div>
+        <Button
+    sx={{
+        position: 'absolute',
+        top: '20px',
+        right: '20px',
+        backgroundColor: '#cce4f1',
+        color: 'black',
+        marginBottom: '10px',
+        fontFamily: 'Garamond, cursive',
+        transition: 'background-color 0.3s',
+        '&:hover': {
+            backgroundColor: '#8ab6d6',
+        }
+    }}
+    variant="contained"
+    onClick={() => { clearUserToken(); clearUserName(); navigate("/authentication"); }} // Use navigate here
+>
+    Logout
+</Button>
+
+
       </div>
-
-      <hr></hr>
-
-      <div>
-        <Button className='mui-button'
-          variant="contained"
-          onClick={() => { clearUserToken(); clearUserName(); navigate("/authentication"); }} // Use navigate here
-        >
-          Logout
-        </Button>
       </div>
+      
+   
 
+    
       <Navigation isManager={isManager} />
 
       <div className="announcementsContainer">
@@ -54,8 +78,18 @@ const HomePage = ({ isManager, userName, SERVER_URL, email }) => {
               Add Announcement
             </Button>
           )}
-        </div>
+          <Select
+              value={sortOrder}
+              onChange={handleSortOrderChange}
+              variant="outlined"
+              className="sortOrderSelect" // Apply the sortOrderSelect class
+              MenuProps={{ classes: { paper: 'dropdownMenu' } }} // Apply the dropdownMenu class to the drop-down menu
+            >
+            <MenuItem value="newest">Newest to Oldest</MenuItem>
+            <MenuItem value="oldest">Oldest to Newest</MenuItem>
+          </Select>
 
+        </div>
 
         {announcements.map((announcement, index) => (
           <div key={index} className="announcementWrapper">
@@ -66,7 +100,6 @@ const HomePage = ({ isManager, userName, SERVER_URL, email }) => {
             <Typography variant="body1">{announcement.content}</Typography>
           </div>
         ))}
-
 
       </div>
     </div>

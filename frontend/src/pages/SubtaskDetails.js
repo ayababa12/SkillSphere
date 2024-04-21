@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Navigation  from '../components/navigation';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -97,7 +98,9 @@ function SubtaskDetails({isManager}) {
       <Navigation isManager={isManager}/>
       {!edit ? (
         <div>
-        <h1>Subtask Details</h1>
+        <div className="subtaskDetailsContainer">
+        <Typography className="subtaskDetailsText" variant='h4'>Subtask Details</Typography>
+        </div>
           <div >
           
           <ul >
@@ -125,7 +128,7 @@ function SubtaskDetails({isManager}) {
                   </ul>
                   
                 </li>
-                <Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask)}} style={{color:"white"}}>Edit</Link>
+                <Link onClick = {() => {setEdit(true); setSubTaskToEdit(subtask)}} style={{color:"black"}}>Edit</Link>
               </ul>
               
             </li>

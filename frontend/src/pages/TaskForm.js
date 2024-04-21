@@ -101,12 +101,22 @@ function TaskForm() {
       {error && <p className="error">{error}</p>}
       <div className="form-item"> 
       <Button
-        type="submit"
-        variant="contained"
-        sx={{ marginY: 2 ,backgroundColor: '#1f4d20'}}
-      >
-        Add Task
-      </Button>
+  type="submit"
+  variant="contained"
+  sx={{ 
+    marginY: 2,
+    backgroundColor: '#cce4f1', 
+    color:'black',
+    fontFamily: 'Garamond, cursive', // Add font-family property
+    transition: 'background-color 0.3s', // Smooth transition effect
+    '&:hover': {
+      backgroundColor: '#8ab6d6', // Pastel green color on hover
+    }
+  }}
+>
+  Add Task
+</Button>
+
       </div>
       </form>
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>

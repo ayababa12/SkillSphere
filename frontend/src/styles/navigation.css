@@ -1,49 +1,52 @@
 /* navigation.css */
 
 nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 200px; /* Adjust width as needed */
-    background-color: #f0f0f0; /* Background color for navigation */
-    border-right: 1px solid #ccc; /* Bar to separate navigation from the rest of the page */
-  }
-  
-  .nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .nav li {
-    /* border-radius: 0 20px 20px 0; */
-    position: relative;
-    background-color: #19421a;
-    transition: opacity .5s ease-out;
-  }
-  .nav li:hover {
-    opacity: 1;
-  }
-  .nav li::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 8px; /* Adjust width of the green button-like box */
-    height: 100%;
-    
-  }
-  
-  .nav li a {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: rgb(252, 252, 252);
-    text-align: center;
-    
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200px; /* Adjust width as needed */
+  background-color: #f0f0f0; /* Background color for navigation */
+  border-right: 1px solid #ccc; /* Bar to separate navigation from the rest of the page */
+  border-radius: 20px; /* Apply rounded corners to both sides */
+  transition: background-color 0.3s; /* Add transition for smooth color change */
+}
+
+.nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav li {
+  position: relative;
+  background-color: #bedbea;
+  transition: background-color 0.3s; /* Add transition for smooth color change */
+  border-radius: 20px; /* Apply rounded corners to both sides */
+}
+
+.nav li:hover {
+  background-color: #8ab6d6; /* Change background color on hover */
+  opacity: 1;
+}
+
+.nav li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px; /* Adjust width of the green button-like box */
+  height: 100%;
+}
+
+.nav li a {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  font-family: 'Garamond', cursive !important; 
+}

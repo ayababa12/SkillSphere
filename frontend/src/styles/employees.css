@@ -1,3 +1,18 @@
+.top-page {
+    margin: 20px;
+    width: auto;
+    height: auto;
+    margin-left: 220px;
+    padding-top: 10px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row; /* Change to row */
+    align-items: center;
+}
+
+
+
+
 .form-item{
     margin-left: 50px;
     margin-right: 50px;
@@ -14,20 +29,22 @@
     border-radius: 10px;
 }
 .mui-button{
-    background-color:#1f4d20 !important;
-    position: fixed !important;
+    background-color:#bedbea !important;
+    position: absolute !important;
     top: 20px !important;
     right: 20px !important;
-    z-index: 1001
+    z-index: 1001;
+    font-family: 'Garamond', cursive !important; 
 }
 .mui-button:hover{
-    background-color:#3e683e;
+    background-color: #8ab6d6; /* Change background color on hover */
+    opacity: 1;
 }
 .employeeTableRow:hover{
     cursor: pointer;
 }
 .employeeTableFirstRow{
-    background-color: #1f4d20 !important;
+    background-color: #bedbea !important;
 }
 .formPage{
     min-height: 100vh; 
@@ -36,6 +53,6 @@
 
 }
 .formPage body {
-    background-color: #1f4d20;
+    background-color: #bedbea;
     
 }
