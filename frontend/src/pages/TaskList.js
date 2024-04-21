@@ -164,18 +164,21 @@ function TaskList({ isManager, SERVER_URL, email }) {
 
       ) : (
         <div>
-          <FormControl style={{ marginLeft: "20px", marginTop: "10px" }}>
-            <Select
-              labelId="select-label"
-              id="select"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-            >
-              <MenuItem value="all">View All Tasks</MenuItem>
-              <MenuItem value="incomplete">View Incomplete Tasks</MenuItem>
-              <MenuItem value="complete">View Completed Tasks</MenuItem>
-            </Select>
-          </FormControl>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px', marginTop: '10px' }}>
+  <FormControl>
+    <Select
+      labelId="select-label"
+      id="select"
+      value={filter}
+      onChange={(e) => setFilter(e.target.value)}
+    >
+      <MenuItem value="all">View All Tasks</MenuItem>
+      <MenuItem value="incomplete">View Incomplete Tasks</MenuItem>
+      <MenuItem value="complete">View Completed Tasks</MenuItem>
+    </Select>
+  </FormControl>
+</div>
+
           <div className="employee-specific-task-section-wrapper">
           <ul >
             {employeeTaskList.map((task, index) => (
