@@ -416,6 +416,12 @@ def updateTask(task_id):
         title = request.json['title']
         description = request.json['description']
         if request.json.get('deadline') is not None:
+            all_subtask_deadlines = db.session.execute(text(f"select deadline from subtask where task_id ={task_id}")).fetchall()
+            for row in all_subtask_deadlines:
+                dead = row[0]
+                print(dead)
+                if dead > request.json['deadline']:
+                    return jsonify({'message': "task deadline should be after all subtask deadlines"}), 400
             deadline = datetime.datetime.strptime(request.json['deadline'], "%Y-%m-%dT%H:%M:%S.%fZ")
             db.session.execute(text(f"UPDATE task set title = '{title}', description = '{description}', deadline = '{deadline}' where id = '{task_id}'" ))
             db.session.commit()

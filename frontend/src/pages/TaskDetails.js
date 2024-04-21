@@ -57,15 +57,16 @@ function TaskDetails({isManager, SERVER_URL}) {
     }; fetchProgress();
   }, [task_id, edit])
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   if (!task) {
     return <div>Loading...</div>;
   }
 
   function updateTask(title,description,deadline) { 
+    if (!title || !description){
+      setError("empty title/description not allowed");
+      return;
+    }
     return fetch(`${SERVER_URL}/tasks/${task_id}`, { 
       method: "PUT", 
       headers: { 
@@ -178,6 +179,7 @@ function TaskDetails({isManager, SERVER_URL}) {
                     />
                     </LocalizationProvider>
                     </div>
+                    <p className='error' style={{color:'red'}}>{error}</p>
                     <Button  sx={{
                           backgroundColor: '#cce4f1', 
                           marginLeft: '10px', 
