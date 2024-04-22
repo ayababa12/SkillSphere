@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 
 class Announcements(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    employee_email = db.Column(db.String(255), db.ForeignKey('employee.email'), nullable=False)
+    employee_email = db.Column(db.String(255), db.ForeignKey('manager.email'), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False)
     content = db.Column(db.Text(), nullable=False)
 
