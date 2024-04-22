@@ -33,12 +33,14 @@ function TaskForm() {
       },
       body: JSON.stringify({ title, description, deadline }),
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(errorData => {
+          throw new Error(errorData.message);
+        });
+      }
+      return response.json();
+    })
       .then(() => {
         setTitle('');
         setDescription('');

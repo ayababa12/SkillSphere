@@ -49,7 +49,14 @@ function SubtaskDetails({isManager}) {
 
 
   if (subtasks.length === 0) {
-    return <div>No subtasks available for this task</div>;
+    return (
+      <div style={{marginLeft:'220px'}}>
+        <Navigation isManager={true}/>
+        <div className="subtaskDetailsContainer">
+        <Typography className="subtaskDetailsText" variant='h4'>Subtask Details</Typography>
+        </div>
+      </div>
+    );
   }
 
   function updateSubTask(title,description,deadline) { 

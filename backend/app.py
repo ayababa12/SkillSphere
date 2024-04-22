@@ -84,6 +84,9 @@ def createEmployee():
         return jsonify({'message': 'select a department'}),400
     if request.json["date_of_birth"] is None:
         return jsonify({'message': 'select a date of birth'}),400
+    date_of_birth = datetime.datetime.strptime(request.json["date_of_birth"], '%Y-%m-%dT%H:%M:%S.%fZ')
+    if date_of_birth > datetime.datetime.now():
+        return jsonify({'message': 'date of birth cannot be in the future'}), 400
     try:
         e= Employee(request.json["email"], request.json["password"], request.json["first_name"], request.json["last_name"],request.json["department"], request.json['gender'], datetime.datetime.strptime(request.json['date_of_birth'], "%Y-%m-%dT%H:%M:%S.%fZ"))
         db.session.add(e) 
@@ -150,6 +153,9 @@ def updateEmployee(email):
         print(first_name)
         if first_name == '' or last_name == '' :
             return jsonify({'message': "enter a name"}), 400
+        date_of_birth = datetime.datetime.strptime(request.json["date_of_birth"], '%Y-%m-%dT%H:%M:%S.%fZ')
+        if date_of_birth > datetime.datetime.now():
+            return jsonify({'message': 'date of birth cannot be in the future'}), 400
         if request.json.get('date_of_birth') is not None:
             date_of_birth = datetime.datetime.strptime(request.json['date_of_birth'], "%Y-%m-%dT%H:%M:%S.%fZ")
             db.session.execute(text(f"UPDATE employee set first_name = '{first_name}', last_name = '{last_name}', department = '{department}', gender = '{gender}', date_of_birth = '{date_of_birth}' where email = '{email}'" ))
@@ -240,7 +246,6 @@ def get_task(task_id):
 
 
 
-#Create task
 @app.route('/tasks/create', methods=['POST'])
 def create_task():
     try:
@@ -255,8 +260,12 @@ def create_task():
         try:
             deadline_datetime = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
         except ValueError:
-            return jsonify({'message': 'Invalid date format for deadline'}), 400
+            return jsonify({'message': 'Invalid date format for deadline. Please use the format: YYYY-MM-DDTHH:MM:SS.sssZ'}), 400
         
+        # Check if deadline is in the past
+        if deadline_datetime < datetime.datetime.now():
+            return jsonify({'message': 'Deadline cannot be in the past.'}), 400
+
         task = Task(title=title, description=description, deadline=deadline_datetime)
         
         db.session.add(task)
@@ -273,7 +282,9 @@ def create_task():
         db.session.rollback()
         # Log the exception for server-side inspection
         print(str(e))
-        return jsonify({'message': 'An error occurred while creating the task'}), 500
+        return jsonify({'message': 'An error occurred while creating the task. Please try again.'}), 500
+
+
 
 
 @app.route('/tasks/<int:task_id>/subtasks/create', methods=['POST'])
