@@ -712,6 +712,7 @@ def get_announcements():
         announcements_list = []
         for announcement in announcements:
             announcement_info = {
+                'id': announcement.id,
                 'content': announcement.content,  # Access content attribute on the announcement object
                 'date_posted': announcement.date_posted,
                 'employee': {}  # Initialize employee dictionary
