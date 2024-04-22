@@ -268,7 +268,7 @@ function TaskDetails({isManager, SERVER_URL}) {
               height: "10px"
             }}
             determinate
-            value={Math.ceil(totalProgress)} />
+            value={isNaN(Math.ceil(totalProgress)) ? 0 : Math.ceil(totalProgress)} />
         </Stack>
       </div>
      
