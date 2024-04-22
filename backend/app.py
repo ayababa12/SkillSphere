@@ -309,9 +309,11 @@ def create_subtask(task_id):
         )
         if deadline:
             subtask.deadline = datetime.datetime.strptime(deadline, "%Y-%m-%dT%H:%M:%S.%fZ")
-            task_deadline = db.session.execute(text(f"select deadline from task where id = {task_id}")).fetchone()[0]
-            if task_deadline < deadline:
-                return jsonify({"message": "subtask deadline must be before task deadline"}), 400
+            task_deadline = db.session.execute(text(f"Select deadline from task where id = {task_id}")).fetchone()[0]
+            if task_deadline < deadline :
+                return jsonify({"message": "Subtask deadline must be before task deadline"}), 400
+            if subtask.deadline<datetime.datetime.now():
+                return jsonify({"message": "Subtask deadline cannot be in the past."}), 400
         db.session.add(subtask)
         db.session.commit()
         # Create the association between subtask and employee
@@ -687,30 +689,15 @@ from sqlalchemy import func
 #         return jsonify(results), 200
 #     except Exception as e:
 #         return jsonify({'error': str(e)}), 500
-    
 from backend.model.announcements import Announcements
 
 @app.route('/', methods=['GET'])
 def get_announcements():
     try:
-        # Fetch query parameters
-        sort_order = request.args.get('sort_order', default='newest', type=str)
-        
-        # Determine the sorting order based on the query parameter
-        if sort_order == 'newest':
-            # Fetch announcements ordered by date_posted in descending order
-            announcements = Announcements.query.order_by(Announcements.date_posted.desc()).all()
-        elif sort_order == 'oldest':
-            # Fetch announcements ordered by date_posted in ascending order
-            announcements = Announcements.query.order_by(Announcements.date_posted.asc()).all()
-        else:
-            # If sort_order is invalid, return a 400 Bad Request response
-            return jsonify({'message': 'Invalid sort order parameter. Use "newest" or "oldest".'}), 400
-        
+        announcements = Announcements.query.all()
         announcements_list = []
         for announcement in announcements:
             announcement_info = {
-                'id' : announcement.id,
                 'content': announcement.content,  # Access content attribute on the announcement object
                 'date_posted': announcement.date_posted,
                 'employee': {}  # Initialize employee dictionary
@@ -734,7 +721,7 @@ def create_announcement():
     try:
         # Get data from the request
         data = request.get_json()
-        
+
         # Extract required fields from the request data
         content = data.get('content')
         employee_id = None
@@ -757,25 +744,24 @@ def create_announcement():
 
         # Get the current date and time
         current_date_time = datetime.datetime.now()
-        
+
         # Create a new announcement object
         new_announcement = Announcements(
             content=content,
             date_posted=current_date_time,
             employee_email=employee_email
         )
-        
+
         # Add the new announcement to the database
         db.session.add(new_announcement)
         db.session.commit()
-        
+
         # Return a success message
         return jsonify({"message": "Announcement created successfully"}), 201
-    
+
     except Exception as e:
         # If an error occurs, return an error message
         return jsonify({'error': str(e)}), 400
-    
 @app.route('/announcement/<int:id>', methods=['DELETE'])
 def deleteAnnouncement(id):
     try:
