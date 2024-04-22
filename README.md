@@ -16,4 +16,4 @@ Run the backend with the following command:\
 Navigate to /frontend, execute the following to install dependencies:\
 `npm install`\
 Run the frontend with the following command:\
-`npm start`\
+`npm start`
