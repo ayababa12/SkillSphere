@@ -298,14 +298,22 @@ const UserProfilePage = ({userToken}) => {
                 (<div className="employee-specific-task-section-wrapper">
                     {employeeTaskList.map(task => ( <div>{ (filter==="all" || (filter==="incomplete" && !task.is_completed) || (filter==="complete" && task.is_completed)) ? (
                         <div key={task.subtask_title} className="employee-progress">
-                            <div className="task-header">
-                            <Typography variant="h5" style={{fontWeight:"bold"}}>{task.task_title} — {task.subtask_title} — due {task.deadline}</Typography>
-                            </div>
-                            <div className="task-details">
-                            <Typography>Status: {task.is_completed ? "Completed" : "Incomplete"}</Typography>
-                            <Typography>Hours: {task.hours}</Typography>
-                            <Typography>{task.description}</Typography>
-                            </div>
+                           <div className="task-header">
+                <Typography variant="h5" style={{ fontWeight: "bold", fontFamily: 'Garamond, cursive', fontSize: '2rem' }}>
+            
+                  <span style={{ marginRight: '10px',fontWeight:'bold' }}>-</span>
+                  {task.task_title} — {task.subtask_title} — due {task.deadline}
+                </Typography>
+              </div>
+              <div className="task-details">
+                <ul style={{ listStyleType: 'disc', fontFamily: 'Garamond, cursive', fontSize: '1.25rem' }}>
+                  <li>Status: {task.is_completed ? "Completed" : "Incomplete"}</li>
+                  <li>Hours: {task.hours}</li>
+                  <li>{task.description}</li>
+                </ul>
+              </div>
+
+
           
                         </div>) : (<div></div>) } </div>
                 ))} 

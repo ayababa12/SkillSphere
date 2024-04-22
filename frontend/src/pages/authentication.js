@@ -133,13 +133,32 @@ const LoginPage = ({ userToken, setUserToken, isManager, setIsManager, setUserNa
                     /> 
                   </div> 
                   
-                  <Button style={{backgroundColor:'#1f4d20'}}
-                    color="primary" 
-                    variant="contained" 
-                    onClick={() => createManager(email, password, first_name, last_name)} 
-                  > 
-                    Register 
-                  </Button> 
+ 
+                  <Button 
+              sx={{
+                  backgroundColor: '#cce4f1', 
+                  marginLeft: '10px', 
+                  marginBottom: '10px',
+                  color: 'black',
+                  fontFamily: 'Garamond, cursive', // Add font-family property
+                  fontWeight:'bold',
+                  transition: 'background-color 0.3s', // Smooth transition effect
+                  '&:hover': {
+                      backgroundColor: '#8ab6d6', // Pastel red color on hover
+                  },
+                  display: 'block', // Center the button
+                  marginLeft: 'auto', // Center the button
+                  marginRight: 'auto', // Center the button
+                  marginTop: '20px', // Add top margin
+                  marginBottom: '20px', // Add bottom margin
+              }}
+              color="primary" 
+              variant="contained" 
+          
+              onClick={() => createManager(email, password, first_name, last_name)} 
+          >
+              Register
+          </Button>
                   <br></br><br></br>
 
                   <Link onClick={() => {setRegister(false); setErrorMsg("");}} style={{marginLeft:'10px'}}>

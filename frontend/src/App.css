@@ -138,7 +138,7 @@ hr {
 }
 
 .welcomeText2{
-  position: fixed;
+  position: absolute;
   left: 250px !important;
   top: 50px;
   font-family: 'Georgia', cursive !important; 
@@ -221,10 +221,9 @@ hr {
   background-color: #ffffff !important;
   color: rgb(0, 0, 0) !important;
   font-weight: bold !important;
-  font-weight: bold !important;
+  font-family: 'Garamond', cursive !important; 
   transition: opacity .5s ease-out;
   margin-right: 10px !important;
-  font-family: 'Garamond', cursive !important; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Increased blur radius */
 }
 
@@ -253,8 +252,9 @@ hr {
   color: rgb(0, 0, 0);
   border-radius: 14px;
   margin: 10px;
+  font-weight: bold !important;
+  font-family: 'Garamond', cursive !important;
   padding: 5px;
-
   
 }
 .completed-remaining-tasks{
@@ -268,13 +268,18 @@ hr {
 }
 .employee-specific-task-section-wrapper{
   margin-left: 0px;
+  font-weight: bold !important;
+  font-family: 'Garamond', cursive !important; 
   
 }
 .task-header{
   padding-top: 10px;
   display: flex;
   flex-direction: row;
+  font-weight: bold !important;
+  font-family: 'Garamond', cursive !important; 
   align-items: center;
+ 
 }
 .task-details{
   margin-left: 50px;

@@ -226,6 +226,30 @@ function Survey({email}) {
 >
     Submit Survey
 </Button>
+<Button 
+            sx={{
+                backgroundColor: '#f08080', 
+                marginLeft:'10px', 
+                marginBottom:"10px",
+                fontWeight:'bold',
+                color:"black",
+                fontFamily: 'Garamond, cursive', // Add font-family property
+                transition: 'background-color 0.3s', // Smooth transition effect
+                '&:hover': {
+                backgroundColor: '#e42020', // Pastel red color on hover
+                },
+                display: 'block', // Center the button
+                marginLeft: 'auto', // Center the button
+                marginRight: 'auto', // Center the button
+                marginTop: '20px', // Add top margin
+                marginBottom: '20px', // Add bottom margin
+            }}
+            color="primary" 
+            variant="contained" 
+            onClick={() => navigate("/tasks")} // Go back to login page
+            > 
+            Cancel
+            </Button>
 
     </form>
     </div>
