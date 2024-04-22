@@ -557,6 +557,7 @@ def markSubTaskAsComplete():
     print(complete, subtask_id, email)
     try:
         db.session.execute(text(f"update work_on set is_completed = {complete} where employee_email = '{email}' and subtask_id = {subtask_id}"))
+        db.session.execute(text(f"update subtask set is_completed = {complete} where id = {subtask_id}"))
         db.session.commit()
     except Exception as e:
         print(e)
